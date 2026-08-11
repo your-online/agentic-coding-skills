@@ -5,8 +5,6 @@ description: Record something the developer says about this way of working or ab
 
 # Log feedback
 
-Skill version 2.1.
-
 This skill captures what the developer says **about** the process or the skills.
 It never says anything about their work; nothing here reviews or advises.
 
@@ -51,19 +49,3 @@ underneath, indented, and that is the limit:
 2. Show them the exact line and ask whether it says what they meant. Only after they
    confirm does anything get written.
 3. Append it, and say which file you appended to.
-
-## Maintaining this skill
-
-Every change to this skill is a versioned change with a changelog line below. Never
-edit meaning in place. The regression suite in the repository this skill was
-installed from has to be green before anything is installed, and no test may be
-weakened to make it pass.
-
-## Changelog
-
-- **2.1** — Installation is one command: `./install.sh` detects the platforms
-  present and installs into each, replacing any existing version. No change to
-  what this skill does.
-- **2.0** — First version. Added alongside the split of `agentic-coding` into
-  `advise-me` and `review-my-work`, and versioned with them so the three skills that
-  ship together carry one number.

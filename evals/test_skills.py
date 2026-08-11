@@ -13,16 +13,55 @@ spot that, which they can only do if the report says which range it used.
 
 import unittest
 
-from rubric_source import README, SKILL_NAMES, flat, skill_text
+from rubric_source import (
+    README,
+    REFERENCE_FILES,
+    RUBRIC_SKILL,
+    RUNNABLE_SKILLS,
+    SKILLS_DIR,
+    SKILL_NAMES,
+    flat,
+    skill_text,
+)
 
 
 class SelfTriggerTests(unittest.TestCase):
     def test_no_skill_ever_triggers_itself(self):
-        for name in SKILL_NAMES:
+        for name in RUNNABLE_SKILLS:
             with self.subTest(skill=name):
                 text = flat(skill_text(name))
                 self.assertIn("only when the developer asks for it by name", text)
                 self.assertIn("Never start it on your own initiative", text)
+
+    def test_the_reference_skill_starts_nothing_at_all(self):
+        """It is material to read, so it has nothing to trigger. Saying it runs
+        only on request would make it sound like a fourth route."""
+        text = flat(skill_text(RUBRIC_SKILL))
+        self.assertIn("A reference to consult, not a session to run", text)
+        self.assertIn("nothing here starts anything", text)
+
+
+class PackageLayoutTests(unittest.TestCase):
+    """One rubric, in one place.
+
+    Both reviewing skills used to carry their own copy, kept identical by a
+    test, because a skill has to be installable on its own. They install
+    together now, so the copy is gone and the rubric lives once. What is worth
+    guarding is that it stays that way: a second `rubric.md` appearing next to a
+    skill that judges with it is the old drift coming back.
+    """
+
+    def test_the_package_holds_exactly_these_skills(self):
+        self.assertEqual(sorted(p.name for p in SKILLS_DIR.iterdir()), sorted(SKILL_NAMES))
+
+    def test_only_the_reference_skill_carries_the_rubric(self):
+        for name in SKILL_NAMES:
+            present = sorted(p.name for p in (SKILLS_DIR / name).rglob("*") if p.is_file())
+            with self.subTest(skill=name):
+                if name == RUBRIC_SKILL:
+                    self.assertEqual(present, sorted(("SKILL.md",) + REFERENCE_FILES))
+                else:
+                    self.assertEqual(present, ["SKILL.md"])
 
 
 class AdviseMeTests(unittest.TestCase):
@@ -129,7 +168,7 @@ class LogFeedbackTests(unittest.TestCase):
         """It has no judgement to make, so it needs no rubric, no subagent and no
         diff. Every one of those appearing here means the split has started to
         blur back together."""
-        for stranger in ("references/rubric.md", "Spawn", "subagent", "Diff basis"):
+        for stranger in ("rubric.md", "agentic-coding-rubric", "Spawn", "subagent", "Diff basis"):
             with self.subTest(fragment=stranger):
                 self.assertNotIn(stranger, self.text)
 
@@ -144,7 +183,7 @@ class OrderTests(unittest.TestCase):
         self.assertLess(advise, review, f"{where} names the full review before the advice")
 
     def test_the_readme_names_the_advice_route_first(self):
-        self.order_holds(README.read_text(encoding="utf-8").split("## The three skills", 1)[1],
+        self.order_holds(README.read_text(encoding="utf-8").split("## The skills", 1)[1],
                          "README")
 
     def test_the_structure_listing_keeps_the_same_order(self):

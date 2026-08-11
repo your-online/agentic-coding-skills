@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Three descriptions that must not compete for the same request.
+"""Four descriptions that must not compete for the same request.
 
 A skill description is a trigger, not a summary. Version 1.0 was one skill whose
 description carried both routes and read almost word for word like another
@@ -19,6 +19,7 @@ from rubric_source import SKILL_NAMES, frontmatter_description
 #: Words that decide which skill a request belongs to. Each may appear in one
 #: description only — as its own marker, not as a mention of a sibling.
 MARKERS = {
+    "agentic-coding-rubric": ("what does the rubric ask", "reference to consult, not a session"),
     "advise-me": ("in chat", "before any code exists", "how am I doing"),
     "review-my-work": ("Markdown report", "review this session", "the session that just ran"),
     "log-feedback": ("docs/feedback.md", "dated bullet", "log this"),

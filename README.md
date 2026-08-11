@@ -1,17 +1,22 @@
 # Agentic Coding skills
 
-A rubric for agentic coding work, plus three skills that use it.
+A rubric for agentic coding work, plus four skills: three you run, and one that is
+the rubric itself.
 
 The rubric names what has to be demonstrably good — context, acceptance criteria,
 tests, evidence, implementation — and deliberately does not prescribe how you get
 there. SpecKit, Given/When/Then, a plain markdown note: any form counts as long as
 it holds up under the evaluation questions.
 
-Skill version 2.1 · rubric version 1.0.
+What changed and when is in [CHANGELOG.md](CHANGELOG.md); the skills and the rubric
+ship together under one number.
 
-## The three skills
+## The skills
 
-Each one is started by you, explicitly. None of them triggers itself.
+Say it in your own words and the skill triggers by itself, or type its slash command —
+`/advise-me`, `/review-my-work`, `/log-feedback` — if you want to be sure it runs.
+Each of the three is started by you: none of them decides on its own that feedback or
+a review is due.
 
 **`advise-me`** — while you work, including before there is any code. One isolated
 subagent reads the rubric and the transcript and answers in chat: what to do
@@ -38,48 +43,48 @@ you are working in. It records your words; it never gives you feedback.
 Log this as feedback: the falsifier round is too heavy for a one-line change.
 ```
 
+**`agentic-coding-rubric`** — the fourth one, which you do not run. It holds the
+rubric, the reading behind it, and the rules that hold for any judgement made against
+it. The two reviewing skills read it from there, so it exists once; you can also open
+it yourself to look up what a criterion asks.
+
 ## Install
 
 ### Step 1 — get the repository
 
 ```sh
-git clone <repository-url> agentic-coding-skills
+git clone https://github.com/zet-solutions/agentic-coding-skill.git agentic-coding-skills
 cd agentic-coding-skills
 ```
 
-### Step 2 — install the three skills
+### Step 2 — install the skills
 
 ```sh
 ./install.sh
 ```
 
-The script detects which platforms are on this machine and installs into each one it
-finds, `~/.claude` as well as `~/.codex`. The same command installs and upgrades:
-it removes an existing installation before copying, so the new version replaces the
-old one instead of ending up *inside* it. It prints the path of every skill it
-installed, and stops with an error if neither platform is there. All three skills go
-in together, or the descriptions that point at each other point at nothing.
+The script installs into every platform it finds, `~/.claude` and `~/.codex`, and the
+same command upgrades. It fails if it finds neither.
 
-`evals/test_install_instructions.py` extracts this command from this README and runs
-it against a throwaway home directory — fresh, over an existing installation, from
-another working directory, and on a machine with only one of the two platforms — so
-the instruction above is the tested one.
+These steps are what `evals/test_install_instructions.py` runs against a throwaway
+home directory, so the instruction above is the tested one.
 
 ## Structure
 
 ```
-skills/advise-me/SKILL.md             feedback on your approach, in chat
-skills/review-my-work/SKILL.md        the full review, one Markdown report
-skills/log-feedback/SKILL.md          your feedback about the process, one bullet
-skills/*/references/                  copies of the two files below
-references/rubric.md                  the criteria — the source
-references/learning-materials.md      how to get better per criterion — the source
-install.sh                            the installer: both platforms, all three skills
-evals/                                regression suite: uvx pytest evals/
-CRITERIA.md                           what these skills themselves have to satisfy
-AGENTS.md                             pointer file for agents working here
+skills/agentic-coding-rubric/SKILL.md            the reference: the rubric and its rules
+skills/agentic-coding-rubric/rubric.md           the criteria
+skills/agentic-coding-rubric/learning-materials.md   how to get better per criterion
+skills/advise-me/SKILL.md                        feedback on your approach, in chat
+skills/review-my-work/SKILL.md                   the full review, one Markdown report
+skills/log-feedback/SKILL.md                     your feedback about the process, one bullet
+install.sh                                       the installer: both platforms, every skill
+evals/                                           regression suite: uvx pytest evals/
+CHANGELOG.md                                     what changed, per release
+CRITERIA.md                                      what these skills themselves have to satisfy
+AGENTS.md                                        pointer file for agents working here
 ```
 
-`references/` is the source; the copies under `skills/*/references/` exist because a
-skill has to be installable on its own. `evals/test_reference_sync.py` fails as soon
-as a copy differs from the source by one byte.
+The rubric exists once. `advise-me` and `review-my-work` used to carry a copy each,
+kept identical by a test; they name the reference skill now, and the four install
+together, so there is nothing left to keep in sync.

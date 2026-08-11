@@ -10,9 +10,10 @@ criterion count is held near ten — a rubric that grows back to twenty-two is a
 different product.
 """
 
+import re
 import unittest
 
-from rubric_source import PARTS, criteria, evaluation_questions, rubric_text
+from rubric_source import LEARNING, PARTS, criteria, evaluation_questions, rubric_text
 
 
 class RubricShapeTests(unittest.TestCase):
@@ -48,6 +49,17 @@ class RubricShapeTests(unittest.TestCase):
             with self.subTest(criterion=cid):
                 questions = evaluation_questions(body)
                 self.assertTrue(2 <= len(questions) <= 4, f"{cid} has {len(questions)} questions")
+
+    def test_the_learning_materials_cover_every_criterion(self):
+        """The reading list ships beside the rubric in the same skill. A
+        criterion it never mentions is a developer who is told to get better at
+        something with nowhere to go."""
+        headings = " ".join(
+            re.findall(r"^## .+$", LEARNING.read_text(encoding="utf-8"), re.MULTILINE)
+        )
+        for cid, _, _ in self.criteria:
+            with self.subTest(criterion=cid):
+                self.assertRegex(headings, rf"\b{cid}\b")
 
     def test_guidance_is_offered_and_never_demanded(self):
         """The line between this rubric and a standard is that guidance suggests."""

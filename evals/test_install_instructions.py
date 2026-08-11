@@ -2,9 +2,18 @@
 """The install instruction in the README, executed.
 
 An instruction is a claim about what happens when you run it, so it is tested by
-running it: the shell block for step 2 is extracted from the README and executed
-against a throwaway HOME. Step 1 is a clone, which cannot be run here, so its
-block is only checked for shape.
+running it: the shell blocks are extracted from the README and executed against a
+throwaway HOME.
+
+Step 1 clones over the network, which a test may not depend on: it would be slow,
+it would fail on a machine without a route to GitHub, and it would prove something
+about the remote rather than about the instruction. So the clone is run for real
+with exactly one substitution — the URL is swapped for a throwaway git repository
+built from this directory. Everything else about step 1 stays as written, and
+step 2 runs unmodified against the resulting clone. What that leaves untested is
+the one thing this repository does not control: whether the URL in the README
+resolves. `test_step_one_names_a_real_repository_url` is the stand-in for that —
+it refuses a placeholder.
 
 The failures this guards against were all reproduced, and none of them announced
 itself:
@@ -26,14 +35,24 @@ extracted block is refused if it mentions any absolute home path.
 """
 
 import re
+import shutil
 import subprocess
 import tempfile
 import unittest
 from pathlib import Path
 
-from rubric_source import README, ROOT, SKILL_NAMES
+from rubric_source import (
+    LEARNING,
+    README,
+    REFERENCE_FILES,
+    ROOT,
+    RUBRIC,
+    RUBRIC_SKILL,
+    SKILL_NAMES,
+)
 
 STEP_BLOCK = re.compile(r"^### Step (\d+) — [^\n]*\n\n```sh\n(.*?)```", re.MULTILINE | re.DOTALL)
+CLONE_URL = re.compile(r"git clone (\S+)")
 
 PLATFORM_ROOT = {"Claude Code": ".claude", "Codex": ".codex"}
 
@@ -41,6 +60,19 @@ PLATFORM_ROOT = {"Claude Code": ".claude", "Codex": ".codex"}
 def install_steps() -> "dict[str, str]":
     text = README.read_text(encoding="utf-8").split("## Install", 1)[1]
     return {m.group(1): m.group(2) for m in STEP_BLOCK.finditer(text)}
+
+
+def local_origin(where: Path) -> Path:
+    """A git repository holding what this directory holds, to clone from instead
+    of over the network."""
+    origin = where / "origin"
+    shutil.copytree(
+        ROOT, origin, ignore=shutil.ignore_patterns(".git", "__pycache__", ".pytest_cache")
+    )
+    git = ["git", "-c", "user.email=eval@example.invalid", "-c", "user.name=eval"]
+    for args in (["init", "-q"], ["add", "-A"], ["commit", "-qm", "origin"]):
+        subprocess.run(git + args, cwd=origin, check=True, capture_output=True)
+    return origin
 
 
 def run(script: str, home: Path, cwd: Path = ROOT) -> subprocess.CompletedProcess:
@@ -66,6 +98,44 @@ class InstallInstructionTests(unittest.TestCase):
         self.assertIn("cd ", self.steps["1"])
         self.assertEqual(self.install.strip(), "./install.sh")
 
+    def test_step_one_names_a_real_repository_url(self):
+        """A README that ships inside the repository it tells you to clone can
+        name it. `<repository-url>` was a blank the reader had to fill in from
+        somewhere this page never said."""
+        url = CLONE_URL.search(self.steps["1"])
+        self.assertIsNotNone(url, "step 1 has no git clone")
+        self.assertRegex(url.group(1), r"^(https://|git@)\S+\.git$")
+        self.assertNotIn("<", url.group(1))
+
+    def test_step_one_and_step_two_together_install_from_a_clone(self):
+        """Both steps, in order, with the URL swapped for a local repository — the
+        one substitution the docstring explains."""
+        with tempfile.TemporaryDirectory() as tmp, tempfile.TemporaryDirectory() as work:
+            home = Path(tmp)
+            (home / ".claude").mkdir()
+            origin = local_origin(Path(work))
+
+            url = CLONE_URL.search(self.steps["1"]).group(1)
+            script = self.steps["1"].replace(url, str(origin)) + self.install
+
+            result = run(script, home, cwd=Path(work))
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assert_installed(home, "Claude Code")
+
+    def test_nothing_installed_points_outside_the_package_that_ships_it(self):
+        """What arrives on a machine is `skills/`, never the repository around
+        it. A file that names `evals/` or a path above itself is telling the
+        reader to look somewhere the installer never put anything."""
+        for path in [ROOT / "skills" / name / "SKILL.md" for name in SKILL_NAMES] + [
+            RUBRIC,
+            LEARNING,
+        ]:
+            with self.subTest(file=str(path.relative_to(ROOT))):
+                text = path.read_text(encoding="utf-8")
+                for stale in ("evaluate-acbp", "../../", "slim/", "evals/", "uvx pytest"):
+                    self.assertNotIn(stale, text)
+
     def test_the_readme_holds_no_platform_specific_install_block(self):
         """The platform detection lives in the script, not in the instruction."""
         text = README.read_text(encoding="utf-8").split("## Install", 1)[1]
@@ -82,16 +152,39 @@ class InstallInstructionTests(unittest.TestCase):
         return home / PLATFORM_ROOT[platform] / "skills" / skill
 
     def assert_installed(self, home: Path, platform: str):
+        """A skill is its SKILL.md *and* what that file points at.
+
+        Checking only SKILL.md passes an installer that drops the rubric, and the
+        damage is invisible until someone follows the pointer in `advise-me` or
+        `review-my-work` to `agentic-coding-rubric` and finds a skill with nothing
+        in it. So the whole payload is compared byte for byte, the reference skill
+        has to arrive with both reference files, and no other skill may carry a
+        rubric of its own — that is how the second copy would come back.
+        """
         for skill in SKILL_NAMES:
+            source = ROOT / "skills" / skill
             target = self.target_dir(home, platform, skill)
             with self.subTest(skill=skill):
-                self.assertTrue((target / "SKILL.md").is_file(), f"{target} has no SKILL.md")
                 self.assertFalse((target / skill).exists(), f"{target} is nested")
-                self.assertEqual(
-                    (target / "SKILL.md").read_text(encoding="utf-8"),
-                    (ROOT / "skills" / skill / "SKILL.md").read_text(encoding="utf-8"),
-                    f"{target}/SKILL.md is not the version in this repository",
-                )
+                expected = sorted(p.relative_to(source) for p in source.rglob("*") if p.is_file())
+                self.assertIn(Path("SKILL.md"), expected, f"{source} has no SKILL.md")
+                if skill == RUBRIC_SKILL:
+                    for ref in REFERENCE_FILES:
+                        self.assertIn(Path(ref), expected, f"{source} lost {ref}")
+                else:
+                    for ref in REFERENCE_FILES:
+                        self.assertFalse(
+                            (target / ref).exists(),
+                            f"{target} carries a {ref} only {RUBRIC_SKILL} should have",
+                        )
+                for relative in expected:
+                    self.assertEqual(
+                        (target / relative).read_bytes()
+                        if (target / relative).is_file()
+                        else None,
+                        (source / relative).read_bytes(),
+                        f"{target / relative} is missing or is not the version in this repository",
+                    )
 
     def test_a_platform_without_a_skills_directory_ends_up_with_all_three_skills(self):
         """Case a: the platform is installed, but has never held a skill."""
@@ -125,6 +218,47 @@ class InstallInstructionTests(unittest.TestCase):
                 for skill in SKILL_NAMES:
                     leftover = self.target_dir(home, platform, skill) / "leftover.md"
                     self.assertFalse(leftover.exists(), f"{leftover} survived the upgrade")
+
+    def test_a_source_that_cannot_be_copied_leaves_the_installation_it_had(self):
+        """Case f: the upgrade fails halfway — an incomplete clone here, a full
+        disk or an interrupt in the field.
+
+        The installer used to remove the target before copying, so a copy that
+        never happened took a working skill with it: the installed skill was gone
+        and the script exited 1. An upgrade that fails has to leave you where you
+        were, not worse off.
+
+        The break is a source file the copy cannot read, which is what a broken
+        source looks like to `cp`. Deleting a skill from the source would no
+        longer do it: the installer takes whatever `skills/` holds, so a skill
+        that is not there is not a failed copy, it is a skill that does not exist.
+        """
+        with tempfile.TemporaryDirectory() as tmp, tempfile.TemporaryDirectory() as work:
+            home = Path(tmp)
+            (home / ".claude").mkdir()
+            self.assertEqual(run(self.install, home).returncode, 0)
+            installed = self.target_dir(home, "Claude Code", "log-feedback")
+            (installed / "marker.md").write_text("the installation that was here\n")
+
+            broken = Path(work) / "broken"
+            shutil.copytree(
+                ROOT, broken, ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache")
+            )
+            unreadable = broken / "skills" / "log-feedback" / "SKILL.md"
+            unreadable.chmod(0o000)
+            try:
+                result = run(f"{broken}/install.sh", home)
+            finally:
+                unreadable.chmod(0o644)
+
+            self.assertNotEqual(result.returncode, 0, "an unreadable source installed silently")
+            self.assertTrue(
+                (installed / "marker.md").is_file(),
+                f"{installed} was removed before the copy that then failed",
+            )
+            self.assertTrue((installed / "SKILL.md").is_file(), f"{installed} lost its SKILL.md")
+            leftovers = sorted(installed.parent.glob("*.incoming"))
+            self.assertEqual([], leftovers, "a half-finished copy was left behind")
 
     def test_the_script_works_from_any_working_directory(self):
         """Case c: the README says to stand in the clone, but the script may not
