@@ -76,3 +76,92 @@ Those two lines are merged here, and the files carry neither.
   preceded it: the process side compressed into C1, C2 and C10, the output side into
   C4 through C8, and C9 new — overengineering and minimally invasive change, drawing
   on Karpathy's failure-mode observations and Pocock's deletion test.
+
+## Before these skills
+
+What came before was a heavier reviewer: one skill that ran an evidence-based
+final review with isolated evaluators and a falsification round, and wrote its
+verdict into a canonical three-sheet Excel workbook, scored by a deterministic
+scorer with blocking musts and gates. These skills took its rubric and its
+approach and dropped the machinery. Its two tracks — the rubric, which is the
+measure, and the workflow, which is how a review is run — were versioned
+separately and are listed separately here. Nothing below ships in this package;
+it is kept so the line of thinking stays readable.
+
+### Rubric
+
+- **v0.7.0 → v0.8.0** — W4b widened from a norm for a lone agent to one that
+  includes the person picking up the story: search the sources first, then work
+  the rest out together, and only what nobody present can answer becomes an
+  addressed question. Evidence via the transcript or via one durable artefact,
+  each enough on its own.
+- **v0.6.1 → v0.7.0** — new criterion W4b: exhaust the sources yourself before
+  asking, and record what remains as an addressed refinement question rather
+  than a chat message that evaporates next session.
+- **v0.6.0 → v0.6.1** — O1a and O6 suggest an evidence folder per criterion as a
+  way to order proof, explicitly not a requirement; documenting evidence neatly
+  deliberately did not become a 22nd criterion.
+- **v0.5.4 → v0.6.0** — `PENDING` dropped along with the checkpoint that was its
+  only reason to exist; conditions resolve to true or false and nothing else.
+- **v0.5.3 → v0.5.4** — the abbreviation leaves every human-facing sentence, so a
+  reader who does not know the project still knows what is being measured.
+- **v0.5.2 → v0.5.3** — learning sources per criterion, which had quietly fallen
+  out, return as their own reference file; they are not scored.
+- **v0.5.1 → v0.5.2** — the adaptability section stopped promising report shapes
+  the workflow does not allow: teams restyle the canonical workbook, and that is
+  the whole freedom.
+- **v0.5 → v0.5.1** — every criterion gets a second anti-example with a
+  materially different failure mode, and scorer jargon leaves the text that is
+  copied verbatim into the workbook.
+- **v0.4 → v0.5** — three questions that were tangled in one criterion come
+  apart: whether acceptance criteria are good (W4), whether verification is
+  agreed before building (W4a), and whether usable verification was actually
+  delivered (O1a, with O6 for evidence integrity).
+- **v0.3 → v0.4** — the rubric becomes machine-checkable: criticality,
+  applicability conditions and gates per criterion, W11 and O7 new, and trusted
+  versioned metadata behind a deterministic scorer.
+
+### Workflow
+
+- **v0.7.0 → v0.8.0** — evidence gets a fixed place: shared artefacts once, one
+  short note per scored row, and a deterministic check that withholds the
+  workbook while a scored row has none. The falsifier is asked whether the
+  evidence would look different if the claim were false, and the model
+  requirement fails hard instead of quietly dropping to a lighter model.
+- **v0.6.2 → v0.7.0** — the mid-run checkpoint disappears. It cost as much as a
+  full review while only the final one guards the handoff, and every mode-related
+  failure came from having two modes.
+- **v0.6.1 → v0.6.2** — the abbreviation leaves the workflow files too; technical
+  identifiers and historical artifacts stay as they are.
+- **v0.6.0 → v0.6.1** — the workbook is a copy of the template, filled in. The
+  template itself is never written to, and no script generates it.
+- **v0.5.7 → v0.6.0** — after a real run went wrong, four paths close: dispatch
+  moves ahead of every other section, a final review becomes non-blocking too,
+  the immutable snapshot gets a method that can actually be followed, and
+  `versions.json` becomes the one place a version number lives.
+- **v0.5.6 → v0.5.7** — a review runs only when the developer asks for one; the
+  agent never starts one on its own, and "enough work exists to inspect" is a
+  suitability condition rather than a start signal.
+- **v0.5.5 → v0.5.6** — the last English column header in the developer-facing
+  workbook is translated.
+- **v0.5.4 → v0.5.5** — the internal scorer percentages leave the workbook and
+  the notification: both mix verdict severity with assessability and measure
+  neither cleanly. The evidence column says what was inspected.
+- **v0.5.3 → v0.5.4** — exactly three tabs in a fixed order, technical and
+  version data only on `Metadata`, verdicts shown in plain language, and status
+  colour only inside verdict cells.
+- **v0.5.2 → v0.5.3** — the explanatory block above the table is removed; the
+  header starts on its own row.
+- **v0.5.1 → v0.5.2** — each row carries the criterion's canonical standard
+  paragraph verbatim; evaluator-written summaries are forbidden.
+- **v0.5 → v0.5.1** — one category per criterion kind, process or delivered
+  result; the third category that measured evidence strength is dropped, since
+  verdicts and assessability already say that.
+- **v0.4.1 → v0.5** — the Excel workbook becomes the only durable report and
+  generated HTML and Markdown go; `confidence` is replaced by a statement of what
+  could and could not be assessed; delivery is one short notification with one
+  action.
+- **v0.4 → v0.4.1** — a checkpoint dispatches exactly one fresh-context
+  background orchestrator instead of running evaluation, falsification and
+  scoring in front of the developer, which had made it too disruptive to use
+  mid-implementation.

@@ -22,6 +22,12 @@ CHANGELOG = ROOT / "CHANGELOG.md"
 
 RELEASE = re.compile(r"^## (\d+)\.(\d+)$", re.MULTILINE)
 
+#: The history of the reviewer these skills came out of, kept at the foot of the
+#: file. Each line is one version step of one of its two tracks.
+HISTORY = "## Before these skills"
+TRACK = re.compile(r"^### (.+)$", re.MULTILINE)
+STEP = re.compile(r"^- \*\*v(\S+) → v(\S+)\*\*", re.MULTILINE)
+
 #: Files that ship to a machine. None of them may keep its own bookkeeping.
 SHIPPED = [skill_file(name) for name in SKILL_NAMES] + [RUBRIC, LEARNING]
 
@@ -56,6 +62,21 @@ class ChangelogTests(unittest.TestCase):
         for name in ("agentic-coding-rubric", "advise-me", "review-my-work"):
             with self.subTest(skill=name):
                 self.assertIn(f"**{name}**", newest)
+
+    def test_the_history_comes_after_the_releases_and_leaves_no_gap(self):
+        """A dropped step is the one way a compressed history misleads."""
+        head, _, history = self.text.partition(HISTORY)
+        self.assertTrue(history, f"{HISTORY} is gone")
+        self.assertFalse(RELEASE.search(history), "a release is listed under the history")
+        self.assertTrue(RELEASE.search(head), "the history swallowed the releases")
+        tracks = TRACK.split(history)[1:]
+        self.assertTrue(tracks, "the history names no track")
+        for name, body in zip(tracks[::2], tracks[1::2]):
+            with self.subTest(track=name):
+                steps = STEP.findall(body)
+                self.assertGreater(len(steps), 1, f"{name} lists no chain")
+                for (_, older), (newer, _) in zip(steps[1:], steps):
+                    self.assertEqual(older, newer, f"{name} skips from {older} to {newer}")
 
     def test_nothing_that_ships_carries_a_version_or_a_changelog_of_its_own(self):
         for path in SHIPPED + [README]:
