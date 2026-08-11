@@ -13,7 +13,8 @@ built from this directory. Everything else about step 1 stays as written, and
 step 2 runs unmodified against the resulting clone. What that leaves untested is
 the one thing this repository does not control: whether the URL in the README
 resolves. `test_step_one_names_a_real_repository_url` is the stand-in for that —
-it refuses a placeholder.
+it refuses a placeholder, and holds the repository name in the URL against the
+directory step 1 stands in, so a name left behind by a rename fails here.
 
 The failures this guards against were all reproduced, and none of them announced
 itself:
@@ -101,11 +102,25 @@ class InstallInstructionTests(unittest.TestCase):
     def test_step_one_names_a_real_repository_url(self):
         """A README that ships inside the repository it tells you to clone can
         name it. `<repository-url>` was a blank the reader had to fill in from
-        somewhere this page never said."""
+        somewhere this page never said, and a URL left over from a rename is that
+        same blank with a plausible face: GitHub redirects it, so nothing
+        complains, and the name the reader walks away with is the wrong one.
+        Refusing a placeholder does not catch that. The directory the rest of
+        step 1 stands in does — it is named after the repository, so the two have
+        to agree."""
         url = CLONE_URL.search(self.steps["1"])
         self.assertIsNotNone(url, "step 1 has no git clone")
         self.assertRegex(url.group(1), r"^(https://|git@)\S+\.git$")
         self.assertNotIn("<", url.group(1))
+
+        repository = url.group(1).rsplit("/", 1)[-1].removesuffix(".git")
+        directory = re.search(r"^cd (\S+)", self.steps["1"], re.MULTILINE)
+        self.assertIsNotNone(directory, "step 1 has no cd")
+        self.assertEqual(
+            directory.group(1),
+            repository,
+            f"step 1 clones {repository} and then stands in {directory.group(1)}",
+        )
 
     def test_step_one_and_step_two_together_install_from_a_clone(self):
         """Both steps, in order, with the URL swapped for a local repository — the
