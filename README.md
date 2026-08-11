@@ -1,33 +1,27 @@
-# Agentic Coding skill
+# Agentic Coding skills
 
-A rubric for agentic coding work, plus a skill that reviews your work against it.
+A rubric for agentic coding work, plus three skills that use it.
 
 The rubric names what has to be demonstrably good — context, acceptance criteria,
 tests, evidence, implementation — and deliberately does not prescribe how you get
 there. SpecKit, Given/When/Then, a plain markdown note: any form counts as long as
 it holds up under the evaluation questions.
 
-Skill version 1.0 · rubric version 1.0.
+Skill version 2.0 · rubric version 1.0.
 
-## Install
+## The three skills
 
-Claude Code:
+Each one is started by you, explicitly. None of them triggers itself.
 
-```sh
-cp -R skills/agentic-coding ~/.claude/skills/agentic-coding
+**`advise-me`** — while you work, including before there is any code. One isolated
+subagent reads the rubric and the transcript and answers in chat: what to do
+differently from here on. No file, no verdict.
+
+```
+Give me feedback on my approach so far against the agentic coding rubric.
 ```
 
-Codex:
-
-```sh
-cp -R skills/agentic-coding ~/.codex/skills/agentic-coding
-```
-
-## The two routes
-
-Both routes are started by you, explicitly. The skill never triggers itself.
-
-**Full review** — after the work, or when you want a verdict on what was built.
+**`review-my-work`** — after the work, or when you want a verdict on what was built.
 Reads the session transcript and the diff, runs one isolated reviewer plus one
 falsifier round, and writes a single Markdown report.
 
@@ -36,21 +30,76 @@ Review this session against the agentic coding rubric.
 Write the report to docs/reviews/payment-retry.md
 ```
 
-**Feedback on your approach** — while you work, including before there is any
-code. One isolated subagent reads the rubric and the transcript and answers in
-chat: what to do differently from here on. No file, no verdict.
+**`log-feedback`** — when you have something to say about this way of working or
+about these skills. Appends one dated bullet to `docs/feedback.md` in the repository
+you are working in. It records your words; it never gives you feedback.
 
 ```
-Give me feedback on my approach so far against the agentic coding rubric.
+Log this as feedback: the falsifier round is too heavy for a one-line change.
 ```
+
+## Install
+
+### Step 1 — get the repository
+
+```sh
+git clone <repository-url> agentic-coding-skills
+cd agentic-coding-skills
+```
+
+Every command below runs from that directory, the one holding `skills/`.
+
+### Step 2 — install the three skills
+
+They are three separate skills; install all three, or the descriptions that point at
+each other point at nothing.
+
+Claude Code:
+
+```sh
+for skill in advise-me review-my-work log-feedback; do
+  rm -rf ~/.claude/skills/"$skill"
+  mkdir -p ~/.claude/skills
+  cp -R skills/"$skill" ~/.claude/skills/"$skill"
+done
+```
+
+Codex:
+
+```sh
+for skill in advise-me review-my-work log-feedback; do
+  rm -rf ~/.codex/skills/"$skill"
+  mkdir -p ~/.codex/skills
+  cp -R skills/"$skill" ~/.codex/skills/"$skill"
+done
+```
+
+The same command installs and upgrades. `mkdir -p` is what makes it work on a
+machine that has no skills directory yet; the `rm -rf` is what makes an upgrade
+replace the old version instead of copying the new one *inside* it. A bare
+`cp -R skills/advise-me ~/.claude/skills/advise-me` does both wrong: it fails
+outright when the parent does not exist, and it silently produces
+`~/.claude/skills/advise-me/advise-me/` when the target does exist, leaving the old
+`SKILL.md` in place and exiting 0.
+
+`evals/test_install_instructions.py` extracts these two blocks from this README and
+runs them against a throwaway home directory, fresh and over an existing
+installation, so the instruction above is the tested one.
 
 ## Structure
 
 ```
-skills/agentic-coding/SKILL.md                     the workflow, both routes
-skills/agentic-coding/references/rubric.md         the criteria
-skills/agentic-coding/references/learning-materials.md   how to get better per criterion
-evals/                                             regression suite: uvx pytest evals/
-CRITERIA.md                                        what this skill itself has to satisfy
-AGENTS.md                                          pointer file for agents working here
+skills/advise-me/SKILL.md             feedback on your approach, in chat
+skills/review-my-work/SKILL.md        the full review, one Markdown report
+skills/log-feedback/SKILL.md          your feedback about the process, one bullet
+skills/*/references/                  copies of the two files below
+references/rubric.md                  the criteria — the source
+references/learning-materials.md      how to get better per criterion — the source
+evals/                                regression suite: uvx pytest evals/
+CRITERIA.md                           what these skills themselves have to satisfy
+AGENTS.md                             pointer file for agents working here
 ```
+
+`references/` is the source; the copies under `skills/*/references/` exist because a
+skill has to be installable on its own. `evals/test_reference_sync.py` fails as soon
+as a copy differs from the source by one byte.

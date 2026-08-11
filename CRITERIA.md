@@ -1,8 +1,8 @@
-# What this skill itself has to satisfy
+# What these skills themselves have to satisfy
 
-Eight points, in ordinary language, each with the test that guards it. These are
-about the skill, not about the work it reviews — the rubric criteria live in
-`skills/agentic-coding/references/rubric.md`.
+Eleven points, in ordinary language, each with the test that guards it. These are
+about the skills, not about the work they review — the rubric criteria live in
+`references/rubric.md`.
 
 Run the guards with `uvx pytest evals/` from this directory.
 
@@ -24,31 +24,54 @@ Run the guards with `uvx pytest evals/` from this directory.
 4. **Guidance suggests and never demands; the rubric prescribes no way of working.**
    Guarded by `evals/test_rubric_shape.py::test_guidance_is_offered_and_never_demanded`.
 
-5. **The two routes stay different.** Route 1 writes one Markdown report, runs a
-   falsifier and allows exactly one revision; route 2 answers in chat, writes no
-   file, runs no falsifier, and works without a diff.
-   Guarded by `evals/test_routes.py::test_only_the_full_review_writes_a_file`,
-   `::test_only_the_full_review_runs_a_falsifier_and_exactly_one_revision`,
-   `::test_the_diff_is_required_in_route_one_and_optional_in_route_two` and
-   `::test_route_two_looks_forward_instead_of_judging`.
+5. **The three skills stay three skills.** `advise-me` answers in chat, writes no
+   file, runs no falsifier and works without a diff; `review-my-work` writes one
+   Markdown report, runs a falsifier and allows exactly one revision;
+   `log-feedback` only ever appends one dated bullet in the developer's own words
+   and borrows none of the reviewing machinery.
+   Guarded by `evals/test_skills.py::AdviseMeTests`, `::ReviewMyWorkTests` and
+   `::LogFeedbackTests`.
 
-6. **The review is never self-triggered and never self-judged.** The developer
-   invokes it; an isolated subagent performs it; if isolation is impossible, nothing
+6. **The three descriptions are disjunct, from each other and from the review skill
+   already in the field.** A description is a trigger, not a summary: near-identical
+   trigger sentences give the platform two candidates for one request. Every
+   distinguishing marker belongs to exactly one skill, the two reviewing skills name
+   what the other is for, and none of them borrows the neighbouring skill's
+   vocabulary.
+   Guarded by `evals/test_descriptions.py`.
+
+7. **Nothing is ever self-triggered and never self-judged.** The developer invokes
+   it; an isolated subagent performs the judging; if isolation is impossible, nothing
    runs.
-   Guarded by `evals/test_routes.py::test_neither_route_ever_triggers_itself` and
-   `evals/test_isolation_and_model.py::test_the_main_agent_never_reviews_its_own_session`,
-   `::test_missing_isolation_stops_the_review_instead_of_downgrading_it`.
+   Guarded by `evals/test_skills.py::SelfTriggerTests::test_no_skill_ever_triggers_itself`
+   and `evals/test_isolation_and_model.py::IsolationTests`.
 
-7. **The reviewing roles run on Opus 5 or Opus 4.8, or the review does not run at
-   all.** A silent downgrade to a lighter model is the one failure a review cannot
-   report about itself.
-   Guarded by `evals/test_isolation_and_model.py::test_every_reviewing_role_is_pinned_to_one_of_two_named_models`
-   and `::test_an_unavailable_or_limited_model_is_a_hard_visible_failure`.
+8. **The reviewing roles run on the strongest reasoning model of the platform they
+   are on, and a downgrade is never silent.** Two named Claude models as the whole
+   rule made the Codex install impossible to obey; a silent downgrade is the one
+   failure a review cannot report about itself.
+   Guarded by `evals/test_isolation_and_model.py::ModelTests`.
 
-8. **The report says which diff basis it used, and the version is stated
-   consistently.** The developer is the only one who knows where the task really
-   began, so the range is theirs to correct; and feedback is only comparable when
-   you can tell which rubric produced it.
-   Guarded by `evals/test_routes.py::test_the_diff_basis_is_derived_and_always_reported`
-   and `evals/test_versions.py` (skill, rubric and README name the same versions, and
-   the current rubric version has a changelog line).
+9. **The install instruction in the README is the one that was executed.** It has to
+   work on a machine without a skills directory and on a machine that already has an
+   older installation, where a bare `cp -R` silently nests the new version inside the
+   old one and leaves the old `SKILL.md` loading.
+   Guarded by `evals/test_install_instructions.py`, which extracts both blocks from
+   the README and runs them against a throwaway home directory, with
+   `::test_the_old_instruction_still_nests` and
+   `::test_the_old_instruction_installs_nothing_on_a_fresh_machine` as its red tests.
+
+10. **The rubric copies never drift from the source.** Two skills carry the rubric
+    and a skill has to be installable on its own, so the copies are real files; one
+    byte of difference is a red run. `log-feedback` carries no copy at all.
+    Guarded by `evals/test_reference_sync.py`.
+
+11. **The report says which diff basis it used, and the versions are stated
+    consistently.** The developer is the only one who knows where the task really
+    began, so the range is theirs to correct; and feedback is only comparable when
+    you can tell which rubric produced it. A skill also names nothing that does not
+    travel with it when it is installed.
+    Guarded by `evals/test_skills.py::ReviewMyWorkTests::test_the_diff_basis_is_derived_and_always_reported`
+    and `evals/test_versions.py` (one skill version across the three skills, the
+    rubric version they name, a changelog line per version, and no dead reference in
+    an installed file).
