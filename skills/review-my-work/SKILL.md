@@ -5,7 +5,7 @@ description: Review the agentic coding work of the session that just ran against
 
 # Review my work
 
-Skill version 2.0, using rubric version 1.0 in
+Skill version 2.1, using rubric version 1.0 in
 [references/rubric.md](references/rubric.md).
 
 This is the full review: the transcript and the diff, one isolated reviewer, one
@@ -100,6 +100,9 @@ The practices this rubric measures apply to this skill too.
 
 ## Changelog
 
+- **2.1** — Installation is one command: `./install.sh` detects the platforms
+  present and installs into each, replacing any existing version. No change to
+  what this skill does.
 - **2.0** — Split off from the two-route `agentic-coding` skill: this skill is only
   the full review, `advise-me` is the feedback round, `log-feedback` is new. The
   model requirement is now platform-agnostic instead of two named Claude models.

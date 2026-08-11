@@ -5,7 +5,7 @@ description: Advise a developer, in chat, on how they are working right now agai
 
 # Advise me
 
-Skill version 2.0, using rubric version 1.0 in
+Skill version 2.1, using rubric version 1.0 in
 [references/rubric.md](references/rubric.md).
 
 This is the light route: forward-looking feedback in chat, no file, no falsifier,
@@ -72,6 +72,9 @@ The practices this rubric measures apply to this skill too.
 
 ## Changelog
 
+- **2.1** — Installation is one command: `./install.sh` detects the platforms
+  present and installs into each, replacing any existing version. No change to
+  what this skill does.
 - **2.0** — Split off from the two-route `agentic-coding` skill: this skill is only
   the feedback round, `review-my-work` is the full review, `log-feedback` is new.
   The model requirement is now platform-agnostic instead of two named Claude models.

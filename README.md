@@ -7,7 +7,7 @@ tests, evidence, implementation — and deliberately does not prescribe how you 
 there. SpecKit, Given/When/Then, a plain markdown note: any form counts as long as
 it holds up under the evaluation questions.
 
-Skill version 2.0 · rubric version 1.0.
+Skill version 2.1 · rubric version 1.0.
 
 ## The three skills
 
@@ -47,44 +47,23 @@ git clone <repository-url> agentic-coding-skills
 cd agentic-coding-skills
 ```
 
-Every command below runs from that directory, the one holding `skills/`.
-
 ### Step 2 — install the three skills
 
-They are three separate skills; install all three, or the descriptions that point at
-each other point at nothing.
-
-Claude Code:
-
 ```sh
-for skill in advise-me review-my-work log-feedback; do
-  rm -rf ~/.claude/skills/"$skill"
-  mkdir -p ~/.claude/skills
-  cp -R skills/"$skill" ~/.claude/skills/"$skill"
-done
+./install.sh
 ```
 
-Codex:
+The script detects which platforms are on this machine and installs into each one it
+finds, `~/.claude` as well as `~/.codex`. The same command installs and upgrades:
+it removes an existing installation before copying, so the new version replaces the
+old one instead of ending up *inside* it. It prints the path of every skill it
+installed, and stops with an error if neither platform is there. All three skills go
+in together, or the descriptions that point at each other point at nothing.
 
-```sh
-for skill in advise-me review-my-work log-feedback; do
-  rm -rf ~/.codex/skills/"$skill"
-  mkdir -p ~/.codex/skills
-  cp -R skills/"$skill" ~/.codex/skills/"$skill"
-done
-```
-
-The same command installs and upgrades. `mkdir -p` is what makes it work on a
-machine that has no skills directory yet; the `rm -rf` is what makes an upgrade
-replace the old version instead of copying the new one *inside* it. A bare
-`cp -R skills/advise-me ~/.claude/skills/advise-me` does both wrong: it fails
-outright when the parent does not exist, and it silently produces
-`~/.claude/skills/advise-me/advise-me/` when the target does exist, leaving the old
-`SKILL.md` in place and exiting 0.
-
-`evals/test_install_instructions.py` extracts these two blocks from this README and
-runs them against a throwaway home directory, fresh and over an existing
-installation, so the instruction above is the tested one.
+`evals/test_install_instructions.py` extracts this command from this README and runs
+it against a throwaway home directory — fresh, over an existing installation, from
+another working directory, and on a machine with only one of the two platforms — so
+the instruction above is the tested one.
 
 ## Structure
 
@@ -95,6 +74,7 @@ skills/log-feedback/SKILL.md          your feedback about the process, one bulle
 skills/*/references/                  copies of the two files below
 references/rubric.md                  the criteria — the source
 references/learning-materials.md      how to get better per criterion — the source
+install.sh                            the installer: both platforms, all three skills
 evals/                                regression suite: uvx pytest evals/
 CRITERIA.md                           what these skills themselves have to satisfy
 AGENTS.md                             pointer file for agents working here

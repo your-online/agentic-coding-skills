@@ -20,11 +20,16 @@ to this product, and no file here may reference a path outside it.
   guidance and evaluation questions. Carries the rubric version and its changelog.
 - `references/learning-materials.md` — the source of the sources per criterion
   group, for developers who want to get better at one.
+- `install.sh` — the installer the README calls: it detects which platforms are
+  present (`~/.claude`, `~/.codex`) and installs all three skills into each. No
+  flags, no options; it is the whole of step 2.
 - `evals/` — the regression suite. Run it from this directory: `uvx pytest evals/`.
   It is not installed, so no SKILL.md may tell anyone to run it.
 - `CRITERIA.md` — what these skills themselves have to satisfy, with the test that
   guards each point.
-- `README.md` — the public front page: the three skills, install, structure.
+- `README.md` — the public front page: the three skills, install, structure. Its
+  install section is two steps and two commands; the platform detection lives in
+  `install.sh`, not in the instruction.
 
 ## Rules
 

@@ -5,7 +5,7 @@ description: Record something the developer says about this way of working or ab
 
 # Log feedback
 
-Skill version 2.0.
+Skill version 2.1.
 
 This skill captures what the developer says **about** the process or the skills.
 It never says anything about their work; nothing here reviews or advises.
@@ -61,6 +61,9 @@ weakened to make it pass.
 
 ## Changelog
 
+- **2.1** — Installation is one command: `./install.sh` detects the platforms
+  present and installs into each, replacing any existing version. No change to
+  what this skill does.
 - **2.0** — First version. Added alongside the split of `agentic-coding` into
   `advise-me` and `review-my-work`, and versioned with them so the three skills that
   ship together carry one number.

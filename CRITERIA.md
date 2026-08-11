@@ -52,12 +52,14 @@ Run the guards with `uvx pytest evals/` from this directory.
    failure a review cannot report about itself.
    Guarded by `evals/test_isolation_and_model.py::ModelTests`.
 
-9. **The install instruction in the README is the one that was executed.** It has to
-   work on a machine without a skills directory and on a machine that already has an
-   older installation, where a bare `cp -R` silently nests the new version inside the
-   old one and leaves the old `SKILL.md` loading.
-   Guarded by `evals/test_install_instructions.py`, which extracts both blocks from
-   the README and runs them against a throwaway home directory, with
+9. **The install instruction in the README is the one that was executed.** It is one
+   command, `./install.sh`, and the script behind it has to work on a machine without
+   a skills directory, on a machine that already has an older installation — where a
+   bare `cp -R` silently nests the new version inside the old one and leaves the old
+   `SKILL.md` loading — from any working directory, and on a machine that has only
+   one of the two platforms; with neither platform present it has to fail loudly.
+   Guarded by `evals/test_install_instructions.py`, which extracts the command from
+   the README and runs it against a throwaway home directory, with
    `::test_the_old_instruction_still_nests` and
    `::test_the_old_instruction_installs_nothing_on_a_fresh_machine` as its red tests.
 
