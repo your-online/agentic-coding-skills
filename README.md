@@ -18,9 +18,9 @@ Say it in your own words and the skill triggers by itself, or type its slash com
 Each of the three is started by you: none of them decides on its own that feedback or
 a review is due.
 
-**`advise-me`** — while you work, including before there is any code. One isolated
-subagent reads the rubric and the transcript and answers in chat: what to do
-differently from here on. No file, no verdict.
+**`advise-me`** — while you work, including before there is any code. The rubric is
+read into the session you are working in and answered from there, so the advice
+arrives without a wait: what to do differently from here on. No file, no verdict.
 
 ```
 Give me feedback on my approach so far against the agentic coding rubric.

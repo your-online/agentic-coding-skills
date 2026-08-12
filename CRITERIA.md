@@ -25,7 +25,8 @@ Run the guards with `uvx pytest evals/` from this directory.
    Guarded by `evals/test_rubric_shape.py::test_guidance_is_offered_and_never_demanded`.
 
 5. **The three skills you run stay three skills.** `advise-me` answers in chat,
-   writes no file, runs no falsifier and works without a diff; `review-my-work`
+   writes no file, runs no falsifier, spawns nothing and works without a diff;
+   `review-my-work`
    writes one Markdown report, runs a falsifier and allows exactly one revision;
    `log-feedback` only ever appends one dated bullet in the developer's own words
    and borrows none of the reviewing machinery. The fourth, `agentic-coding-rubric`,
@@ -45,7 +46,11 @@ Run the guards with `uvx pytest evals/` from this directory.
 7. **No skill decides on its own that a review is due, and none is ever
    self-judged.** The developer asks — in their own words or by name, which is a
    trigger and not a summons — and an isolated subagent does the judging; if
-   isolation is impossible, nothing runs.
+   isolation is impossible, nothing runs. Forward-looking advice is the one route
+   that runs in the working context, because the wait for a spawned round lands
+   exactly where the advice has to be usable and because the rubric is worth more
+   in the session that continues; the boundary that keeps this from hollowing out
+   the rule is that this route returns no verdict.
    Guarded by `evals/test_skills.py::SelfTriggerTests::test_no_skill_ever_triggers_itself`
    and `evals/test_isolation_and_model.py::IsolationTests`.
 

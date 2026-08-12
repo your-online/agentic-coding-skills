@@ -28,6 +28,16 @@ once now, in the reference skill both of those consult, so this file reads them
 there. `OneWordingTests` is what keeps them from growing back: the two skills
 point at the rules and do not restate them. log-feedback judges nothing and
 spawns nothing, so none of this applies to it.
+
+Isolation once covered advise-me too, by spawning a subagent for advice as well.
+Measured against advice read straight into the working context, the spawned round
+took roughly twice the wall-clock — the wait falling exactly where the advice is
+supposed to be usable, mid-work — and it threw away the rubric context the session
+still needed. The requirement moved rather than the test being weakened: advice runs
+in the main context now, and what keeps the isolation rule from being hollowed out
+is that the same route may not return a verdict. That boundary is what
+`test_the_one_route_without_isolation_is_scoped_and_returns_no_verdict` holds down,
+so the coverage the old assertion gave has a named replacement rather than a gap.
 """
 
 import unittest
@@ -68,11 +78,28 @@ class IsolationTests(SharedRules):
     def test_missing_isolation_stops_the_run_instead_of_downgrading_it(self):
         self.in_the_rules("If an isolated subagent cannot be spawned, say so and run nothing")
 
+    def test_the_one_route_without_isolation_is_scoped_and_returns_no_verdict(self):
+        """Advice in the working context was measured at roughly half the wall-clock
+        of a spawned round, and the rubric stays in the context that keeps working.
+        What pays for it is the boundary: no isolated judge, so no verdict. Without
+        that line the exception swallows the rule — the cheap route would answer the
+        question the expensive one exists for."""
+        self.in_the_rules(
+            "Forward-looking advice about how to go on from here is",
+            "not a judgement",
+            "`advise-me` runs in the main context",
+            "never returns a verdict",
+        )
+        advice = self.reviewing["advise-me"]
+        self.assertIn("Spawn nothing", advice)
+        self.assertIn("it never doubles as a verdict on what has been built", advice)
+        self.assertNotIn("Spawn one isolated subagent", advice)
+
 
 class ModelTests(SharedRules):
     def test_every_reviewing_role_runs_on_the_strongest_model_of_its_platform(self):
         self.in_the_rules(
-            "the reviewer, the falsifier, the feedback subagent",
+            "the reviewer, the falsifier, the adviser",
             "runs on the strongest reasoning model the platform you are on offers",
         )
 
@@ -118,7 +145,7 @@ class OneWordingTests(SharedRules):
             with self.subTest(skill=name):
                 self.assertIn("use the `/agentic-coding-rubric` skill", text)
                 self.assertIn("a reference to consult, not a session to run", text)
-                self.assertIn("Read it before you spawn anything", text)
+                self.assertIn("Read it before you start", text)
 
     def test_neither_reviewing_skill_restates_the_rules(self):
         self.in_no_reviewing_skill(

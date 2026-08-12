@@ -9,7 +9,7 @@ For the criteria, and for the rules that hold for every judgement made against t
 an isolated judge, the strongest model of the platform, the rubric read whole — use
 the `/agentic-coding-rubric` skill. It is the shared source of those rules and of the
 learning materials behind them, and it is a reference to consult, not a session to
-run. Read it before you spawn anything.
+run. Read it before you start.
 
 This is the full review: the transcript and the diff, one isolated reviewer, one
 falsifier round, one revision, one Markdown report.

@@ -5,6 +5,21 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.7
+
+- **advise-me** no longer spawns anything: it reads the rubric into the session that
+  is working and advises from there. A spawned round was measured at roughly twice
+  the wall-clock of advice read in context — three runs each, 66s against 27s
+  average — and the wait fell exactly where the advice is meant to be usable, in the
+  middle of the work; the rubric is also worth more in a context that continues than
+  in one that ends with the answer. **agentic-coding-rubric** scopes the isolation
+  rule accordingly: a judgement is a verdict on work that exists, forward-looking
+  advice is not, and the price of advising in the working context — advice is
+  softest on the choices that context already made — is paid by that route never
+  returning a verdict. `review-my-work` keeps its isolated reviewer and falsifier
+  unchanged. The model rule now names the adviser instead of a feedback subagent and
+  covers advice running on whatever model the session runs on.
+
 ## 2.6
 
 - **agentic-coding-rubric** rewrites C1 around checking the relevant reality and

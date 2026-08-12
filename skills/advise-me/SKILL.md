@@ -9,7 +9,7 @@ For the criteria, and for the rules that hold for every judgement made against t
 an isolated judge, the strongest model of the platform, the rubric read whole — use
 the `/agentic-coding-rubric` skill. It is the shared source of those rules and of the
 learning materials behind them, and it is a reference to consult, not a session to
-run. Read it before you spawn anything.
+run. Read it before you start.
 
 This is the light route: forward-looking feedback in chat, no file, no falsifier,
 no verdict. It works at any moment, including before there is a single line of
@@ -31,8 +31,19 @@ exists.
 
 ## Run it
 
-Spawn one isolated subagent that reads the rubric and the sources and advises. No
-falsifier, no revision round. Write no file; the answer is in chat only.
+Load the complete rubric into this session and advise from here, in the main context.
+Spawn nothing: an extra hop roughly doubles the wait for advice that is meant to be
+read in the middle of the work, and the rubric is more use in the context that keeps
+going than in one that ends with the answer. No falsifier, no revision round. Write
+no file; the answer is in chat only.
+
+The price of that is real and it fixes the boundary of this route. Advising in the
+context that did the work means advising on your own choices, and the agent that
+picked an approach is the last one to name it as the thing to drop. So this route
+looks ahead only: it never doubles as a verdict on what has been built, however the
+question is phrased. Say plainly which model this session is on when it is not the
+platform's strongest, and when what the developer actually wants is a judgement of
+finished work, that is `review-my-work` with its isolated reviewer.
 
 The output is forward-looking: what would you do differently or better from here on
 to satisfy the rubric. Not a verdict on what has happened. Name the two or three
