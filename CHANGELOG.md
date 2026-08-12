@@ -5,6 +5,31 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.6
+
+- **agentic-coding-rubric** rewrites C1 around checking the relevant reality and
+  carrying that understanding into later sessions. It now names when the criterion
+  matters, distinguishes unknowns from the material open choices handled by C2, and
+  gives concrete examples, anti-examples and possible evidence for source-backed
+  context and durable decisions.
+- **agentic-coding-rubric** rewrites C2 as "Open choices researched and settled". It
+  defines when a choice is material through consequence and ownership with a code
+  example, replaces "exhausts" with observable research per open point, routes each
+  remaining question to whoever can actually decide it rather than a fixed role,
+  requires choices settled before work is built on them, separates small named
+  assumptions from material ones in the artefact, and names its boundary with C1
+  from both sides.
+
+## 2.5
+
+- **agentic-coding-rubric** points at the falsifier pattern from the places that need it, instead of
+  asking for a second pair of eyes and leaving the reader to find out later how that
+  is done. The introduction names C7 as the shared home of the pattern; C1 says an
+  assumption is phrased sharply enough when the attack can be pointed at it; C5 says
+  a suite is least able to see which scenario it misses; C8 says the same of the
+  agent that built the layout. C3 and C6 already carried the reference and are
+  unchanged.
+
 ## 2.4
 
 - **agentic-coding-rubric** is a new skill and the rubric's only home: `rubric.md`

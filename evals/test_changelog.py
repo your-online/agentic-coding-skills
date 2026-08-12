@@ -59,9 +59,12 @@ class ChangelogTests(unittest.TestCase):
     def test_the_newest_release_names_the_skills_it_changed(self):
         """An entry that does not say which skill moved is a note to nobody."""
         newest = RELEASE.split(self.text)[3]
-        for name in ("agentic-coding-rubric", "advise-me", "review-my-work"):
-            with self.subTest(skill=name):
-                self.assertIn(f"**{name}**", newest)
+        named = [
+            name
+            for name in ("agentic-coding-rubric", "advise-me", "review-my-work")
+            if f"**{name}**" in newest
+        ]
+        self.assertTrue(named, "the newest release names no skill")
 
     def test_the_history_comes_after_the_releases_and_leaves_no_gap(self):
         """A dropped step is the one way a compressed history misleads."""

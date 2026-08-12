@@ -19,69 +19,130 @@ A reviewer uses the questions to form a judgement in ordinary language: what is
 good, what is weak, what is missing, why it matters, how to improve it. Criteria
 overlap at the edges; say a thing once, under the criterion where it bites hardest.
 
+Several criteria ask for a second pair of eyes on something. The pattern for that —
+a separate agent in fresh context, given the sources and asked to disconfirm rather
+than to agree — is set out in full under C7, and the criteria that need it point
+back there.
+
 ---
 
-## C1 — Context and assumptions
+## C1 — Context checked and carried forward
 
-**Requirement.** The work is grounded in the situation it actually lands in: the
-existing code, the surrounding systems, the constraints and the users. The
-assumptions it rests on are written down somewhere durable, not carried silently in
-someone's head or in a chat window that scrolls away.
+**Requirement.** Before a solution decision is acted on, the work has checked the
+relevant situation against its sources: the users and their goals, the scope and
+constraints, the existing code and the surrounding systems. Material facts,
+constraints and decisions that shape the work are recorded somewhere durable, with
+the source or person that established them, so a later session can continue from the
+same understanding. What is not known remains visible as unknown. A material open
+choice about architecture, business logic or scope is handled under C2, not quietly
+turned into a fact or an assumption.
 
-**Guidance.** Before building, you could have the agent read the parts of the repo
-the change touches, the relevant documentation, the ticket history and earlier
-decisions, and report what it found with [locators rather than
-impressions](https://github.com/humanlayer/humanlayer/blob/main/.claude/commands/research_codebase.md#L80)
-— file paths and line numbers, so a second person can walk the same route. Recording
-assumptions can be as light as [a short
-section](https://github.com/github/spec-kit/blob/main/templates/spec-template.md#L120-L131)
-in the ticket or a paragraph in the plan; the useful bit is that each assumption is
-phrased so it could later turn out false. When an assumption is load-bearing and
-cheap to check, checking it beats recording it. A summary you wrote yourself
-earlier [is not a source](https://github.com/mattpocock/skills/blob/main/skills/engineering/research/SKILL.md#L10)
-— re-read the original when you rely on it.
+**Guidance.** This matters before the first solution decision for each slice, and
+again when new information changes the understanding of the work. A plausible
+solution to the ticket can still be wrong when the ticket, the existing system and
+the user's actual situation do not agree.
+
+You could have the agent inspect the sources that matter for the particular change
+and report what it found with [locators rather than
+impressions](https://github.com/humanlayer/humanlayer/blob/main/.claude/commands/research_codebase.md#L80).
+For an API change, that might mean its callers, the current handler and schema, an
+earlier architecture decision and observed production behaviour. For a user-facing
+change, it might also mean the current flow, user documentation, support reports and
+the product decision behind it. One option for sharpening domain language and
+recording consequential decisions is
+[`grill-with-docs`](https://github.com/mattpocock/skills/blob/main/docs/engineering/grill-with-docs.md#what-it-does),
+with other decisions kept in the ticket, criteria, plan or specification.
+
+A useful recorded decision says what was decided, when, and which source or person
+established it. “Finalised invoices remain immutable — confirmed by Maria in story
+comment 12 on 12 August” carries more context than “we assume finalised invoices
+cannot be edited.” A provisional statement can also be useful when it stays visibly
+provisional: “Luc recalls these three columns; verify them against the meeting
+transcript, and ask Luc to decide again if it differs.”
+
+Possible evidence includes exact code, document, ticket or decision locators;
+observations of current behaviour; a durable decision entry with its provenance; or
+a recorded hypothesis with its verifier and consequence. A file or section existing
+is not enough if its contents do not support the understanding attributed to it.
+Merely repeating the ticket, scanning the top level of a repository, or relying on
+an earlier summary you wrote yourself [instead of returning to the
+source](https://github.com/mattpocock/skills/blob/main/skills/engineering/research/SKILL.md#L10)
+does not demonstrate this criterion.
 
 **Evaluation questions.**
 
-1. Which parts of the existing system did the work actually inspect, and can you
-   point at where that shows?
-2. Are the assumptions stated somewhere a second person would find them, and is each
-   one phrased sharply enough to be proven wrong?
-3. Did anything get treated as settled that was never checked against a source?
+1. What did the work need to understand about the users, goals, scope, constraints,
+   existing code and surrounding systems, and which original sources did it inspect?
+2. Which material facts, constraints and decisions shaped the work, where are they
+   recorded, and can another person trace them to the source or person that
+   established them?
+3. What remained unknown, what could that uncertainty affect, and was any missing
+   knowledge treated as settled fact or as a material assumption that belongs under
+   C2?
 
 ---
 
-## C2 — Own research, collaboration and open questions
+## C2 — Open choices researched and settled
 
-**Requirement.** When the source task leaves material choices open — architecture,
-business logic, scope — the agent first exhausts what it can find out by itself, and
-resolves the rest together with the person picking up the work, who is not
-necessarily the person who wrote the ticket. What stays materially unanswerable
-after that goes as an explicit question to the author or product owner. A material
-choice never quietly becomes an assumption or the agent's own decision.
+**Requirement.** When the task — a story, a ticket or a bare description — leaves a
+material choice open about architecture, business logic or scope, that choice is
+settled before anything is built on it. The agent and the person doing the work
+search the sources that could answer it and settle together what their knowledge
+covers. What neither can settle goes as an explicit question to someone who can
+actually decide it — the ticket's author, a product owner, a team lead, a
+stakeholder — with, per question, why the answer was out of reach. A material choice
+never quietly becomes an assumption or the agent's own decision.
 
-**Guidance.** The form is free and one artefact is enough: the chosen
-interpretation, what it rests on, the assumptions, the decisions with their
-rationale, and the remaining questions with an addressee. It can live in the story,
-a refinement note, the plan or a ticket comment. A transcript can demonstrate the
-same thing: the agent [searching sources with locators per open
-point](https://github.com/humanlayer/humanlayer/blob/main/.claude/commands/create_plan.md#L50-L61)
-before anyone is asked, and the back-and-forth with the person about what was left.
-Asking the author something [the repo, the backlog or an earlier decision already
+**Guidance.** This matters from the moment a ticket underdetermines the work until
+each open choice is settled — usually before the slice that depends on it. Without
+it the failure is quiet: the agent picks the plausible reading, builds on it, and
+the person who owned the choice finds out at review, or in production, that they
+never made it.
+
+A choice is material when a wrong guess does not stay local — reversing it later
+means rework, different user-visible behaviour, or a different architecture or
+scope — or when someone else would have expected a say in it. A retry count is
+neither. "Add an endpoint to delete a user" hides one that is both: a weak reading
+drops the database row and moves on; whether deletion is soft or hard changes what
+can ever be recovered, and that call belongs to someone else.
+
+Who settles a choice follows ownership, not job titles. The person doing the work
+is not necessarily the person who wrote the ticket, and writing the ticket does not
+confer ownership of every choice in it: an architectural decision may belong to a
+team lead the author never consulted. Asking someone something [the repo, the
+backlog or an earlier decision already
 answers](https://github.com/github/spec-kit/blob/main/templates/commands/clarify.md#L136)
 wastes the one channel that is slow; asking nothing at all and guessing is worse.
-"The user can correct an invoice" is the classic case — a weak reading jumps straight
-to editing an amount, a strong one asks whether a finalised invoice is in scope at
-all.
+
+The research half is visible when the agent [searches sources with locators per
+open
+point](https://github.com/humanlayer/humanlayer/blob/main/.claude/commands/create_plan.md#L50-L61)
+rather than asserting that it looked. The sources in view are not automatically all
+the sources — for example, a company can hold dozens of repositories the developer
+never cloned, and systems the agent could reach through its connected tools but
+does not open on its own. A strong transcript shows the agent naming what it could
+not reach and asking whether it matters, instead of treating the visible world as
+the whole one; where the reasonable boundary lies is a judgement call.
+
+One artefact is enough to show all of this — in the story, a refinement note, the
+plan, a ticket comment or an .md file: the chosen interpretation and what it rests
+on, the settled choices each with who settled them, the open questions each with
+who can decide them, and the small assumptions knowingly left standing, named so a
+reader can see them. Anything material does not belong among those assumptions; it
+appears as a settled choice or an open question. C1 covers the facts and decisions
+that were checked and carried forward; the unknown that C1 says may not be dressed
+up as a fact is settled here.
 
 **Evaluation questions.**
 
-1. For each open point, is it visible that the sources were searched before anyone
-   was asked?
-2. Do the questions that went to the author genuinely need the author, and does each
-   one have an addressee?
-3. Is there any material choice about architecture, business logic or scope that was
-   simply decided along the way, without anyone confirming it?
+1. For each open point, which sources could have answered it, and does the
+   transcript or artefact show them searched with locators — including sources the
+   agent could reach but never opened?
+2. Did each question that went out go to someone who can actually decide it, and
+   was the answer genuinely out of reach of the sources and the people already at
+   hand?
+3. Which material choices were settled, by whom, and before or after work was built
+   on them — and is there one that was simply decided along the way?
 
 ---
 
@@ -170,7 +231,10 @@ says more than a test count: a
 large generated suite can still miss the one scenario the feature exists for, and
 [coverage and mutation figures over a generated
 suite](https://arxiv.org/abs/2607.22880) stop being reliable indicators where the
-code under test may itself be faulty. Not everything needs a unit test — [an
+code under test may itself be faulty. Which scenario a suite misses is the hardest
+thing to see from inside it, so it repays the attack C7 describes: hand the criteria
+and the verification to a fresh agent that built neither, and let it argue that the
+one does not cover the other. Not everything needs a unit test — [an
 inspection, a recorded run or a
 demo](https://code.claude.com/docs/en/best-practices#give-claude-a-way-to-verify-its-work)
 can be the right verification, as long as someone other than the author can repeat
@@ -297,7 +361,9 @@ every session; a CLAUDE.md is read at the start of every conversation, which is 
 why it only pays off while it stays short enough to be followed. A separate,
 iterative sanity check on the repository structure works well here: ask the agent
 whether the layout is still logical, have it propose a sorting, have it point at what
-could be removed, and repeat. Do that as its own agreed change rather than as a side
+could be removed, and repeat. It returns more from the fresh context and the openly
+disconfirming job C7 describes than from the agent that built the layout, which can
+no longer read it as a stranger would. Do that as its own agreed change rather than as a side
 effect of building a feature — a structural clean-up is by nature a broad change,
 and smuggling it into a feature diff is exactly what C9 objects to.
 
