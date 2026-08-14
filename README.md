@@ -53,7 +53,7 @@ it yourself to look up what a criterion asks.
 ### Step 1 — get the repository
 
 ```sh
-git clone https://github.com/zet-solutions/agentic-coding-skills.git agentic-coding-skills
+git clone https://github.com/your-online/agentic-coding-skills.git agentic-coding-skills
 cd agentic-coding-skills
 ```
 
