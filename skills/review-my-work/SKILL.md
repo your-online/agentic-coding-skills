@@ -5,11 +5,13 @@ description: 'Review the agentic coding work of the session that just ran agains
 
 # Review my work
 
-For the criteria, and for the rules that hold for every judgement made against them —
-an isolated judge, the strongest model of the platform, the rubric read whole — use
-the `/agentic-coding-rubric` skill. It is the shared source of those rules and of the
-learning materials behind them, and it is a reference to consult, not a session to
-run. Read it before you start.
+The criteria, and the rules that hold for every judgement made against them — an
+isolated judge, the strongest model of the platform, the rubric read whole — live in
+`references/rubric.md`, the `references` directory beside this skill's own directory
+in the same skills directory. It is material to read, not a skill: there is nothing
+to invoke. Read it before you start, and hand it to the reviewer whole. Beside it
+sits `learning-materials.md`, wider reading per criterion for the developer, not
+input to the review.
 
 This is the full review: the transcript and the diff, one isolated reviewer, one
 falsifier round, one revision, one Markdown report.
@@ -17,10 +19,11 @@ falsifier round, one revision, one Markdown report.
 It runs only when the developer asks for it by name. Never start it on your own
 initiative, and never infer from the state of the work that a review is due.
 
-The other half of this pair is `advise-me`: short forward-looking feedback in chat
-while the work is still going on, with no file and no verdict. When the developer
+The other half of this pair is `advise-me`: a short read against the same rubric in
+chat while the work is still going on, answered in the working context with an
+isolated second opinion following in the background, and no file. When the developer
 wants to know what to do better from here, that is the skill; this one is for a
-verdict on what was built.
+written verdict on what was built.
 
 ## Sources
 

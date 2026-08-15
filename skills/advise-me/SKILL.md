@@ -1,51 +1,75 @@
 ---
 name: advise-me
-description: Advise a developer, in chat, on how they are working right now against the agentic coding rubric — what to do differently from here on. Use only when the developer asks about their own approach while the work is still going on, including before any code exists — "how am I doing so far", "feedback on my approach", "am I going about this the right way". Writes no file and gives no verdict on finished work; a review of what was built, with a written report, is what the review-my-work skill is for.
+description: Read how the current session is working against the agentic coding rubric and say what to do differently from here, in chat, from the transcript and whatever code exists. Use only when the developer asks about their own approach while the work is still going on, including before any code exists — "how am I doing so far", "feedback on my approach", "am I going about this the right way". It answers in chat and writes no file; a written verdict on finished work is what the review-my-work skill is for.
 ---
 
 # Advise me
 
-For the criteria, and for the rules that hold for every judgement made against them —
-an isolated judge, the strongest model of the platform, the rubric read whole — use
-the `/agentic-coding-rubric` skill. It is the shared source of those rules and of the
-learning materials behind them, and it is a reference to consult, not a session to
-run. Read it before you start.
-
-This is the light route: forward-looking feedback in chat, no file, no falsifier,
-no verdict. It works at any moment, including before there is a single line of
-code.
+The criteria live in `references/rubric.md` — the `references` directory that sits
+beside this skill's own directory, in the same skills directory. It is material to
+read, not a skill: there is nothing to invoke. Read that file whole before you start,
+the file itself and not a summary of it, and follow the rules it sets out for judging
+work against it. Beside it sits `learning-materials.md`, reading for a developer who
+wants to get better at a criterion; point at it when that is what would help, do not
+load it to advise.
 
 It runs only when the developer asks for it by name. Never start it on your own
 initiative, and never infer from the state of the work that feedback is due.
 
-The other half of this pair is `review-my-work`: the full review of what was built,
-which reads the diff, runs a falsifier and writes one Markdown report. When the
-developer wants a verdict on finished work, that is the skill; this one only looks
-ahead.
+The other half of this pair is `review-my-work`: reviewer plus falsifier plus one
+Markdown report, for a verdict on finished work. This route answers in chat, writes
+no file, and runs while the work is still going on.
 
 ## Sources
 
-The whole transcript — the pattern in how this is being approached so far — plus the
-diff if there is one. The diff is optional; this route is also used before any code
-exists.
+Always both, as far as they exist:
+
+- The whole transcript of this session — what was asked, what was tried, what was
+  verified, what was assumed.
+- The code produced so far, as a diff. Uncommitted work diffs against `HEAD`;
+  everything-committed diffs against the commit the task started from. Before any
+  code exists there is no diff, and the transcript alone carries the answer.
+
+Look at both yourself. Do not advise from memory of what you did — read the diff.
 
 ## Run it
 
-Load the complete rubric into this session and advise from here, in the main context.
-Spawn nothing: an extra hop roughly doubles the wait for advice that is meant to be
-read in the middle of the work, and the rubric is more use in the context that keeps
-going than in one that ends with the answer. No falsifier, no revision round. Write
-no file; the answer is in chat only.
+**1. Send off the second opinion first.** Spawn one judging subagent, in the
+background and non-blocking, under the rules the rubric sets out for that role. Its
+job is the same as yours: judge this work against the rubric and say what to do
+better. Send it off before you write your own answer, so it is not shaped by it, and
+in the background so the developer waits for neither.
 
-The price of that is real and it fixes the boundary of this route. Advising in the
-context that did the work means advising on your own choices, and the agent that
-picked an approach is the last one to name it as the thing to drop. So this route
-looks ahead only: it never doubles as a verdict on what has been built, however the
-question is phrased. Say plainly which model this session is on when it is not the
-platform's strongest, and when what the developer actually wants is a judgement of
-finished work, that is `review-my-work` with its isolated reviewer.
+Hand it the raw sources by path, never as a retelling: the session transcript where
+this platform stores it, the diff written out to a file with its basis named, and
+`references/rubric.md`. A subagent that reads the sources itself is the point; one
+that reads your account of them is you again, with a delay.
 
-The output is forward-looking: what would you do differently or better from here on
-to satisfy the rubric. Not a verdict on what has happened. Name the two or three
-things that would help most, say why, and keep it short enough to read in the middle
-of the work.
+If no isolated subagent can be spawned, say so in one line and give your own read
+anyway — it is worth less alone, and the developer should know which of the two they
+are holding.
+
+**2. Then answer yourself, in the main context**, from the rubric, the transcript
+and the diff. Where does this work meet the criteria, where does it not, and what
+would you do differently from here. Say it straight.
+
+**3. Report the subagent's judgement when it lands**, including — especially — where
+it contradicts yours. Do not smooth the two into one voice. It saw the same sources
+without having made the choices, which is exactly why its disagreement is the most
+useful part of this skill.
+
+## The answer
+
+Open with the substance. No preamble about which model this runs on, no explanation
+of what this route can or cannot do, no note that the rubric has been loaded, no
+disclaimer about judging your own work — the developer knows, and the second opinion
+is on its way. Only when something is genuinely off does it get a line: the strongest
+model was unavailable, no subagent could be spawned, there is no diff to look at.
+
+Name the few things that matter most, each tied to a criterion and to the concrete
+place in the transcript or the diff where you saw it. No labels per criterion, no
+table, no percentage, no score. Short enough to read in the middle of the work.
+
+You are judging choices you made yourself, and that is softer than a judgement from
+outside — which is what the background agent is for, and why its report gets the last
+word rather than a footnote.

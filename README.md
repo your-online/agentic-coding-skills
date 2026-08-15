@@ -1,7 +1,7 @@
 # Agentic Coding skills
 
-A rubric for agentic coding work, plus four skills: three you run, and one that is
-the rubric itself.
+A rubric for agentic coding work, plus three skills that judge and record against
+it. The rubric is not a skill: it is a file the skills read.
 
 The rubric names what has to be demonstrably good — context, acceptance criteria,
 tests, evidence, implementation — and deliberately does not prescribe how you get
@@ -18,9 +18,10 @@ Say it in your own words and the skill triggers by itself, or type its slash com
 Each of the three is started by you: none of them decides on its own that feedback or
 a review is due.
 
-**`advise-me`** — while you work, including before there is any code. The rubric is
-read into the session you are working in and answered from there, so the advice
-arrives without a wait: what to do differently from here on. No file, no verdict.
+**`advise-me`** — while you work, including before there is any code. It reads the
+transcript and whatever code exists, answers straight away from the session you are
+working in, and sends an isolated judge off in the background at the same time; that
+second opinion lands a little later and gets the last word. No file.
 
 ```
 Give me feedback on my approach so far against the agentic coding rubric.
@@ -43,10 +44,11 @@ you are working in. It records your words; it never gives you feedback.
 Log this as feedback: the falsifier round is too heavy for a one-line change.
 ```
 
-**`agentic-coding-rubric`** — the fourth one, which you do not run. It holds the
-rubric, the reading behind it, and the rules that hold for any judgement made against
-it. The two reviewing skills read it from there, so it exists once; you can also open
-it yourself to look up what a criterion asks.
+Beside them sits `skills/references/`, which is not a skill and has no slash command:
+`rubric.md` holds the criteria and the rules for any judgement made against them, and
+`learning-materials.md` the reading behind each one. The skills read those files
+directly, so the rubric exists once and nothing has to be invoked to reach it. Open
+them yourself to look up what a criterion asks.
 
 ## Install
 
@@ -72,13 +74,12 @@ home directory, so the instruction above is the tested one.
 ## Structure
 
 ```
-skills/agentic-coding-rubric/SKILL.md            the reference: the rubric and its rules
-skills/agentic-coding-rubric/rubric.md           the criteria
-skills/agentic-coding-rubric/learning-materials.md   how to get better per criterion
+skills/references/rubric.md                      the criteria, and the rules for judging by them
+skills/references/learning-materials.md          how to get better per criterion
 skills/advise-me/SKILL.md                        feedback on your approach, in chat
 skills/review-my-work/SKILL.md                   the full review, one Markdown report
 skills/log-feedback/SKILL.md                     your feedback about the process, one bullet
-install.sh                                       the installer: both platforms, every skill
+install.sh                                       the installer: both platforms, everything in skills/
 evals/                                           regression suite: uvx pytest evals/
 CHANGELOG.md                                     what changed, per release
 CRITERIA.md                                      what these skills themselves have to satisfy
@@ -86,5 +87,7 @@ AGENTS.md                                        pointer file for agents working
 ```
 
 The rubric exists once. `advise-me` and `review-my-work` used to carry a copy each,
-kept identical by a test; they name the reference skill now, and the four install
-together, so there is nothing left to keep in sync.
+kept identical by a test; then it became a skill of its own, which meant invoking a
+skill to be told where a file was and a reference sitting in your skill list beside
+three routes you can actually start. It is a plain directory now, installed with the
+skills and read by path, so there is nothing to keep in sync and nothing to invoke.

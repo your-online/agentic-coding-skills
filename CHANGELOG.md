@@ -5,6 +5,28 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.8
+
+- **references** is what `agentic-coding-rubric` became. The skill existed to say
+  where `rubric.md` was, so reading the rubric cost an invocation that returned a
+  path, and having a SKILL.md put a reference in the developer's skill list beside
+  three routes they can actually start. The directory carries no SKILL.md now,
+  installs alongside the skills, and `advise-me` and `review-my-work` read
+  `references/rubric.md` by path. The rules for judging — a judgement from outside,
+  the strongest reasoning model, the rubric read whole — moved into the top of
+  `rubric.md`, so they still live once and now sit in the file every judge is handed
+  anyway.
+- **advise-me** stops refusing the question it is asked. It read no diff, judged
+  nothing and was required to say so, which in practice meant opening with a
+  paragraph about which model it ran on and what it was not allowed to do — before
+  any word about the developer's work. It now reads the transcript and the diff
+  itself, says where the work meets the criteria and where it does not, spawns the
+  isolated judge in the background before writing its own answer, and reports that
+  judgement when it lands, disagreements included. What paid for advising in the
+  working context is no longer "no verdict" but "not the verdict": the session's own
+  read never stands alone or last. The route still answers in chat and writes no
+  file, and `review-my-work` is unchanged.
+
 ## 2.7
 
 - **advise-me** no longer spawns anything: it reads the rubric into the session that

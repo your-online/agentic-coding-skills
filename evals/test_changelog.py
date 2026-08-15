@@ -16,7 +16,7 @@ five-place bookkeeping comes back.
 import re
 import unittest
 
-from rubric_source import README, ROOT, SKILL_NAMES, RUBRIC, LEARNING, skill_file
+from rubric_source import README, ROOT, RUNNABLE_SKILLS, RUBRIC, LEARNING, skill_file
 
 CHANGELOG = ROOT / "CHANGELOG.md"
 
@@ -29,7 +29,7 @@ TRACK = re.compile(r"^### (.+)$", re.MULTILINE)
 STEP = re.compile(r"^- \*\*v(\S+) → v(\S+)\*\*", re.MULTILINE)
 
 #: Files that ship to a machine. None of them may keep its own bookkeeping.
-SHIPPED = [skill_file(name) for name in SKILL_NAMES] + [RUBRIC, LEARNING]
+SHIPPED = [skill_file(name) for name in RUNNABLE_SKILLS] + [RUBRIC, LEARNING]
 
 
 class ChangelogTests(unittest.TestCase):
@@ -61,7 +61,7 @@ class ChangelogTests(unittest.TestCase):
         newest = RELEASE.split(self.text)[3]
         named = [
             name
-            for name in ("agentic-coding-rubric", "advise-me", "review-my-work")
+            for name in ("references", "advise-me", "review-my-work")
             if f"**{name}**" in newest
         ]
         self.assertTrue(named, "the newest release names no skill")

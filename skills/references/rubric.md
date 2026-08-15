@@ -26,6 +26,38 @@ back there.
 
 ---
 
+## Judging work against this rubric
+
+These hold for every judgement made against this rubric, whichever skill is making
+it, and they live here rather than in each skill so there is one wording of them.
+
+**A judgement from outside is what counts.** The agent that did the work is the
+softest possible judge of it, so the judgement that carries weight comes from a
+subagent with fresh context that receives the raw sources and this file, and no
+expected outcome, no earlier conclusion and no summary written for it. A session may
+read its own work against these criteria and say what it finds — `advise-me` does
+exactly that, in chat, while the work runs — but it does so alongside an isolated
+judgement, never instead of one, and it never presents its own read as the verdict.
+If an isolated judge cannot be spawned at all, say so where the answer lands rather
+than letting a self-judgement stand as if it came from outside.
+
+**The strongest reasoning model.** Every judging role — reviewer, falsifier, adviser
+— runs on the strongest reasoning model the platform offers. In Claude Code that is
+Opus 5 (`claude-opus-5`), or Opus 4.8 (`claude-opus-4-8`) when Opus 5 is out of
+reach; on another platform it is that platform's own strongest reasoning model. Where
+the platform does not let you choose — a Codex fork inherits the session's model and
+takes no override — the run happens on the session's model, and that is said where
+the answer lands instead of claiming the requirement was met. Never quietly fall back
+to a lighter or faster model: a downgraded judge produces thinner challenges and
+softer findings, and nothing in the answer would say so. When the strongest model
+cannot be used at all, because it is unavailable or usage limits block it, say which
+model did run, or stop and say it cannot run under the current limits.
+
+**Read this file whole.** Hand the judging subagent the complete rubric. Do not
+summarise it first; a summary of the rubric is a second rubric.
+
+---
+
 ## C1 — Context checked and carried forward
 
 **Requirement.** Before a solution decision is acted on, the work has checked the

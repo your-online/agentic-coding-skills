@@ -48,8 +48,9 @@ from rubric_source import (
     REFERENCE_FILES,
     ROOT,
     RUBRIC,
-    RUBRIC_SKILL,
-    SKILL_NAMES,
+    INSTALLED_DIRS,
+    REFERENCE_DIR,
+    RUNNABLE_SKILLS,
 )
 
 STEP_BLOCK = re.compile(r"^### Step (\d+) — [^\n]*\n\n```sh\n(.*?)```", re.MULTILINE | re.DOTALL)
@@ -142,7 +143,7 @@ class InstallInstructionTests(unittest.TestCase):
         """What arrives on a machine is `skills/`, never the repository around
         it. A file that names `evals/` or a path above itself is telling the
         reader to look somewhere the installer never put anything."""
-        for path in [ROOT / "skills" / name / "SKILL.md" for name in SKILL_NAMES] + [
+        for path in [ROOT / "skills" / name / "SKILL.md" for name in RUNNABLE_SKILLS] + [
             RUBRIC,
             LEARNING,
         ]:
@@ -171,26 +172,28 @@ class InstallInstructionTests(unittest.TestCase):
 
         Checking only SKILL.md passes an installer that drops the rubric, and the
         damage is invisible until someone follows the pointer in `advise-me` or
-        `review-my-work` to `agentic-coding-rubric` and finds a skill with nothing
-        in it. So the whole payload is compared byte for byte, the reference skill
-        has to arrive with both reference files, and no other skill may carry a
-        rubric of its own — that is how the second copy would come back.
+        `review-my-work` to `references/rubric.md` and finds an empty directory.
+        So the whole payload is compared byte for byte, the reference directory
+        has to arrive with both reference files and without a SKILL.md of its own
+        — that is what keeps it out of the developer's skill list — and no skill
+        may carry a rubric, which is how the second copy would come back.
         """
-        for skill in SKILL_NAMES:
+        for skill in INSTALLED_DIRS:
             source = ROOT / "skills" / skill
             target = self.target_dir(home, platform, skill)
-            with self.subTest(skill=skill):
+            with self.subTest(directory=skill):
                 self.assertFalse((target / skill).exists(), f"{target} is nested")
                 expected = sorted(p.relative_to(source) for p in source.rglob("*") if p.is_file())
-                self.assertIn(Path("SKILL.md"), expected, f"{source} has no SKILL.md")
-                if skill == RUBRIC_SKILL:
+                if skill == REFERENCE_DIR:
+                    self.assertNotIn(Path("SKILL.md"), expected, f"{source} is a skill again")
                     for ref in REFERENCE_FILES:
                         self.assertIn(Path(ref), expected, f"{source} lost {ref}")
                 else:
+                    self.assertIn(Path("SKILL.md"), expected, f"{source} has no SKILL.md")
                     for ref in REFERENCE_FILES:
                         self.assertFalse(
                             (target / ref).exists(),
-                            f"{target} carries a {ref} only {RUBRIC_SKILL} should have",
+                            f"{target} carries a {ref} only {REFERENCE_DIR} should have",
                         )
                 for relative in expected:
                     self.assertEqual(
@@ -212,7 +215,7 @@ class InstallInstructionTests(unittest.TestCase):
 
                 self.assertEqual(result.returncode, 0, result.stderr)
                 self.assert_installed(home, platform)
-                for skill in SKILL_NAMES:
+                for skill in INSTALLED_DIRS:
                     self.assertIn(str(self.target_dir(home, platform, skill)), result.stdout)
 
     def test_an_upgrade_replaces_the_old_version_instead_of_nesting_it(self):
@@ -220,7 +223,7 @@ class InstallInstructionTests(unittest.TestCase):
         for platform in PLATFORM_ROOT:
             with self.subTest(platform=platform), tempfile.TemporaryDirectory() as tmp:
                 home = Path(tmp)
-                for skill in SKILL_NAMES:
+                for skill in INSTALLED_DIRS:
                     target = self.target_dir(home, platform, skill)
                     target.mkdir(parents=True)
                     (target / "SKILL.md").write_text("stale version 1.0\n", encoding="utf-8")
@@ -230,7 +233,7 @@ class InstallInstructionTests(unittest.TestCase):
 
                 self.assertEqual(result.returncode, 0, result.stderr)
                 self.assert_installed(home, platform)
-                for skill in SKILL_NAMES:
+                for skill in INSTALLED_DIRS:
                     leftover = self.target_dir(home, platform, skill) / "leftover.md"
                     self.assertFalse(leftover.exists(), f"{leftover} survived the upgrade")
 

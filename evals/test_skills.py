@@ -14,12 +14,12 @@ spot that, which they can only do if the report says which range it used.
 import unittest
 
 from rubric_source import (
+    INSTALLED_DIRS,
     README,
+    REFERENCE_DIR,
     REFERENCE_FILES,
-    RUBRIC_SKILL,
     RUNNABLE_SKILLS,
     SKILLS_DIR,
-    SKILL_NAMES,
     flat,
     skill_text,
 )
@@ -33,12 +33,13 @@ class SelfTriggerTests(unittest.TestCase):
                 self.assertIn("only when the developer asks for it by name", text)
                 self.assertIn("Never start it on your own initiative", text)
 
-    def test_the_reference_skill_starts_nothing_at_all(self):
-        """It is material to read, so it has nothing to trigger. Saying it runs
-        only on request would make it sound like a fourth route."""
-        text = flat(skill_text(RUBRIC_SKILL))
-        self.assertIn("A reference to consult, not a session to run", text)
-        self.assertIn("nothing here starts anything", text)
+    def test_the_reference_is_not_a_skill_at_all(self):
+        """It used to be one, and its SKILL.md existed to say where a file was.
+        A platform lists whatever has a SKILL.md, so the developer's skill list
+        offered a reference beside three routes — and reading the rubric meant
+        invoking a skill to be handed a path. Having no SKILL.md is what makes
+        that unrepeatable."""
+        self.assertFalse((SKILLS_DIR / REFERENCE_DIR / "SKILL.md").exists())
 
 
 class PackageLayoutTests(unittest.TestCase):
@@ -51,15 +52,15 @@ class PackageLayoutTests(unittest.TestCase):
     skill that judges with it is the old drift coming back.
     """
 
-    def test_the_package_holds_exactly_these_skills(self):
-        self.assertEqual(sorted(p.name for p in SKILLS_DIR.iterdir()), sorted(SKILL_NAMES))
+    def test_the_package_holds_exactly_these_directories(self):
+        self.assertEqual(sorted(p.name for p in SKILLS_DIR.iterdir()), sorted(INSTALLED_DIRS))
 
-    def test_only_the_reference_skill_carries_the_rubric(self):
-        for name in SKILL_NAMES:
+    def test_only_the_reference_directory_carries_the_rubric(self):
+        for name in INSTALLED_DIRS:
             present = sorted(p.name for p in (SKILLS_DIR / name).rglob("*") if p.is_file())
-            with self.subTest(skill=name):
-                if name == RUBRIC_SKILL:
-                    self.assertEqual(present, sorted(("SKILL.md",) + REFERENCE_FILES))
+            with self.subTest(directory=name):
+                if name == REFERENCE_DIR:
+                    self.assertEqual(present, sorted(REFERENCE_FILES))
                 else:
                     self.assertEqual(present, ["SKILL.md"])
 
@@ -70,20 +71,28 @@ class AdviseMeTests(unittest.TestCase):
         cls.text = flat(skill_text("advise-me"))
 
     def test_it_writes_no_file_and_answers_in_chat(self):
-        self.assertIn("Write no file", self.text)
-        self.assertIn("in chat only", self.text)
+        self.assertIn("answers in chat, writes no file", self.text)
         self.assertNotIn("Markdown file", self.text)
 
-    def test_it_runs_no_falsifier_and_no_revision_round(self):
-        self.assertIn("No falsifier, no revision round", self.text)
+    def test_it_reads_both_sources_itself(self):
+        """It advised from what it remembered doing once, which is the one
+        account of the work guaranteed to match the choices being judged."""
+        self.assertIn("The whole transcript of this session", self.text)
+        self.assertIn("The code produced so far, as a diff", self.text)
+        self.assertIn("Do not advise from memory of what you did — read the diff", self.text)
 
-    def test_the_diff_is_optional(self):
-        self.assertIn("The diff is optional", self.text)
-        self.assertIn("this route is also used before any code exists", self.text)
+    def test_it_still_works_before_any_code_exists(self):
+        self.assertIn("Before any code exists there is no diff", self.text)
+        self.assertIn("the transcript alone carries the answer", self.text)
 
-    def test_it_looks_forward_instead_of_judging(self):
-        self.assertIn("forward-looking", self.text)
-        self.assertIn("Not a verdict on what has happened", self.text)
+    def test_it_judges_against_the_criteria_and_says_what_to_do_next(self):
+        self.assertIn("Where does this work meet the criteria, where does it not", self.text)
+        self.assertIn("what would you do differently from here", self.text)
+
+    def test_it_keeps_the_report_free_of_labels_and_scores(self):
+        """Same bar as the written review: a score invites the developer to read
+        a number instead of the finding under it."""
+        self.assertIn("No labels per criterion, no table, no percentage, no score", self.text)
 
     def test_it_points_at_the_review_skill_for_the_other_job(self):
         self.assertIn("review-my-work", self.text)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Four descriptions that must not compete for the same request.
+"""Three descriptions that must not compete for the same request.
 
 A skill description is a trigger, not a summary. Version 1.0 was one skill whose
 description carried both routes and read almost word for word like another
@@ -14,12 +14,11 @@ description.
 
 import unittest
 
-from rubric_source import SKILL_NAMES, frontmatter_description
+from rubric_source import RUNNABLE_SKILLS, frontmatter_description
 
 #: Words that decide which skill a request belongs to. Each may appear in one
 #: description only — as its own marker, not as a mention of a sibling.
 MARKERS = {
-    "agentic-coding-rubric": ("what does the rubric ask", "reference to consult, not a session"),
     "advise-me": ("in chat", "before any code exists", "how am I doing"),
     "review-my-work": ("Markdown report", "review this session", "the session that just ran"),
     "log-feedback": ("docs/feedback.md", "dated bullet", "log this"),
@@ -34,7 +33,7 @@ FOREIGN = ("Excel", "workbook", "three-sheet", "acceptance-criteria quality",
 class DescriptionTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.descriptions = {name: frontmatter_description(name) for name in SKILL_NAMES}
+        cls.descriptions = {name: frontmatter_description(name) for name in RUNNABLE_SKILLS}
 
     def test_every_skill_carries_its_own_markers(self):
         for name, markers in MARKERS.items():
@@ -44,7 +43,7 @@ class DescriptionTests(unittest.TestCase):
 
     def test_no_marker_appears_in_a_sibling_description(self):
         for owner, markers in MARKERS.items():
-            for other in SKILL_NAMES:
+            for other in RUNNABLE_SKILLS:
                 if other == owner:
                     continue
                 for marker in markers:

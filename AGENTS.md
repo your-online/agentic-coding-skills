@@ -1,30 +1,42 @@
 # AGENTS.md
 
-Everything in this directory is the slim agentic-coding product: four skills that
-install together and the rubric they share. It is self-contained: publication is a
-copy of the contents of this directory into an empty repo, nothing else. Nothing
-outside `slim/` belongs to this product, and no file here may reference a path
-outside it.
+Everything in this directory is the slim agentic-coding product: three skills that
+install together and the reference material they share. It is self-contained: publication is a
+copy of the contents of this directory into the root of the public repository,
+nothing else. Nothing outside `slim/` belongs to this product, and no file here may
+reference a path outside it.
+
+The public repository is **https://github.com/your-online/agentic-coding-skills**,
+default branch `main`. The repository around this directory has no remote and is
+never pushed: what goes out is this directory's contents, copied to the root of that
+public repo — so `slim/skills/` lands there as `skills/`, and the clone URL in the
+README is that same repository. It carries a `.gitignore` that does not exist here;
+leave it in place when copying. Publishing is the one moment the two can drift, so
+when a fix is made on either side, carry it to the other in the same sitting.
 
 ## What is where
 
-- `skills/agentic-coding-rubric/SKILL.md` — the reference skill. It starts nothing;
-  it holds the two files below and the rules that hold for any judgement made
-  against them: an isolated judge, the strongest reasoning model of the platform,
-  the rubric read whole. The other skills point at it by its slash name.
-- `skills/agentic-coding-rubric/rubric.md` — the criteria; each one is a
-  requirement, guidance and evaluation questions.
-- `skills/agentic-coding-rubric/learning-materials.md` — the sources per criterion
-  group, for developers who want to get better at one.
-- `skills/advise-me/SKILL.md` — feedback on the approach, in chat, while the work
-  is going on. No file, no falsifier, no verdict.
+- `skills/references/` — material to read, not a skill. It deliberately carries no
+  SKILL.md: a platform lists whatever has one, so as a skill it sat in the
+  developer's skill list beside three routes they can start, and reading the rubric
+  meant invoking a skill to be handed a path. The skills read these files by path.
+- `skills/references/rubric.md` — the criteria; each one is a requirement, guidance
+  and evaluation questions. It opens with the rules that hold for any judgement made
+  against them: a judgement from outside, the strongest reasoning model of the
+  platform, the rubric read whole.
+- `skills/references/learning-materials.md` — the sources per criterion group, for
+  developers who want to get better at one.
+- `skills/advise-me/SKILL.md` — a read of the running session against the rubric, in
+  chat, while the work is going on. It answers from the working context and spawns
+  the isolated judge in the background alongside. No file.
 - `skills/review-my-work/SKILL.md` — the full review: transcript and diff, one
   isolated reviewer, one falsifier round, one revision, one Markdown report.
 - `skills/log-feedback/SKILL.md` — what the developer thinks of the process, as one
   dated bullet in `docs/feedback.md` of the repository they work in. It judges
   nothing.
 - `install.sh` — the installer the README calls: it detects which platforms are
-  present (`~/.claude`, `~/.codex`) and installs every skill in `skills/` into each.
+  present (`~/.claude`, `~/.codex`) and installs everything in `skills/` into each —
+  the three skills and the reference directory beside them.
   No flags, no options; it is the whole of step 2. It takes whatever `skills/` holds
   rather than a list of names, so a new skill cannot arrive here and silently stay
   home. It copies to `<target>.incoming` and moves that into place only once the copy
@@ -52,9 +64,10 @@ The practices this rubric measures apply to this product too.
    in, naming the skill it changed. Never edit meaning in place without saying so
    there. No SKILL.md and no reference file carries a version or a changelog of its
    own — that bookkeeping lived in five files once and drifted.
-2. The rubric lives once, in `skills/agentic-coding-rubric/`. So do the rules for
-   judging against it. A skill that needs either points at the reference skill by its
-   slash name; it never copies a paragraph across.
+2. The rubric lives once, in `skills/references/rubric.md`. So do the rules for
+   judging against it. A skill that needs either points at that file by path and
+   never copies a paragraph across — including the model names, which is how the
+   duplication came back last time.
 3. Wherever the skills are listed together, `advise-me` comes before
    `review-my-work`: that is the order in which they are used.
 4. The suite is green before installation. Never weaken a test to make it pass.

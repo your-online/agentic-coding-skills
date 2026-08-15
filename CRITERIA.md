@@ -2,7 +2,7 @@
 
 Eleven points, in ordinary language, each with the test that guards it. These are
 about the skills, not about the work they review — the rubric criteria live in
-`skills/agentic-coding-rubric/rubric.md`.
+`skills/references/rubric.md`.
 
 Run the guards with `uvx pytest evals/` from this directory.
 
@@ -25,15 +25,15 @@ Run the guards with `uvx pytest evals/` from this directory.
    Guarded by `evals/test_rubric_shape.py::test_guidance_is_offered_and_never_demanded`.
 
 5. **The three skills you run stay three skills.** `advise-me` answers in chat,
-   writes no file, runs no falsifier, spawns nothing and works without a diff;
-   `review-my-work`
-   writes one Markdown report, runs a falsifier and allows exactly one revision;
-   `log-feedback` only ever appends one dated bullet in the developer's own words
-   and borrows none of the reviewing machinery. The fourth, `agentic-coding-rubric`,
-   runs nothing at all.
+   writes no file, reads transcript and diff itself, and works before any code
+   exists; `review-my-work` writes one Markdown report, runs a falsifier and allows
+   exactly one revision; `log-feedback` only ever appends one dated bullet in the
+   developer's own words and borrows none of the reviewing machinery. What the
+   skills read from — `skills/references/` — is not a fourth skill and carries no
+   SKILL.md, so no platform offers it as a route.
    Guarded by `evals/test_skills.py::AdviseMeTests`, `::ReviewMyWorkTests`,
    `::LogFeedbackTests` and
-   `::SelfTriggerTests::test_the_reference_skill_starts_nothing_at_all`.
+   `::SelfTriggerTests::test_the_reference_is_not_a_skill_at_all`.
 
 6. **The descriptions are disjunct, from each other and from the review skill
    already in the field.** A description is a trigger, not a summary: near-identical
@@ -90,9 +90,10 @@ Run the guards with `uvx pytest evals/` from this directory.
     reviewing skills used to carry a copy of the rubric and a copy of the isolation
     and model rules, kept identical by a test — because a skill had to be installable
     on its own. They install together, so the copies are gone: the material lives in
-    `agentic-coding-rubric` and the others point at it by its slash name. A second
-    `rubric.md` beside a skill that judges with it, or a rule restated in one, is the
-    drift coming back.
+    `skills/references/` and the skills read it by path. It was briefly a skill of
+    its own, which cost a round trip to be handed a path and put a reference in the
+    developer's skill list; it carries no SKILL.md now. A second `rubric.md` beside a
+    skill that judges with it, or a rule restated in one, is the drift coming back.
     Guarded by `evals/test_skills.py::PackageLayoutTests` and
     `evals/test_isolation_and_model.py::OneWordingTests`.
 

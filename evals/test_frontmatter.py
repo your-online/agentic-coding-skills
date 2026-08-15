@@ -13,7 +13,7 @@ and say so here rather than on the file page of whoever opens it.
 import unittest
 
 from rubric_source import (
-    SKILL_NAMES,
+    RUNNABLE_SKILLS,
     FrontmatterError,
     load_frontmatter,
     skill_frontmatter,
@@ -33,7 +33,7 @@ BROKEN = (
 
 class FrontmatterTests(unittest.TestCase):
     def test_every_skill_has_frontmatter_a_yaml_parser_accepts(self):
-        for name in SKILL_NAMES:
+        for name in RUNNABLE_SKILLS:
             with self.subTest(skill=name):
                 try:
                     loaded = skill_frontmatter(name)
@@ -42,7 +42,7 @@ class FrontmatterTests(unittest.TestCase):
                 self.assertIsInstance(loaded, dict)
 
     def test_every_skill_declares_a_name_and_a_description_as_text(self):
-        for name in SKILL_NAMES:
+        for name in RUNNABLE_SKILLS:
             with self.subTest(skill=name):
                 loaded = skill_frontmatter(name)
                 for field in ("name", "description"):
@@ -51,7 +51,7 @@ class FrontmatterTests(unittest.TestCase):
                     self.assertTrue(loaded[field].strip(), f"{name} has an empty {field}")
 
     def test_the_declared_name_is_the_directory_the_skill_is_installed_from(self):
-        for name in SKILL_NAMES:
+        for name in RUNNABLE_SKILLS:
             with self.subTest(skill=name):
                 self.assertEqual(skill_frontmatter(name)["name"], name)
 

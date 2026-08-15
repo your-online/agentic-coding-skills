@@ -10,22 +10,27 @@ README = ROOT / "README.md"
 
 SKILLS_DIR = ROOT / "skills"
 
-#: The skill that is only material to read. It holds the rubric, so there is one
-#: copy of it and the skills that judge against it point here.
-RUBRIC_SKILL = "agentic-coding-rubric"
+#: The directory that is only material to read. It holds the rubric, so there is
+#: one copy of it and the skills that judge against it read this file. It was a
+#: skill once, with a SKILL.md whose whole job was to name a path; invoking a
+#: skill to be told where a file lives is a round trip that returns nothing, and
+#: it put a reference in the developer's skill list beside three routes they can
+#: actually start. It installs alongside the skills and carries no SKILL.md, so
+#: no platform offers it as something to run.
+REFERENCE_DIR = "references"
 #: The three the developer actually starts, in the order they are used: advise
 #: while working, review the work, log what the developer thought of it.
 RUNNABLE_SKILLS = ("advise-me", "review-my-work", "log-feedback")
-#: Everything that installs, the reference first.
-SKILL_NAMES = (RUBRIC_SKILL,) + RUNNABLE_SKILLS
+#: Everything the installer copies, the reference first.
+INSTALLED_DIRS = (REFERENCE_DIR,) + RUNNABLE_SKILLS
 #: The two that judge work against the rubric. log-feedback has no use for it.
 REVIEWING_SKILLS = ("advise-me", "review-my-work")
 
-#: What the reference skill carries beside its SKILL.md.
+#: What the reference directory carries.
 REFERENCE_FILES = ("rubric.md", "learning-materials.md")
 
-RUBRIC = SKILLS_DIR / RUBRIC_SKILL / "rubric.md"
-LEARNING = SKILLS_DIR / RUBRIC_SKILL / "learning-materials.md"
+RUBRIC = SKILLS_DIR / REFERENCE_DIR / "rubric.md"
+LEARNING = SKILLS_DIR / REFERENCE_DIR / "learning-materials.md"
 
 
 def skill_file(name: str) -> Path:
