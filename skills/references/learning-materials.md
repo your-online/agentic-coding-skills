@@ -46,9 +46,4 @@ rubric takes the direct route.
 - [Andrej Karpathy on two months of agent coding](https://x.com/karpathy/status/2015883857489522876) — the failure modes first-hand: agents overcomplicate code and APIs, bloat abstractions, leave dead code behind, and change things orthogonal to the task. (The widely shared CLAUDE.md derived from this post, at [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills/blob/main/CLAUDE.md), is concrete and useful, but it was written by others from his observations — it is not his.)
 - [Matt Pocock's skills repo](https://github.com/mattpocock/skills) — the code-review skill names speculative generality, middle man and shotgun surgery; the codebase-design skill supplies the deletion test and the one-adapter-versus-two-adapters rule for seams.
 - [Claude Code best practices, "Write an effective CLAUDE.md"](https://code.claude.com/docs/en/best-practices) — put architecture choices and conventions where the agent always sees them, so changes stay inside the house rules.
-
-## C10 — Autonomy and bounds
-
-- [Claude Code sandboxing](https://www.anthropic.com/engineering/claude-code-sandboxing) (Anthropic) — two complementary bounds, filesystem and network, and stepped autonomy: read-only, then free inside the sandbox, with an escalation at the edge.
-- [12-factor agents](https://github.com/humanlayer/12-factor-agents) — twelve principles for reliable agents; the default starting point once an agent gets more responsibility.
-- [Claude Code security](https://code.claude.com/docs/en/security) — permissions, sandboxing and safe defaults for agents with write access.
+- [Claude Code sandboxing](https://www.anthropic.com/engineering/claude-code-sandboxing) (Anthropic) — where the "agree what the run may touch before it starts" habit comes from: filesystem and network bounds, and stepped autonomy with an escalation at the edge. C9 asks whether a lasting action was asked for; this is how you stop the question arising.

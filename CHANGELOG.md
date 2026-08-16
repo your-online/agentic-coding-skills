@@ -5,6 +5,33 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.14
+
+- **rubric** drops C10, "Autonomy within agreed bounds". Most of it was a team's
+  standing configuration — sandboxes, least-privilege credentials, stepped autonomy —
+  which a reviewer answers identically for every piece of work, so it carried almost
+  no signal per review and belonged to governance rather than to what this rubric
+  measures. It arrived as a side effect of absorbing an AI-adoption article. Nine
+  criteria now, which the shape test already allowed.
+- **rubric** keeps the half of C10 that is a property of the work rather than of the
+  environment, under C9, where "no more than the task asked for" already lives: a
+  push, a merge, a deploy or a schedule that starts running, where nobody asked for
+  it, is more than the task asked for however well it was executed. C9's first
+  question now follows every lasting action outside the working tree as well as every
+  changed line, and its guidance offers agreeing what a run may touch beforehand. Two
+  incidents in one week made the case that the concern is real: a paid pipeline
+  restarted on a production host after the spend had been paused, and subagents
+  moving git HEAD onto main in a live repository.
+- **references** gain two more criteria examples and rename the first. The one that
+  existed is `criteria-example-2.md`; `criteria-example-1.md` carries the shape used
+  in practice — the criterion as the summary line of a toggle, with source, expected
+  behaviour and evidence path inside it, decisions above, and a dropped criterion
+  kept as a struck-through toggle so what it was stays readable. `criteria-example-3.md`
+  keeps open questions in front of the decisions, and says in one line what separates
+  them from a requirement: a requirement is checkable against the product, a decision
+  only against the conversation. The ceiling per example moves from 35 to 55 lines,
+  which a criteria file needs before it stops showing its own shape.
+
 ## 2.13
 
 - **rubric** widens C8 from the implementation to everything the work leaves behind,

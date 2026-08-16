@@ -35,7 +35,9 @@ REFERENCE_FILES = ("rubric.md", "learning-materials.md")
 #: concrete to react to when the format is settled with the people who own it.
 EXAMPLE_DIR = "example-formats"
 EXAMPLE_FILES = (
-    "acceptance-criteria.md",
+    "criteria-example-1.md",
+    "criteria-example-2.md",
+    "criteria-example-3.md",
     "decisions.md",
     "open-questions.md",
     "pull-request.md",

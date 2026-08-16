@@ -454,7 +454,11 @@ every run.
 ## C9 — No more than the task asked for
 
 **Requirement.** The solution is the simplest one that satisfies the criteria, and
-the change touches only what the task requires. Simplest is counted in what a
+the change touches only what the task requires — which covers what the run does to
+the world as well as what it does to the code. A push, a merge, a branch moved under
+someone else's feet, a deploy, a write to a live system or a schedule that starts
+running, where nobody asked for it, is more than the task asked for however well it
+was executed. Simplest is counted in what a
 maintainer has to hold in their head — parts, layers, special cases — not in lines.
 Every changed line traces back to the request, or to cleaning up what this change
 itself made redundant. No speculative
@@ -485,18 +489,25 @@ one](https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-
 surgery](https://github.com/mattpocock/skills/blob/main/skills/engineering/code-review/SKILL.md#L51-L55)
 as smells worth naming when you see them.
 
+Lasting actions deserve the cheaper of the two habits: agree what the run may touch
+before it starts — which branch, which environment, what is a dry run — rather than
+judging each write while it happens. What was agreed is then something the developer
+can check the run against afterwards.
+
 One way to get there, offered as an example and not as a step to follow: get robust
 acceptance criteria and tests in place for the slice you are on, then minimise the
 lines of code
 iteratively against the green suite — simplify or delete, re-run, and when the suite
 goes red you went too far, so take a small piece back. What survives is what was
-needed, with the suite as the boundary. It only works if the suite is trustworthy
+needed, with the suite as the boundary. On Claude Code,
+[`/simplify`](https://code.claude.com/docs/en/commands) does a pass of this over the
+current diff; elsewhere the loop above is the same move by hand. It only works if the suite is trustworthy
 first, which is C5 and C6, and it is one route among several.
 
 **Evaluation questions.**
 
-1. Does every changed line trace to the request or to cleaning up what this change
-   itself orphaned?
+1. Does every changed line, and every lasting action outside the working tree, trace
+   to the request or to cleaning up what this change itself orphaned?
 2. Which abstraction, parameter or layer exists for a need the criteria do not have —
    and what happens to complexity if you delete it?
 3. Was adjacent code, formatting or commentary changed without being asked?
@@ -504,36 +515,6 @@ first, which is C5 and C6, and it is one route among several.
    side trip rather than as its own agreed change?
 5. Could a smaller version of this solution satisfy the same criteria, and what would
    break if you tried?
-
----
-
-## C10 — Autonomy within agreed bounds
-
-**Requirement.** Where the agent acts on real sources, data or external systems, it
-does so with explicit authorisation and inside limits on tools, data, permissions,
-cost and recovery that fit the risk. Nothing lasting happens outside the agreed
-branch, scope or environment merely because the tooling allowed it.
-
-**Guidance.** Deciding the bounds before the run beats judging each action while it
-is happening: which tools, which branch, which data, what is a dry run, what is the
-way back.
-[Sandboxes](https://www.anthropic.com/engineering/claude-code-sandboxing#sandboxing-a-safer-and-more-autonomous-approach)
-and least-privilege credentials make the bound structural rather than a matter of the
-agent's discipline. Stepped autonomy — [read-only
-first](https://code.claude.com/docs/en/security#permission-based-architecture), then
-free within a sandbox, with [an escalation when the agent wants past the
-edge](https://www.anthropic.com/engineering/claude-code-sandboxing#sandboxed-bash-tool-safe-bash-execution-without-permission-prompts)
-— keeps the review effort where the risk is. Broad production rights want a reason
-and a recovery route, not just a working session.
-
-**Evaluation questions.**
-
-1. What could this agent reach during the run, and what was the reason for the widest
-   permission it had?
-2. Was there explicit authorisation for the lasting writes, and can each one be traced
-   back to what was agreed?
-3. If a step had gone wrong, what was the way back — and had anyone established that
-   before the run?
 
 ---
 
