@@ -6,9 +6,19 @@ set -eu
 here=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 touched=""
 
+# Directories this package shipped once and no longer does. Upgrading used to
+# leave them behind for ever: the installer only ever replaced what it was about
+# to install, so a renamed skill stayed in the developer's list, still offering a
+# slash command that pointed at nothing. The manifest below covers every future
+# rename; this line covers the machines that installed before the manifest
+# existed, which is exactly the population that cannot be reached any other way.
+retired="agentic-coding-rubric"
+
 for platform in .claude .codex; do
     [ -d "$HOME/$platform" ] || continue
     mkdir -p "$HOME/$platform/skills"
+    manifest="$HOME/$platform/.agentic-coding-skills-manifest"
+    shipped=""
     # Whatever is in skills/ is what gets installed. Naming them here as well
     # would mean a new skill arrives in the repository and silently never
     # reaches anyone's machine.
@@ -30,7 +40,33 @@ for platform in .claude .codex; do
         rm -rf "$target"
         mv "$staging" "$target"
         echo "installed $target"
+        shipped="$shipped $skill"
     done
+
+    # Remove what this package installed here before and does not ship any more.
+    # Only ever what the manifest recorded, plus the names retired before it
+    # existed: a directory the installer did not put there is not its business,
+    # and `references` in particular is a name someone else could plausibly own.
+    previous=""
+    if [ -f "$manifest" ]; then
+        previous=$(cat "$manifest")
+    fi
+    for old in $previous $retired; do
+        still_shipped=no
+        for name in $shipped; do
+            if [ "$name" = "$old" ]; then
+                still_shipped=yes
+            fi
+        done
+        if [ "$still_shipped" = no ] && [ -d "$HOME/$platform/skills/$old" ]; then
+            rm -rf "$HOME/$platform/skills/$old"
+            echo "removed $HOME/$platform/skills/$old"
+        fi
+    done
+
+    # Written last, so a run that died halfway leaves the older list standing
+    # rather than a list of things it had not finished installing.
+    printf '%s\n' $shipped > "$manifest"
     touched="$touched $platform"
 done
 

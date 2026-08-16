@@ -5,6 +5,25 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.12
+
+- **install.sh** removes what this package installed before and no longer ships. It
+  only ever replaced the directories it was about to install, so a renamed skill
+  stayed on the machine for ever: everyone who installed 2.7 or earlier still has a
+  dead `agentic-coding-rubric` in their skill list, offering a slash command over a
+  rubric that moved in 2.8. The installer now writes a manifest per platform of what
+  it put there and prunes from it on the next run, with the names retired before the
+  manifest existed named in the script — that line is the only thing that can reach
+  the machines this bug is already on. It never touches a directory it did not
+  install: `references` is a name anything could own, and the installer deletes its
+  own targets outright.
+- **evals** cover the two cases that were failing and the one that must keep working:
+  a stale `agentic-coding-rubric` seeded in a throwaway home is gone after an upgrade,
+  a skill dropped from the source is pruned on the next run, and a directory the
+  installer never placed survives two runs. The first two fail against the previous
+  `install.sh`; the third passes either way and is there to stop the pruning growing
+  teeth it should not have.
+
 ## 2.11
 
 - **rubric** takes in the last two rules that were written twice. The no-labels rule

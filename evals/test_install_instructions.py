@@ -237,6 +237,68 @@ class InstallInstructionTests(unittest.TestCase):
                     leftover = self.target_dir(home, platform, skill) / "leftover.md"
                     self.assertFalse(leftover.exists(), f"{leftover} survived the upgrade")
 
+    def test_a_skill_this_package_stopped_shipping_is_removed_on_upgrade(self):
+        """Case g: the developer installed an older version, and a skill has been
+        renamed since. The installer only ever replaced the directories it was
+        about to install, so the old one stayed in the skill list for ever —
+        after 2.8 that meant a dead `agentic-coding-rubric` still offering a
+        slash command over a rubric that had moved. It is named in the script
+        rather than deduced, because the machines that need this fix installed
+        before there was a manifest to read."""
+        for platform in PLATFORM_ROOT:
+            with self.subTest(platform=platform), tempfile.TemporaryDirectory() as tmp:
+                home = Path(tmp)
+                stale = self.target_dir(home, platform, "agentic-coding-rubric")
+                stale.mkdir(parents=True)
+                (stale / "SKILL.md").write_text("the 2.8 reference skill\n", encoding="utf-8")
+
+                result = run(self.install, home)
+
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertFalse(stale.exists(), f"{stale} survived the upgrade")
+                self.assertIn(str(stale), result.stdout)
+                self.assert_installed(home, platform)
+
+    def test_it_never_removes_a_directory_it_did_not_install(self):
+        """The pruning reads a manifest of what this installer put there, so a
+        skill from another package — or one the developer wrote — is untouched.
+        `references` makes this more than theoretical: it is a name anything
+        could own, and the installer deletes its own targets outright."""
+        for platform in PLATFORM_ROOT:
+            with self.subTest(platform=platform), tempfile.TemporaryDirectory() as tmp:
+                home = Path(tmp)
+                stranger = self.target_dir(home, platform, "somebody-elses-skill")
+                stranger.mkdir(parents=True)
+                (stranger / "SKILL.md").write_text("not ours\n", encoding="utf-8")
+
+                self.assertEqual(run(self.install, home).returncode, 0)
+                self.assertEqual(run(self.install, home).returncode, 0)
+
+                self.assertTrue(stranger.exists(), f"{stranger} was removed by a stranger")
+
+    def test_a_skill_dropped_from_the_source_is_pruned_on_the_next_run(self):
+        """What the retired-names line cannot cover: the next rename, on a
+        machine that already has a manifest. Install, drop a skill from the
+        source, install again — the manifest is what remembers it was ours."""
+        with tempfile.TemporaryDirectory() as tmp, tempfile.TemporaryDirectory() as work:
+            home = Path(tmp)
+            (home / ".claude").mkdir()
+            package = Path(work) / "package"
+            shutil.copytree(
+                ROOT, package,
+                ignore=shutil.ignore_patterns(".git", "__pycache__", ".pytest_cache"),
+            )
+
+            self.assertEqual(run("./install.sh", home, cwd=package).returncode, 0)
+            installed = self.target_dir(home, "Claude Code", "log-feedback")
+            self.assertTrue(installed.exists())
+
+            shutil.rmtree(package / "skills" / "log-feedback")
+            result = run("./install.sh", home, cwd=package)
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertFalse(installed.exists(), f"{installed} outlived the package that shipped it")
+
     def test_a_source_that_cannot_be_copied_leaves_the_installation_it_had(self):
         """Case f: the upgrade fails halfway — an incomplete clone here, a full
         disk or an interrupt in the field.

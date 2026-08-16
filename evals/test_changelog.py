@@ -84,15 +84,22 @@ class ChangelogTests(unittest.TestCase):
                     f"{major}.{minor} has no entries",
                 )
 
-    def test_the_newest_release_names_the_skills_it_changed(self):
-        """An entry that does not say which skill moved is a note to nobody."""
+    def test_the_newest_release_names_what_it_changed(self):
+        """An entry that does not say what moved is a note to nobody. The list
+        was the three skills alone, which read as complete until a release
+        changed the installer instead and had nothing true to put in bold. What
+        ships is wider than the skills, so the list is what ships plus the two
+        files a release can move without touching a skill."""
         newest = RELEASE.split(self.text)[3]
         named = [
             name
-            for name in ("references", "advise-me", "review-my-work")
+            for name in (
+                "references", "advise-me", "review-my-work", "log-feedback",
+                "install.sh", "evals", "AGENTS.md",
+            )
             if f"**{name}**" in newest
         ]
-        self.assertTrue(named, "the newest release names no skill")
+        self.assertTrue(named, "the newest release names nothing it changed")
 
     def test_the_history_comes_after_the_releases_and_leaves_no_gap(self):
         """A dropped step is the one way a compressed history misleads."""

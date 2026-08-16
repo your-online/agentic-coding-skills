@@ -41,8 +41,13 @@ when a fix is made on either side, carry it to the other in the same sitting.
   rather than a list of names, so a new skill cannot arrive here and silently stay
   home. It copies to `<target>.incoming` and moves that into place only once the copy
   succeeded, so a failed upgrade leaves the installed version standing; keep it that
-  way. The detail the README no longer spells out, for whoever changes the script: it
-  prints the path of every skill it installed; they all go in together, or the
+  way. It also removes what it installed here before and no longer ships, reading a
+  manifest it writes per platform at `~/<platform>/.agentic-coding-skills-manifest`,
+  plus a `retired` line in the script for names dropped before that manifest existed —
+  never a directory it did not put there, since `references` is a name anything could
+  own. When you rename or drop a skill, add its old name to `retired` in the same
+  commit. The detail the README no longer spells out, for whoever changes the script:
+  it prints the path of every skill it installed; they all go in together, or the
   pointers between them point at nothing; and the install test covers a fresh
   machine, an upgrade over an existing installation, another working directory, a
   machine with only one of the two platforms, and a machine with neither.
