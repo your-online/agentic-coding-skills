@@ -123,6 +123,32 @@ class AdviceIsAccompaniedTests(SharedRules):
         self.assertIn("no disclaimer about judging your own work", advice)
 
 
+class SharedOutputRules(SharedRules):
+    """Two rules moved into the rubric because both skills carried them in
+    different words: which range a judgement compared against, and that a
+    judgement is prose rather than marks. Moving them left only the negative
+    half behind — `OneWordingTests` checks the skills no longer restate them —
+    and a negative half alone is satisfied by the rules existing nowhere at all.
+    Delete both paragraphs from the rubric and the skills would still point,
+    still greenly, at nothing. These are the positive half."""
+
+    def test_the_basis_compared_against_is_derived_and_named(self):
+        self.in_the_rules(
+            "Name the basis you compared against",
+            "Uncommitted work is compared against `HEAD`",
+            "the commit the session or task started from",
+            "`HEAD~n` when nothing better identifies it",
+            "Diff basis: <ref> (<why>)",
+        )
+
+    def test_a_judgement_is_prose_and_never_a_mark_beside_a_criterion(self):
+        self.in_the_rules(
+            "No labels, no table, no number standing in for a judgement",
+            "Do not attach a label to each criterion",
+            "do not put a percentage anywhere",
+        )
+
+
 class ModelTests(SharedRules):
     def test_every_reviewing_role_runs_on_the_strongest_model_of_its_platform(self):
         self.in_the_rules(
@@ -159,6 +185,54 @@ class ModelTests(SharedRules):
             "Never quietly fall back to a lighter or faster model",
             "say which model did run",
             "usage limits block it",
+        )
+
+
+class RemedyTests(SharedRules):
+    """A judgement used to be allowed to stop at "your verification is weak".
+    The rubric's guidance is full of mechanisms — the falsifier round under C7,
+    the ways under C6 to show a check can go red, the deletion test under C9 —
+    and none of them reached the developer as advice, because "Suggestions and
+    patterns, never demands" reads, to an agent that has to advise, as a reason
+    to stay abstract. Those are two different acts: the rubric as a standard
+    demands no method of anyone, advice to this developer about this work names
+    one. The full wording of that rule lives in the rubric's judging rules; each
+    reviewing skill asks it of its own output by pointing there, and advise-me
+    asks it of the judge it sends out too. These assertions hold both halves
+    down: the rule stays in the rubric, and the pointers stay in the skills."""
+
+    def test_the_rules_ask_a_remedy_of_every_point_raised(self):
+        self.in_the_rules(
+            "A finding names its remedy",
+            "which mechanism, over which claim or file, which check",
+            "The guidance under each criterion is the first place to look",
+            "a better fit that is not in the guidance is equally welcome, as long as it is named",
+        )
+
+    def test_the_standard_and_the_advice_are_told_apart(self):
+        """Without this distinction the vagueness comes back: the next reader of
+        "never demands" re-derives the caution and plays it safe again."""
+        self.in_the_rules(
+            "a rule about the standard, not about the advice",
+            "advice to this developer, about this work, right now",
+        )
+
+    def test_each_reviewing_skill_asks_the_remedy_of_its_own_output(self):
+        for name, text in self.reviewing.items():
+            with self.subTest(skill=name):
+                self.assertIn(
+                    "carries its remedy, the way the rubric's judging rules ask", text
+                )
+
+    def test_advise_me_asks_the_same_of_its_background_judge(self):
+        self.assertIn(
+            "every point carrying its remedy", self.reviewing["advise-me"]
+        )
+
+    def test_the_full_wording_stays_in_the_rubric(self):
+        self.in_no_reviewing_skill(
+            "A finding names its remedy",
+            "which mechanism, over which claim or file, which check",
         )
 
 

@@ -28,17 +28,7 @@ written verdict on what was built.
 ## Sources
 
 The transcript of this session, and the newly produced output — code and text — as
-a diff.
-
-### Determine the diff basis
-
-1. Is there uncommitted work? Then diff against `HEAD`.
-2. Is everything committed? Then diff against the commit this session or task
-   started from — `HEAD~n` when nothing better identifies it.
-
-State the basis in the report, always, in the form `Diff basis: <ref> (<why>)`. The
-developer is the one who knows where the task really started; naming the basis is
-what lets them correct it.
+a diff, on the basis the rubric's judging rules derive and ask you to name.
 
 ## Run it
 
@@ -59,11 +49,9 @@ There is no orchestrator layer, no scorer, no validator and no snapshot ceremony
 One Markdown file. The form is free; the bar is signal. Cover what is good, what is
 weak, what is missing, why each of those matters, and how to improve it. Point at
 the criterion it relates to and at the concrete place in the transcript, diff or file
-where you saw it. Write in ordinary language a developer can act on.
-
-Do not attach a label to each criterion, do not produce a table because it looks
-thorough, and do not put a percentage anywhere. A criterion nothing useful can be
-said about is left out.
+where you saw it. Write in ordinary language a developer can act on. Each point
+carries its remedy, the way the rubric's judging rules ask — concrete enough to
+start on.
 
 The developer chooses where it goes. When they do not,
 `docs/reviews/agentic-coding-review-<yyyy-mm-dd>.md` is the default. Never overwrite

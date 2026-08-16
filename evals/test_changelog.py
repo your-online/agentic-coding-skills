@@ -19,6 +19,34 @@ import unittest
 from rubric_source import README, ROOT, RUNNABLE_SKILLS, RUBRIC, LEARNING, skill_file
 
 CHANGELOG = ROOT / "CHANGELOG.md"
+CRITERIA = ROOT / "CRITERIA.md"
+
+#: Every `::name` in CRITERIA.md is a promise that a test by that name guards
+#: the point above it.
+GUARD = re.compile(r"::([A-Za-z_][A-Za-z0-9_]*)")
+
+
+class CriteriaGuardTests(unittest.TestCase):
+    """CRITERIA.md is this package's own map from a claim to the test that
+    holds it down, which makes a name in it that no longer resolves the exact
+    false green the rubric's C7 warns about: the page still reads as covered.
+    It happened twice in one sitting — a test renamed when the question ceiling
+    moved, another deleted when the diff-basis rule moved into the rubric — and
+    the suite stayed green through both, because nothing was reading this file.
+    Now something is."""
+
+    def test_every_test_named_in_the_criteria_exists(self):
+        defined = set()
+        for path in (ROOT / "evals").glob("test_*.py"):
+            for line in path.read_text(encoding="utf-8").splitlines():
+                stripped = line.strip()
+                for keyword in ("def ", "class "):
+                    if stripped.startswith(keyword):
+                        defined.add(stripped[len(keyword):].split("(")[0].split(":")[0])
+        for name in GUARD.findall(CRITERIA.read_text(encoding="utf-8")):
+            with self.subTest(guard=name):
+                self.assertIn(name, defined, f"CRITERIA.md names {name}, which no test defines")
+
 
 RELEASE = re.compile(r"^## (\d+)\.(\d+)$", re.MULTILINE)
 

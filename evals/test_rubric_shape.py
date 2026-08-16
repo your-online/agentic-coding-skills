@@ -44,11 +44,17 @@ class RubricShapeTests(unittest.TestCase):
                 self.assertGreater(len(requirement.split()), 25, f"{cid} requirement is a stub")
                 self.assertGreater(len(guidance.split()), 40, f"{cid} guidance is a stub")
 
-    def test_each_criterion_asks_two_to_four_evaluation_questions(self):
+    def test_each_criterion_asks_two_to_five_evaluation_questions(self):
+        """The ceiling is there so a criterion cannot turn into a checklist, not
+        to force two concerns into one question. It was four, which made C9 ask
+        about unrequested edits to adjacent code and about dead code removed as
+        a side trip in a single breath — one answer covering two findings, and
+        the reviewer free to answer the easier half. Five leaves room to separate
+        them where they are genuinely separate, and is still far from a list."""
         for cid, _, body in self.criteria:
             with self.subTest(criterion=cid):
                 questions = evaluation_questions(body)
-                self.assertTrue(2 <= len(questions) <= 4, f"{cid} has {len(questions)} questions")
+                self.assertTrue(2 <= len(questions) <= 5, f"{cid} has {len(questions)} questions")
 
     def test_the_learning_materials_cover_every_criterion(self):
         """The reading list ships beside the rubric in the same skill. A

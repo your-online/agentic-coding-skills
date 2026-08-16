@@ -26,9 +26,9 @@ Always both, as far as they exist:
 
 - The whole transcript of this session — what was asked, what was tried, what was
   verified, what was assumed.
-- The code produced so far, as a diff. Uncommitted work diffs against `HEAD`;
-  everything-committed diffs against the commit the task started from. Before any
-  code exists there is no diff, and the transcript alone carries the answer.
+- The code produced so far, as a diff, on the basis the rubric's judging rules
+  derive and ask you to name. Before any code exists there is no diff, and the
+  transcript alone carries the answer.
 
 Look at both yourself. Do not advise from memory of what you did — read the diff.
 
@@ -37,7 +37,8 @@ Look at both yourself. Do not advise from memory of what you did — read the di
 **1. Send off the second opinion first.** Spawn one judging subagent, in the
 background and non-blocking, under the rules the rubric sets out for that role. Its
 job is the same as yours: judge this work against the rubric and say what to do
-better. Send it off before you write your own answer, so it is not shaped by it, and
+better, every point carrying its remedy the way the rubric's judging rules ask.
+Send it off before you write your own answer, so it is not shaped by it, and
 in the background so the developer waits for neither.
 
 Hand it the raw sources by path, never as a retelling: the session transcript where
@@ -58,6 +59,21 @@ it contradicts yours. Do not smooth the two into one voice. It saw the same sour
 without having made the choices, which is exactly why its disagreement is the most
 useful part of this skill.
 
+**4. Offer a falsifier over the advice — never start one.** Once both answers are on
+the table, close with a single short line offering one more round: a fresh agent that
+gets the same sources and this advice, and is asked to knock it down — a wrong
+diagnosis, a heavier remedy than the work needs, something both readers walked past —
+and to say what is missing. Strongly recommended after every advice that anything
+hangs on, because half of it came from the session that made the choices being judged
+and that is the half most likely to be gentle. Skip the offer when nothing much rests
+on the answer.
+
+Say what it buys, not what it is called: this route is for a developer who has never
+heard the word falsifier, and "shall I have a falsifier check this" tells them
+nothing. Nothing runs until the developer says yes. Never spawn it on your own
+initiative, never make it the default, and never turn the offer into a question the
+developer has to answer before they get their advice.
+
 ## The answer
 
 Open with the substance. No preamble about which model this runs on, no explanation
@@ -67,8 +83,9 @@ is on its way. Only when something is genuinely off does it get a line: the stro
 model was unavailable, no subagent could be spawned, there is no diff to look at.
 
 Name the few things that matter most, each tied to a criterion and to the concrete
-place in the transcript or the diff where you saw it. No labels per criterion, no
-table, no percentage, no score. Short enough to read in the middle of the work.
+place in the transcript or the diff where you saw it. Each one carries its remedy,
+the way the rubric's judging rules ask, and takes the shape those same rules ask for
+— concrete enough to start on. Short enough to read in the middle of the work.
 
 You are judging choices you made yourself, and that is softer than a judgement from
 outside — which is what the background agent is for, and why its report gets the last

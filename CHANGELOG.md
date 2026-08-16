@@ -5,6 +5,78 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.11
+
+- **rubric** takes in the last two rules that were written twice. The no-labels rule
+  stood in **advise-me** in one wording and in **review-my-work** in another, and the
+  procedure for deciding which range to compare against stood in both; the same rule
+  in two phrasings is where drift starts. Both bind every judgement, so both are
+  judging rules now and the skills point at them. The rubric cannot say the word it
+  bans, so the shape rule reads "no number standing in for a judgement".
+- **evals** gain the half the move left out. `OneWordingTests` only ever checked that
+  the skills no longer restate the two rules, which a rubric that lost both paragraphs
+  would also satisfy; `SharedOutputRules` now asserts the rubric carries them.
+  `ReviewMyWorkTests::test_the_diff_basis_is_derived_and_always_reported` went with the
+  rule it guarded, and that assertion is what replaced it. `CriteriaGuardTests` reads
+  every test name `CRITERIA.md` promises and fails on one that no longer exists — two
+  had already gone stale unnoticed, one renamed with the question ceiling and one
+  deleted with the diff-basis rule, and the suite stayed green through both because
+  nothing read that file. Every assertion added across 2.10 and 2.11 was confirmed red
+  against the previous version of the skills before being trusted: with the new skill
+  files stashed, 23 fail; with them in place, none do.
+- **AGENTS.md** writes down where a change goes: a rule that binds every judgement
+  belongs in the rubric's judging section, machinery that exists because of one
+  route's shape belongs in that route's file, and a skill never invokes another
+  skill. The chain considered here — review-my-work invoking advise-me to share
+  logic — was measured and rejected: it makes the review route read three files
+  before the rubric instead of two, and drags advise-me's triggers, chat answer and
+  automatic background judge into a run that wants none of them.
+
+## 2.10
+
+- **references** adds a fourth judging rule to `rubric.md`: a finding names its
+  remedy. Every point a judgement raises comes with what to actually do about it —
+  which mechanism, over which claim or file, which check — with the criterion's
+  guidance as the first place to look and a better fit from outside it equally
+  welcome as long as it is named. The rule exists because "Suggestions and
+  patterns, never demands" was being read as a reason to advise abstractly: the
+  mechanisms the guidance already carries — the falsifier round under C7, the ways
+  under C6 to show a check can go red, the deletion test under C9 — never reached
+  the developer as advice, and "your verification is weak" stopped there. The
+  distinction is now written down where it was being lost: the rubric as a standard
+  demands no method of anyone; advice to this developer, about this work, names one.
+- **advise-me** and **review-my-work** each ask that remedy of their own output —
+  advise-me of its answer in chat and of the judge it sends to the background,
+  review-my-work of its report — by pointing at the new judging rule rather than
+  restating it, so the wording keeps living once. The report stays free-form and
+  unlabelled; no section or template was added.
+- **advise-me** may close, once its own answer and the background judgement are
+  both on the table, with a single-line offer of one more round: a falsifier in
+  fresh context, handed the same raw sources and the advice, told to attack the
+  advice itself. Nothing runs until the developer says yes — never a default, never
+  a spawn on the skill's own initiative, never a question in front of the advice —
+  and the automatic background judge is unchanged. This release is 2.10 rather
+  than 3.0 because nothing about how the skills run moved without the developer
+  asking: the same routes, the same automatic spawns, the same outputs in the same
+  places — what changed is what a finding has to contain, plus one offer the
+  developer can decline by saying nothing.
+
+## 2.9
+
+- **rubric** anchors what "simplest" is counted in, at C9: parts, layers and special
+  cases a maintainer has to hold in their head, not lines. The guidance dangles
+  minimising lines of code as one route, and without a unit in the requirement that
+  invites reading short as simple. A second sentence forbidding shorter-by-thinner
+  tests was drafted and dropped: C6 deliberately allows a test to be changed or
+  removed with its three showings, so the same act would have had two criteria
+  pointing different ways, and test-weakening is already C6's and C3's — the file
+  says a thing once, under the criterion where it bites hardest.
+- **rubric** splits C9's third evaluation question in two. Unrequested edits to
+  adjacent code and pre-existing dead code removed as a side trip were asked in one
+  breath, which let one answer cover two findings. The ceiling on questions moves
+  from four to five to make room; it is there so a criterion cannot become a
+  checklist, not to force two concerns into one question.
+
 ## 2.8
 
 - **references** is what `agentic-coding-rubric` became. The skill existed to say

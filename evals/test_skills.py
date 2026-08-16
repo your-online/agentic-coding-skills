@@ -89,13 +89,53 @@ class AdviseMeTests(unittest.TestCase):
         self.assertIn("Where does this work meet the criteria, where does it not", self.text)
         self.assertIn("what would you do differently from here", self.text)
 
-    def test_it_keeps_the_report_free_of_labels_and_scores(self):
-        """Same bar as the written review: a score invites the developer to read
-        a number instead of the finding under it."""
-        self.assertIn("No labels per criterion, no table, no percentage, no score", self.text)
+    def test_it_takes_the_shape_the_shared_rules_ask_for(self):
+        """The no-labels rule was written out here in one wording and in
+        review-my-work in another — the same rule, two phrasings, which is where
+        drift starts. It binds every judgement, so it moved to the rubric and
+        this route points at it."""
+        self.assertIn("takes the shape those same rules ask for", self.text)
 
     def test_it_points_at_the_review_skill_for_the_other_job(self):
         self.assertIn("review-my-work", self.text)
+
+    def test_the_falsifier_over_the_advice_is_an_offer_and_never_automatic(self):
+        """The background judge goes out every time; a falsifier over the advice
+        itself does not. It exists only as a closing offer, one short line after
+        both answers have landed, and nothing runs until the developer says yes
+        — so an eager session cannot quietly turn the advice round into a
+        review nobody asked for."""
+        self.assertIn("Offer a falsifier over the advice — never start one", self.text)
+        self.assertIn("a single short line", self.text)
+        self.assertIn("asked to knock it down", self.text)
+        self.assertIn("Nothing runs until the developer says yes", self.text)
+        self.assertIn("Never spawn it on your own initiative", self.text)
+        self.assertIn("never make it the default", self.text)
+
+    def test_the_offer_is_recommended_and_says_why_it_is_worth_it(self):
+        """Permission to offer is not an offer. Left at "you may", the line goes
+        unsaid on exactly the answers that need it most — this route's advice is
+        half-written by the session that made the choices, which is the half with
+        a reason to be gentle. So it is recommended wherever something hangs on
+        the answer, and skipped only where nothing does."""
+        self.assertIn("Strongly recommended after every advice that anything hangs on", self.text)
+        self.assertIn("the half most likely to be gentle", self.text)
+        self.assertIn("Skip the offer when nothing much rests on the answer", self.text)
+
+    def test_the_offer_is_phrased_for_someone_who_never_heard_of_a_falsifier(self):
+        """The developer being advised is not the author of this rubric. An offer
+        naming the machinery asks them to evaluate a word instead of a benefit."""
+        self.assertIn("Say what it buys, not what it is called", self.text)
+        self.assertIn("never heard the word falsifier", self.text)
+
+    def test_the_offer_never_stands_in_front_of_the_advice(self):
+        """An offer phrased as a question before the answer is a toll booth: the
+        developer asked for advice and gets a decision to make instead."""
+        self.assertIn(
+            "never turn the offer into a question the developer has to answer "
+            "before they get their advice",
+            self.text,
+        )
 
 
 class ReviewMyWorkTests(unittest.TestCase):
@@ -117,18 +157,14 @@ class ReviewMyWorkTests(unittest.TestCase):
         self.assertIn("as a diff", self.text)
         self.assertNotIn("The diff is optional", self.text)
 
-    def test_the_diff_basis_is_derived_and_always_reported(self):
-        self.assertIn("Is there uncommitted work? Then diff against `HEAD`", self.text)
-        self.assertIn("the commit this session or task started from", self.text)
-        self.assertIn("`HEAD~n`", self.text)
-        self.assertIn("State the basis in the report, always", self.text)
-        self.assertIn("Diff basis: <ref> (<why>)", self.text)
-
-    def test_the_report_stays_free_form_and_unlabelled(self):
+    def test_the_report_stays_free_form_and_takes_its_shape_from_the_rules(self):
+        """Both routes carried the same no-labels rule in different words, and
+        the review carried its own copy of the diff-basis procedure. Both bind
+        every judgement, so both live in the rubric now and this file points."""
         self.assertIn("The form is free", self.text)
-        self.assertIn("Do not attach a label to each criterion", self.text)
-        self.assertIn("do not put a percentage anywhere", self.text)
         self.assertIn("what is good, what is weak, what is missing", self.text)
+        self.assertIn("the way the rubric's judging rules ask", self.text)
+        self.assertIn("on the basis the rubric's judging rules derive", self.text)
 
     def test_the_stripped_machinery_stays_stripped(self):
         self.assertIn(

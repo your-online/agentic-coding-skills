@@ -56,6 +56,29 @@ model did run, or stop and say it cannot run under the current limits.
 **Read this file whole.** Hand the judging subagent the complete rubric. Do not
 summarise it first; a summary of the rubric is a second rubric.
 
+**Name the basis you compared against.** Uncommitted work is compared against `HEAD`;
+where everything is committed, against the commit the session or task started from —
+`HEAD~n` when nothing better identifies it. Whichever it is, say it where the answer
+lands, in the form `Diff basis: <ref> (<why>)`. The developer is the one who
+knows where the task really began, and naming the basis is what lets them correct it.
+
+**No labels, no table, no number standing in for a judgement.** Do not attach a label
+to each criterion, do not produce a table because it looks thorough, and do not put a
+percentage anywhere. A criterion nothing useful can be said about is left out rather
+than filled in. The reader has to be able to disagree with a sentence, which a mark
+beside a criterion invites them to skip.
+
+**A finding names its remedy.** Every point a judgement raises comes with what to
+actually do about it, concretely enough to start: which mechanism, over which claim
+or file, which check. The guidance under each criterion is the first place to look
+for that mechanism; a better fit that is not in the guidance is equally welcome, as
+long as it is named. That the guidance offers suggestions and never demands is a
+rule about the standard, not about the advice: the rubric does not demand a method
+of everyone, but advice to this developer, about this work, right now, is exactly
+where naming a specific mechanism is the point. "Your verification is weak" is half
+a finding; the whole one says which check to make able to fail, over which
+behaviour, and how to show it went red.
+
 ---
 
 ## C1 — Context checked and carried forward
@@ -412,8 +435,10 @@ and smuggling it into a feature diff is exactly what C9 objects to.
 ## C9 — No more than the task asked for
 
 **Requirement.** The solution is the simplest one that satisfies the criteria, and
-the change touches only what the task requires. Every changed line traces back to the
-request, or to cleaning up what this change itself made redundant. No speculative
+the change touches only what the task requires. Simplest is counted in what a
+maintainer has to hold in their head — parts, layers, special cases — not in lines.
+Every changed line traces back to the request, or to cleaning up what this change
+itself made redundant. No speculative
 abstractions, no unrequested features, no drive-by refactors of code that was not
 broken.
 
@@ -455,9 +480,10 @@ first, which is C5 and C6, and it is one route among several.
    itself orphaned?
 2. Which abstraction, parameter or layer exists for a need the criteria do not have —
    and what happens to complexity if you delete it?
-3. Was adjacent code, formatting or commentary changed without being asked, or
-   pre-existing dead code removed as a side trip?
-4. Could a smaller version of this solution satisfy the same criteria, and what would
+3. Was adjacent code, formatting or commentary changed without being asked?
+4. Was code that was already dead, or a comment that was already stale, removed as a
+   side trip rather than as its own agreed change?
+5. Could a smaller version of this solution satisfy the same criteria, and what would
    break if you tried?
 
 ---

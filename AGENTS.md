@@ -68,8 +68,15 @@ The practices this rubric measures apply to this product too.
    judging against it. A skill that needs either points at that file by path and
    never copies a paragraph across — including the model names, which is how the
    duplication came back last time.
-3. Wherever the skills are listed together, `advise-me` comes before
+3. A rule that binds every judgement goes in the rubric's judging section; machinery
+   that exists because of one route's shape — its bias, its output medium, its
+   pipeline — goes in that route's SKILL.md and nowhere else. Both skills read the
+   rubric whole and every judging subagent is handed it, so the rubric is the one
+   shared home that costs no extra reading. A skill never invokes another skill:
+   invocation drags the other route's triggers, answer format and background spawns
+   into a context they were not written for, and costs a read rather than saving one.
+4. Wherever the skills are listed together, `advise-me` comes before
    `review-my-work`: that is the order in which they are used.
-4. The suite is green before installation. Never weaken a test to make it pass.
-5. Never install into the real `~/.claude` or `~/.codex` from a test. The install
+5. The suite is green before installation. Never weaken a test to make it pass.
+6. Never install into the real `~/.claude` or `~/.codex` from a test. The install
    test runs against a throwaway home directory and must stay that way.

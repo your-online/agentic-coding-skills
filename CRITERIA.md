@@ -9,7 +9,7 @@ Run the guards with `uvx pytest evals/` from this directory.
 1. **A criterion is a requirement, guidance and evaluation questions — in that
    order, each present once, with two to four questions.**
    Guarded by `evals/test_rubric_shape.py::test_every_criterion_has_the_three_parts_exactly_once_and_in_order`
-   and `::test_each_criterion_asks_two_to_four_evaluation_questions`.
+   and `::test_each_criterion_asks_two_to_five_evaluation_questions`.
 
 2. **The rubric stays compact: between eight and ten criteria, numbered in order.**
    It replaced a twenty-two criterion rubric and the pull back towards that is real.
@@ -31,9 +31,12 @@ Run the guards with `uvx pytest evals/` from this directory.
    developer's own words and borrows none of the reviewing machinery. What the
    skills read from — `skills/references/` — is not a fourth skill and carries no
    SKILL.md, so no platform offers it as a route.
+   `advise-me` also sends an isolated judge to the background every time it answers,
+   and may close by offering — never starting — a falsifier over its own advice.
    Guarded by `evals/test_skills.py::AdviseMeTests`, `::ReviewMyWorkTests`,
-   `::LogFeedbackTests` and
-   `::SelfTriggerTests::test_the_reference_is_not_a_skill_at_all`.
+   `::LogFeedbackTests`,
+   `::SelfTriggerTests::test_the_reference_is_not_a_skill_at_all` and
+   `evals/test_isolation_and_model.py::AdviceIsAccompaniedTests`.
 
 6. **The descriptions are disjunct, from each other and from the review skill
    already in the field.** A description is a trigger, not a summary: near-identical
@@ -103,6 +106,7 @@ Run the guards with `uvx pytest evals/` from this directory.
     files at once and drifted; there is one `CHANGELOG.md` for the package now, and
     nothing that ships carries a number of its own. A skill also names nothing that
     does not travel with it when it is installed.
-    Guarded by `evals/test_skills.py::ReviewMyWorkTests::test_the_diff_basis_is_derived_and_always_reported`,
+    Guarded by
+    `evals/test_isolation_and_model.py::SharedOutputRules::test_the_basis_compared_against_is_derived_and_named`,
     `evals/test_changelog.py` and
     `evals/test_install_instructions.py::test_nothing_installed_points_outside_the_package_that_ships_it`.
