@@ -5,6 +5,26 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.13
+
+- **rubric** widens C8 from the implementation to everything the work leaves behind,
+  including what it writes for people: criteria, decisions, open questions, the pull
+  request description. Each says what its reader needs in order to check, decide or
+  continue, outcome first, and stops there. Two questions were added — does it open
+  with its outcome and which sentences would cost the reader nothing, and does it
+  restate what another artefact already carries. The concern was nearly a C11; it is
+  C8 because C8 already covers what a maintainer has to follow, and the ceiling of
+  ten criteria exists to resist exactly the pull that a first exception starts.
+- **references** ship `example-formats/`: four worked examples, one scenario across
+  all of them, each under 35 lines. They are examples and say so on their first
+  line, because the house format is for the people who own it to settle and these
+  exist to give them something concrete to react to. A first draft restated the same
+  open question in all four files, which is what the new question 5 condemns; they
+  point at one another now.
+- **CRITERIA.md** puts the requirement first in the two points that read as memoir,
+  with the history compressed to a trailing clause. It failed the criterion this
+  release adds, which was the argument for adding it.
+
 ## 2.12
 
 - **install.sh** removes what this package installed before and no longer ships. It

@@ -26,6 +26,13 @@ when a fix is made on either side, carry it to the other in the same sitting.
   platform, the rubric read whole.
 - `skills/references/learning-materials.md` — the sources per criterion group, for
   developers who want to get better at one.
+- `skills/references/example-formats/` — four short worked examples of the artefacts
+  a person has to read: criteria, decisions, open questions, a pull request
+  description. C8 points here for length and shape. They are examples, not a house
+  format — that is for the people who own it to settle, and these exist to give them
+  something concrete to react to. Keep them short: they are the only place where
+  "this short" is shown rather than argued, and an example that grows stops being
+  one.
 - `skills/advise-me/SKILL.md` — a read of the running session against the rubric, in
   chat, while the work is going on. It answers from the working context and spawns
   the isolated judge in the background alongside. No file.

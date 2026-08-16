@@ -26,8 +26,21 @@ INSTALLED_DIRS = (REFERENCE_DIR,) + RUNNABLE_SKILLS
 #: The two that judge work against the rubric. log-feedback has no use for it.
 REVIEWING_SKILLS = ("advise-me", "review-my-work")
 
-#: What the reference directory carries.
+#: What the reference directory carries at its top level.
 REFERENCE_FILES = ("rubric.md", "learning-materials.md")
+
+#: Worked examples of the artefacts a person has to read, shipped so that
+#: "as short as this" is something a reader can see rather than argue about.
+#: They are examples, not a house format: the intent is to have something
+#: concrete to react to when the format is settled with the people who own it.
+EXAMPLE_DIR = "example-formats"
+EXAMPLE_FILES = (
+    "acceptance-criteria.md",
+    "decisions.md",
+    "open-questions.md",
+    "pull-request.md",
+)
+EXAMPLES = SKILLS_DIR / REFERENCE_DIR / EXAMPLE_DIR
 
 RUBRIC = SKILLS_DIR / REFERENCE_DIR / "rubric.md"
 LEARNING = SKILLS_DIR / REFERENCE_DIR / "learning-materials.md"

@@ -14,6 +14,9 @@ spot that, which they can only do if the report says which range it used.
 import unittest
 
 from rubric_source import (
+    EXAMPLE_DIR,
+    EXAMPLE_FILES,
+    EXAMPLES,
     INSTALLED_DIRS,
     README,
     REFERENCE_DIR,
@@ -60,9 +63,38 @@ class PackageLayoutTests(unittest.TestCase):
             present = sorted(p.name for p in (SKILLS_DIR / name).rglob("*") if p.is_file())
             with self.subTest(directory=name):
                 if name == REFERENCE_DIR:
-                    self.assertEqual(present, sorted(REFERENCE_FILES))
+                    self.assertEqual(present, sorted(REFERENCE_FILES + EXAMPLE_FILES))
                 else:
                     self.assertEqual(present, ["SKILL.md"])
+
+
+class ExampleFormatTests(unittest.TestCase):
+    """An example that grows stops being one: C8 points at these for the length
+    and shape that works."""
+
+    def test_the_examples_are_the_ones_that_ship(self):
+        self.assertEqual(
+            sorted(p.name for p in EXAMPLES.iterdir()), sorted(EXAMPLE_FILES)
+        )
+
+    def test_the_rubric_points_at_them(self):
+        self.assertIn(f"`{EXAMPLE_DIR}/`", (SKILLS_DIR / REFERENCE_DIR / "rubric.md")
+                      .read_text(encoding="utf-8"))
+
+    def test_each_example_stays_short_enough_to_be_an_example(self):
+        for name in EXAMPLE_FILES:
+            with self.subTest(example=name):
+                lines = (EXAMPLES / name).read_text(encoding="utf-8").splitlines()
+                self.assertLess(len(lines), 35, f"{name} is no longer demonstrating brevity")
+
+    def test_each_example_says_it_is_one(self):
+        """Without the line, the first developer to find the folder reads it as
+        the format they have to file in."""
+        for name in EXAMPLE_FILES:
+            with self.subTest(example=name):
+                first = (EXAMPLES / name).read_text(encoding="utf-8").splitlines()[0]
+                self.assertTrue(first.startswith("*Example."), first)
+                self.assertIn("Copy the shape, not the content", first)
 
 
 class AdviseMeTests(unittest.TestCase):

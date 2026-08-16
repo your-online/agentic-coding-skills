@@ -66,37 +66,29 @@ Run the guards with `uvx pytest evals/` from this directory.
    silent downgrade is the one failure a review cannot report about itself.
    Guarded by `evals/test_isolation_and_model.py::ModelTests`.
 
-9. **Both install steps in the README are the ones that were executed, and what
-   arrives is the whole package.** Step 1 runs with the clone URL swapped for a local
-   repository — the network is not this repository's to test, so
-   `::test_step_one_names_a_real_repository_url` stands in for it by refusing a
-   placeholder. Step 2 is one command, `./install.sh`, and the script behind it has
-   to work on a machine without a skills directory, on a machine that already has an
-   older installation — where a bare `cp -R` silently nests the new version inside
-   the old one and leaves the old `SKILL.md` loading — from any working directory,
-   and on a machine that has only one of the two platforms; with neither platform
-   present it has to fail loudly. Every installed file is compared byte for byte,
-   because an installer that drops the rubric leaves a skill that points at a
-   reference with nothing in it, while every SKILL.md looks perfectly installed.
-   The script installs whatever `skills/` holds rather than a list of names, so a new
-   skill cannot stay behind. And an upgrade that fails leaves
-   the working version standing: the copy goes beside the target and is moved into
-   place only once it succeeded.
+9. **Both install steps in the README are the ones the tests execute, and what
+   arrives is the whole package, byte for byte.** The script must survive a machine
+   with no skills directory, an older installation, any working directory, and only
+   one of the two platforms — and fail loudly with neither. It installs whatever
+   `skills/` holds rather than a list of names, removes only what it installed
+   before and no longer ships, and leaves the working version standing when a copy
+   fails halfway. Step 1 runs with the clone URL swapped for a local repository;
+   `::test_step_one_names_a_real_repository_url` refuses a placeholder, because the
+   network is not this repository's to test.
+   Why byte for byte: an installer that drops the rubric leaves every SKILL.md
+   looking perfectly installed and pointing at nothing.
    Guarded by `evals/test_install_instructions.py`, which extracts the commands from
    the README and runs them against a throwaway home directory, with
    `::test_the_old_instruction_still_nests` and
-   `::test_the_old_instruction_installs_nothing_on_a_fresh_machine` as its red tests
-   and `::test_a_source_that_cannot_be_copied_leaves_the_installation_it_had` for the
-   half-finished upgrade.
+   `::test_the_old_instruction_installs_nothing_on_a_fresh_machine` as its red
+   tests.
 
-10. **The rubric exists once, and so do the rules for judging against it.** Both
-    reviewing skills used to carry a copy of the rubric and a copy of the isolation
-    and model rules, kept identical by a test — because a skill had to be installable
-    on its own. They install together, so the copies are gone: the material lives in
-    `skills/references/` and the skills read it by path. It was briefly a skill of
-    its own, which cost a round trip to be handed a path and put a reference in the
-    developer's skill list; it carries no SKILL.md now. A second `rubric.md` beside a
-    skill that judges with it, or a rule restated in one, is the drift coming back.
+10. **The rubric exists once, and so do the rules for judging against it.** The
+    material lives in `skills/references/`, carries no SKILL.md, and the skills read
+    it by path. A second `rubric.md` beside a skill that judges with it, or a rule
+    restated in one, is the drift coming back.
+    It got here from two copies kept identical by a test, then a brief spell as a
+    skill of its own that cost a round trip to be handed a path.
     Guarded by `evals/test_skills.py::PackageLayoutTests` and
     `evals/test_isolation_and_model.py::OneWordingTests`.
 
