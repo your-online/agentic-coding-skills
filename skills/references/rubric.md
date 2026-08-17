@@ -44,7 +44,9 @@ than letting a self-judgement stand as if it came from outside.
 **The strongest reasoning model.** Every judging role — reviewer, falsifier, adviser
 — runs on the strongest reasoning model the platform offers. In Claude Code that is
 Opus 5 (`claude-opus-5`), or Opus 4.8 (`claude-opus-4-8`) when Opus 5 is out of
-reach; on another platform it is that platform's own strongest reasoning model. Where
+reach; in Codex it is GPT-5.6 Sol (`gpt-5.6-sol`); on another platform it is that
+platform's own strongest reasoning model. The names are the example, the strength is
+the rule — a platform that is not named here still has a strongest model. Where
 the platform does not let you choose — a Codex fork inherits the session's model and
 takes no override — the run happens on the session's model, and that is said where
 the answer lands instead of claiming the requirement was met. Never quietly fall back

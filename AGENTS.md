@@ -1,18 +1,34 @@
 # AGENTS.md
 
-Everything in this directory is the slim agentic-coding product: three skills that
-install together and the reference material they share. It is self-contained: publication is a
-copy of the contents of this directory into the root of the public repository,
-nothing else. Nothing outside `slim/` belongs to this product, and no file here may
-reference a path outside it.
+Everything in this repository is the agentic-coding product: three skills that
+install together and the reference material they share. It is self-contained:
+publication is a copy of the contents of this root into the root of the public
+repository, nothing else.
 
 The public repository is **https://github.com/your-online/agentic-coding-skills**,
-default branch `main`. The repository around this directory has no remote and is
-never pushed: what goes out is this directory's contents, copied to the root of that
-public repo — so `slim/skills/` lands there as `skills/`, and the clone URL in the
-README is that same repository. It carries a `.gitignore` that does not exist here;
+default branch `main`. This repository has no remote and is never pushed — its
+history carries client and personal fixtures from the archived product below, and a
+pre-push hook blocks it. What goes out is this root's contents, copied into that
+public repo, so the two trees line up file for file and the clone URL in the README
+is that same repository. It carries a `.gitignore` that differs from the one here;
 leave it in place when copying. Publishing is the one moment the two can drift, so
 when a fix is made on either side, carry it to the other in the same sitting.
+
+## The archived heavy reviewer
+
+There used to be a second, much heavier product in this repository: a 22-criterion
+reviewer with an orchestrator, a scorer, falsification transport and an Excel
+workbook — `evaluate-acbp`. It lived at this root while this product lived in
+`slim/`, and having both here was a standing source of confusion about which one
+"the rubric" meant.
+
+It is archived, frozen at the last state it shipped in, and is not developed
+further. It has never been part of what is published here and nothing in this
+product depends on it, so no file here may reference it by path. In the source
+repository it lives on the branch `heavy-archived`, with its own `ARCHIVED.md`
+saying so; that branch is not merged into `main` and a change to that product is
+made there or nowhere. A public clone of this repository carries neither the branch
+nor the gitignored working directories that belong to it.
 
 ## What is where
 
@@ -58,7 +74,7 @@ when a fix is made on either side, carry it to the other in the same sitting.
   pointers between them point at nothing; and the install test covers a fresh
   machine, an upgrade over an existing installation, another working directory, a
   machine with only one of the two platforms, and a machine with neither.
-- `evals/` — the regression suite. Run it from this directory: `uvx pytest evals/`.
+- `evals/` — the regression suite. Run it from the repository root: `uvx pytest evals/`.
   It is not installed, so no SKILL.md may tell anyone to run it.
 - `CHANGELOG.md` — one changelog for the package. The skills and the rubric no
   longer carry versions of their own.

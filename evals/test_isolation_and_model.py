@@ -156,13 +156,24 @@ class ModelTests(SharedRules):
             "runs on the strongest reasoning model the platform offers",
         )
 
-    def test_the_claude_models_are_an_example_and_not_the_whole_rule(self):
+    def test_the_named_models_are_examples_and_not_the_whole_rule(self):
         """A named model is guidance for one platform. As a requirement it makes
-        every other platform unable to comply — which is what shut Codex out."""
+        every other platform unable to comply — which is what shut Codex out.
+
+        Both installed platforms are now named, and symmetrically. Spelling out
+        only the Claude models left a Codex reader deriving theirs from a
+        general clause while a Claude reader was handed two identifiers: the
+        rule read as Claude's with an exemption for everyone else. Naming
+        `gpt-5.6-sol` beside them costs nothing and removes that reading. What
+        must not come back is the *only*: the general clause stays, because the
+        rule is the strength of the judge and not a list of names."""
         self.in_the_rules(
             "In Claude Code that is Opus 5 (`claude-opus-5`)",
             "Opus 4.8 (`claude-opus-4-8`) when Opus 5 is out of reach",
+            "in Codex it is GPT-5.6 Sol (`gpt-5.6-sol`)",
             "on another platform it is that platform's own strongest reasoning model",
+            "The names are the example, the strength is the rule",
+            "a platform that is not named here still has a strongest model",
         )
         self.assertNotIn("There is no third option", self.rules)
 

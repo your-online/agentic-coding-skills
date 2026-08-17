@@ -5,6 +5,16 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.15
+
+- **references** — the rubric names Codex's model beside Claude's in the judging rules: `gpt-5.6-sol`.
+  The rule was already the strength of the judge rather than a vendor, but only the
+  Claude models were spelled out — so a Claude reader got two identifiers and a Codex
+  reader got a general clause to derive theirs from, and the rule read as Claude's
+  with an exemption for everyone else. Both installed platforms are named now, and one
+  line says outright that the names are the example and the strength is the rule, so a
+  platform that is not listed is not thereby excluded.
+
 ## 2.14
 
 - **rubric** drops C10, "Autonomy within agreed bounds". Most of it was a team's
