@@ -7,13 +7,26 @@ Those two lines are merged here, and the files carry neither.
 
 ## 2.15
 
-- **references** — the rubric names Codex's model beside Claude's in the judging rules: `gpt-5.6-sol`.
+- **references** — the rubric names Codex's model beside Claude's in the judging rules.
   The rule was already the strength of the judge rather than a vendor, but only the
   Claude models were spelled out — so a Claude reader got two identifiers and a Codex
   reader got a general clause to derive theirs from, and the rule read as Claude's
   with an exemption for everyone else. Both installed platforms are named now, and one
   line says outright that the names are the example and the strength is the rule, so a
-  platform that is not listed is not thereby excluded.
+  platform that is not listed is not thereby excluded. The Codex name is dated in the
+  prose — "`gpt-5.6-sol` at the time of writing" — because its provenance is weaker
+  than the Claude names: it was read off the author's own `~/.codex/config.toml`, which
+  records a configured model rather than the strongest one Codex offers, and no run on
+  Codex was ever observed to confirm any of it.
+- **AGENTS.md** distinguishes the private source repository from this published copy,
+  after a version of it told readers of the published copy that they were in a
+  repository with no remote that is never pushed. It also records that the heavy
+  Excel-based reviewer this product replaced is archived and not developed further —
+  the two used to sit in one source repository, which made every question about "the
+  rubric" start with working out which one was meant.
+- **CRITERIA.md** point 8 describes the state rather than the old problem: every
+  platform the installer targets is named in the model rule, with the general clause
+  kept beside it.
 
 ## 2.14
 

@@ -166,11 +166,17 @@ class ModelTests(SharedRules):
         rule read as Claude's with an exemption for everyone else. Naming
         `gpt-5.6-sol` beside them costs nothing and removes that reading. What
         must not come back is the *only*: the general clause stays, because the
-        rule is the strength of the judge and not a list of names."""
+        rule is the strength of the judge and not a list of names.
+
+        The Codex name is dated in the prose rather than stated flat, because its
+        provenance is weaker than the Claude ones: it was read off the author's
+        own `~/.codex/config.toml`, which records a configured model and not the
+        strongest one on offer. A dated clause ages visibly; a flat assertion in
+        the file with the widest audience does not."""
         self.in_the_rules(
             "In Claude Code that is Opus 5 (`claude-opus-5`)",
             "Opus 4.8 (`claude-opus-4-8`) when Opus 5 is out of reach",
-            "in Codex it is GPT-5.6 Sol (`gpt-5.6-sol`)",
+            "in Codex it is the strongest model your install offers, `gpt-5.6-sol` at the time of writing",
             "on another platform it is that platform's own strongest reasoning model",
             "The names are the example, the strength is the rule",
             "a platform that is not named here still has a strongest model",

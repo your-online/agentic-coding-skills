@@ -1,34 +1,34 @@
 # AGENTS.md
 
 Everything in this repository is the agentic-coding product: three skills that
-install together and the reference material they share. It is self-contained:
-publication is a copy of the contents of this root into the root of the public
-repository, nothing else.
+install together and the reference material they share, and nothing else.
 
-The public repository is **https://github.com/your-online/agentic-coding-skills**,
-default branch `main`. This repository has no remote and is never pushed — its
-history carries client and personal fixtures from the archived product below, and a
-pre-push hook blocks it. What goes out is this root's contents, copied into that
-public repo, so the two trees line up file for file and the clone URL in the README
-is that same repository. It carries a `.gitignore` that differs from the one here;
-leave it in place when copying. Publishing is the one moment the two can drift, so
-when a fix is made on either side, carry it to the other in the same sitting.
+It lives in two repositories with the same contents. The source is private and is
+never pushed anywhere — its history carries fixtures that may not leave, and a
+pre-push hook blocks it. The published copy is
+**https://github.com/your-online/agentic-coding-skills**, default branch `main`,
+which is what the clone URL in the README points at. Publishing is a copy of the
+source root into the published root, so the trees line up file for file, apart from
+a `.gitignore` the published copy keeps as its own. That copy is also the one moment
+the two can drift: make a fix on either side and carry it to the other in the same
+sitting.
+
+Every sentence here has to be true in both, which is easy to get wrong — an earlier
+version of this file opened by telling the published copy that it had no remote and
+was never pushed.
 
 ## The archived heavy reviewer
 
-There used to be a second, much heavier product in this repository: a 22-criterion
-reviewer with an orchestrator, a scorer, falsification transport and an Excel
-workbook — `evaluate-acbp`. It lived at this root while this product lived in
-`slim/`, and having both here was a standing source of confusion about which one
-"the rubric" meant.
+This product replaced a much heavier one: a 22-criterion reviewer with an
+orchestrator, a scorer, falsification transport and an Excel workbook. For a while
+both sat in the same source repository, which made every question about "the rubric"
+start with working out which of the two was meant.
 
-It is archived, frozen at the last state it shipped in, and is not developed
-further. It has never been part of what is published here and nothing in this
-product depends on it, so no file here may reference it by path. In the source
-repository it lives on the branch `heavy-archived`, with its own `ARCHIVED.md`
-saying so; that branch is not merged into `main` and a change to that product is
-made there or nowhere. A public clone of this repository carries neither the branch
-nor the gitignored working directories that belong to it.
+The heavy reviewer is archived, frozen at the last state it shipped in, and is not
+developed further. It has never been published here, nothing in this product depends
+on it, and no file here may reference it by path. It survives on a branch of the
+private source repository, with its own `ARCHIVED.md` saying so; a change to it is
+made there or nowhere.
 
 ## What is where
 

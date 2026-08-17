@@ -59,7 +59,9 @@ Run the guards with `uvx pytest evals/` from this directory.
 
 8. **The reviewing roles run on the strongest reasoning model of the platform they
    are on, a downgrade is never silent, and where the platform allows no model
-   choice at all the run names the model that actually ran.** Two named Claude
+   choice at all the run names the model that actually ran.** Every platform the
+   installer targets is named in the rule, symmetrically, with the general clause
+   kept so an unnamed platform is not thereby excluded. Two named Claude
    models as the whole rule made the Codex install impossible to obey; a Codex fork
    with the full history inherits the session's model and takes no override, so
    claiming the requirement was met there would be the same silent downgrade; and a
