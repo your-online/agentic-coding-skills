@@ -17,6 +17,20 @@ Every sentence here has to be true in both, which is easy to get wrong — an ea
 version of this file opened by telling the published copy that it had no remote and
 was never pushed.
 
+Publishing, in the steps that have traps in them:
+
+1. Clone the published repository, or `git fetch && git reset --hard origin/main` in
+   an existing clone, so you are copying onto its current state and not onto a stale
+   one.
+2. Copy the five root files, then `rsync -a --delete` `skills/` and `evals/` with
+   `--exclude __pycache__ --exclude .DS_Store --exclude .pytest_cache`. Without
+   `--delete` a removed file lives on in the copy; without the excludes you publish
+   caches. Nothing else goes: no `.git`, and nothing this root does not carry.
+3. Run `uvx pytest evals/` **in the copy**, not in the source. That is what catches a
+   bad copy, and it is the step worth not skipping.
+4. One commit, then push.
+5. Verify by reading it back — `gh api repos/your-online/agentic-coding-skills/contents/AGENTS.md --jq '.content' | base64 -d` — rather than assuming the push carried.
+
 ## The archived heavy reviewer
 
 This product replaced a much heavier one: a 22-criterion reviewer with an
@@ -28,7 +42,8 @@ The heavy reviewer is archived, frozen at the last state it shipped in, and is n
 developed further. It has never been published here, nothing in this product depends
 on it, and no file here may reference it by path. It survives on a branch of the
 private source repository, with its own `ARCHIVED.md` saying so; a change to it is
-made there or nowhere.
+made there or nowhere. A third branch there, `slim-skill`, holds an obsolete copy of
+this product from before it moved to the root, and is kept only as history.
 
 ## What is where
 
@@ -105,6 +120,10 @@ The practices this rubric measures apply to this product too.
    into a context they were not written for, and costs a read rather than saving one.
 4. Wherever the skills are listed together, `advise-me` comes before
    `review-my-work`: that is the order in which they are used.
-5. The suite is green before installation. Never weaken a test to make it pass.
+5. The suite is green before installation, and green before a commit that claims it
+   is. Read that from pytest's own exit status, not from what scrolled past: in
+   `uvx pytest evals/ -q | tail -3 && git commit …` the `&&` sees `tail`'s status,
+   so a red suite commits anyway. It did once here. Run pytest bare, or put
+   `set -o pipefail` in front of the pipeline. Never weaken a test to make it pass.
 6. Never install into the real `~/.claude` or `~/.codex` from a test. The install
    test runs against a throwaway home directory and must stay that way.

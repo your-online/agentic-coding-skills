@@ -27,6 +27,15 @@ Those two lines are merged here, and the files carry neither.
 - **CRITERIA.md** point 8 describes the state rather than the old problem: every
   platform the installer targets is named in the model rule, with the general clause
   kept beside it.
+- **AGENTS.md** writes down the two things this release learned by getting them
+  wrong. Maintenance rule 5 now says to read the suite's result from pytest's own
+  exit status: `pytest | tail && git commit` gives the `&&` the pipe's status, so a
+  red suite commits anyway, which is how a commit here once claimed a green suite it
+  did not have. And the publishing paragraph carries its actual steps — reset the
+  clone onto `origin/main` first, `rsync --delete` with the cache excludes, run the
+  suite *in the copy*, then read the result back off the API instead of assuming the
+  push carried. It had been summarised as "a copy of the source root", which is true
+  and leaves out every part that can go wrong.
 
 ## 2.14
 
