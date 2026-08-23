@@ -1,6 +1,6 @@
 # What these skills themselves have to satisfy
 
-Eleven points, in ordinary language, each with the test that guards it. These are
+Twelve points, in ordinary language, each with the test that guards it. These are
 about the skills, not about the work they review — the rubric criteria live in
 `skills/references/rubric.md`.
 
@@ -104,3 +104,11 @@ Run the guards with `uvx pytest evals/` from this directory.
     `evals/test_isolation_and_model.py::SharedOutputRules::test_the_basis_compared_against_is_derived_and_named`,
     `evals/test_changelog.py` and
     `evals/test_install_instructions.py::test_nothing_installed_points_outside_the_package_that_ships_it`.
+
+12. **C3's pre-implementation attack has an actionable output, not just an
+    invitation to review.** It constructs a concrete implementation that satisfies
+    the criteria literally but is still wrong, unsafe or useless; explains why the
+    proposed verification accepts it; leaves the smallest tightening and a check
+    seen fail; and identifies overlapping criteria or prescribed machinery that can
+    be removed without losing intent. Guarded by
+    `evals/test_rubric_shape.py::test_c3_attacks_literal_false_greens_before_implementation`.

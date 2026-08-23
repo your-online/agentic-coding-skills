@@ -5,6 +5,21 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.16
+
+- **references** makes C3's pre-implementation attack concrete. The old guidance
+  already asked what could satisfy every criterion and still be wrong, but did not
+  say what a useful answer leaves behind. The attacker now reads raw sources in fresh
+  context, constructs a literal false green, points to the wording that admits it,
+  explains why the proposed verification accepts it, and returns the smallest
+  tightening plus a check seen fail. It also names overlap and prescribed machinery
+  that can be removed without losing intent. A fifth C3 evaluation question asks for
+  the same demonstration directly.
+- **evals** holds that output contract down after a real plan with sixteen criteria
+  admitted all-abstain, all-reject and shotgun-citation implementations. The new
+  regression test was observed failing against the previous C3 wording before the
+  rubric changed.
+
 ## 2.15
 
 - **references** — the rubric names Codex's model beside Claude's in the judging rules.

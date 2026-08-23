@@ -228,7 +228,16 @@ ones that only appear once the code exists are what this asks about.
 [Non-goals](https://github.com/mattpocock/skills/blob/main/skills/engineering/to-spec/SKILL.md#L67-L69)
 are worth as much as goals. Criteria repay the attack C7 describes as much as claims
 do: give them to someone who did not write them and ask what an implementation could
-do that satisfies every one of them and is still the wrong thing.
+do that satisfies every one of them and is still the wrong thing. A useful form of
+that attack asks for one or more concrete, plausible implementations. Each one
+satisfies the criteria literally while producing a wrong, unsafe or useless outcome.
+For each one, the attacker points to the wording that admits it, says why the proposed
+verification would accept it, and offers the smallest change to the wording plus a
+check seen fail on that implementation before the tightened criterion is trusted.
+It also looks for criteria that overlap or prescribe machinery where an observable
+outcome would do; merging or removing those keeps the plan smaller without reopening
+the loophole. The attacker follows the C7 pattern: fresh context, raw sources, no
+earlier conclusion to inherit.
 
 **Evaluation questions.**
 
@@ -240,6 +249,9 @@ do that satisfies every one of them and is still the wrong thing.
    that matters here?
 4. Were the criteria for a slice written before that slice was built, or fitted to it
    afterwards?
+5. What concrete wrong, unsafe or useless implementation satisfies the criteria
+   literally, why would the proposed verification accept it, and which smallest
+   tightening plus check seen fail closes that opening?
 
 ---
 

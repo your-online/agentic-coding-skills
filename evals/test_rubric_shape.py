@@ -75,6 +75,25 @@ class RubricShapeTests(unittest.TestCase):
         # The two working methods that inspired C9 and C8 stay examples.
         self.assertIn("offered as an example and not as a step to follow", text)
 
+    def test_c3_attacks_literal_false_greens_before_implementation(self):
+        """Criteria can all read green while admitting a useless system.
+
+        The useful attack constructs that system, explains why the proposed
+        verification accepts it, and leaves behind the smallest tightening plus
+        a check seen red. A generic invitation to "review the criteria" lost
+        those outputs in practice.
+        """
+        c3 = " ".join(next(body for cid, _, body in self.criteria if cid == "C3").split())
+        for fragment in (
+            "satisfies the criteria literally",
+            "why the proposed verification would accept it",
+            "smallest change to the wording",
+            "seen fail on that implementation",
+            "overlap or prescribe machinery",
+        ):
+            with self.subTest(fragment=fragment):
+                self.assertIn(fragment, c3)
+
 
 if __name__ == "__main__":
     unittest.main()
