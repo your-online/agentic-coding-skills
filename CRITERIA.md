@@ -1,6 +1,6 @@
 # What these skills themselves have to satisfy
 
-Twelve points, in ordinary language, each with the test that guards it. These are
+Thirteen points, in ordinary language, each with the test that guards it. These are
 about the skills, not about the work they review — the rubric criteria live in
 `skills/references/rubric.md`.
 
@@ -117,3 +117,12 @@ Run the guards with `uvx pytest evals/` from this directory.
     seen fail; and identifies overlapping criteria or prescribed machinery that can
     be removed without losing intent. Guarded by
     `evals/test_rubric_shape.py::test_c3_attacks_literal_false_greens_before_implementation`.
+
+13. **Review My Work follows the work item across chat-session boundaries.** It
+    searches accessible Codex, Claude Code and Cursor indexes before judging, admits
+    another session on one unique identifier or two independent weaker signals, and
+    never treats repository overlap alone as enough. Included transcripts stay raw
+    and carry session ID, platform and inclusion reason; a materially ambiguous
+    candidate causes one question rather than a guess. Unreachable history lowers
+    assessability only through the criteria whose evidence it could actually change.
+    Guarded by `evals/test_review_multisession.py::MultiSessionSourceTests`.

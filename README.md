@@ -28,11 +28,13 @@ Give me feedback on my approach so far against the agentic coding rubric.
 ```
 
 **`review-my-work`** — after the work, or when you want a verdict on what was built.
-Reads the session transcript and the diff, runs one isolated reviewer plus one
-falsifier round, writes a single Markdown report, and returns a concise weighted
-score in chat. C4—whether the delivered behaviour actually meets the requirements—
-is a merge block rather than a weighted point. The separately shown assessability
-keeps a high score from hiding missing evidence.
+Starts from the current session, then searches accessible Codex, Claude Code and
+Cursor history for other sessions demonstrably tied to the same work item. It gives
+those raw transcripts and the diff to one isolated reviewer plus one falsifier round,
+writes a single Markdown report, and returns a concise weighted score in chat.
+C4—whether the delivered behaviour actually meets the requirements—is a merge block
+rather than a weighted point. The separately shown assessability keeps a high score
+from hiding missing evidence.
 
 ```
 Review this session against the agentic coding rubric.

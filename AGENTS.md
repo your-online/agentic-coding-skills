@@ -71,7 +71,9 @@ this product from before it moved to the root, and is kept only as history.
   isolated reviewer, one falsifier round, one revision, one Markdown report and a
   concise weighted score in chat. Its own `scoring/`, `scripts/` and `references/`
   hold the single score contract, deterministic calculator and flexible chat guide;
-  `advise-me` uses none of them.
+  `advise-me` uses none of them. Before judging, the review route searches accessible
+  Codex, Claude Code and Cursor history for other sessions demonstrably tied to the
+  same work item; repository overlap alone never admits a transcript.
 - `skills/log-feedback/SKILL.md` — what the developer thinks of the process, as one
   dated bullet in `docs/feedback.md` of the repository they work in. It judges
   nothing.

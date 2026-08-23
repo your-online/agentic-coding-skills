@@ -1,6 +1,6 @@
 ---
 name: review-my-work
-description: 'Review the agentic coding work of the session that just ran against the agentic coding rubric, write one Markdown report to a path the developer picks, and return a concise weighted score beside it. Use only when the developer explicitly asks for a review of what was built here — "review this session", "review my work against the rubric", "write the review to docs/reviews/x.md". Not for advice while the work is still going on and not for a verdict-free look ahead: that is what the advise-me skill is for. Reviews only what the developer asked it to review.'
+description: 'Review the agentic coding work of the session that just ran—and related sessions for the same work item—against the agentic coding rubric, write one Markdown report to a path the developer picks, and return a concise weighted score beside it. Use only when the developer explicitly asks for a review of what was built here — "review this session", "review my work against the rubric", "write the review to docs/reviews/x.md". Not for advice while the work is still going on and not for a verdict-free look ahead: that is what the advise-me skill is for. Reviews only what the developer asked it to review.'
 ---
 
 # Review my work
@@ -13,8 +13,8 @@ to invoke. Read it before you start, and hand it to the reviewer whole. Beside i
 sits `learning-materials.md`, wider reading per criterion for the developer, not
 input to the review.
 
-This is the full review: the transcript and the diff, one isolated reviewer, one
-falsifier round, one revision, one Markdown report, and one concise chat summary.
+This is the full review: the work item's transcripts and diff, one isolated reviewer,
+one falsifier round, one revision, one Markdown report, and one concise chat summary.
 Only this route adds a score. The prose judgement remains primary; the score makes
 its overall strength easier to scan and compare, not easier to skip.
 
@@ -29,13 +29,42 @@ written verdict on what was built.
 
 ## Sources
 
-The transcript of this session, and the newly produced output — code and text — as
-a diff, on the basis the rubric's judging rules derive and ask you to name.
+The current session is the starting point, not the source boundary. Work on one item
+often moves to another chat or runs in parallel, so the source set is every accessible
+session that is demonstrably about the same work item, plus the newly produced output
+— code and text — as a diff, on the basis the rubric's judging rules derive and ask
+you to name.
+
+Before spawning the reviewer:
+
+1. Build a small fingerprint from the current request and transcript: work-item,
+   issue or pull-request identifiers; repository or worktree; branch, commit or pull
+   request; distinctive files or commands; stated goal and time window.
+2. Search accessible Codex, Claude Code and Cursor history. Use the platform's
+   read-only thread or session tools where they exist, otherwise its accessible local
+   history store. Search session metadata or indexes first. Only read another
+   transcript after it becomes a plausible candidate; do not sweep every conversation
+   body on the machine.
+3. Include a candidate on one unique work-item identifier, or on at least two
+   independent weaker signals: repository or worktree; branch, commit or pull
+   request; distinctive files or commands; overlapping time together with the same
+   stated goal. The same repository alone is never enough.
+4. Ask once when an unresolved candidate could materially change the review. Show
+   its session ID, platform and matching signals. Do not interrupt for an obvious
+   inclusion or exclusion, and do not silently guess on the material ambiguous case.
+5. Read the raw transcript of every included session and retain its session ID,
+   platform and inclusion reason. Give those raw transcripts to both judging roles,
+   never a summary written from them and never an earlier conclusion. Record that no
+   related session was found when the search returns none.
+
+Name an unreachable history source in the report. If its absence leaves evidence for
+specific criteria genuinely unresolved, mark only the criteria it could affect as
+`unknown`. Do not lower assessability mechanically merely because a client is absent.
 
 ## Run it
 
-1. Spawn one reviewer subagent with fresh context. Give it the complete rubric, the
-   transcript and the diff, the diff basis, and this skill's
+1. Spawn one reviewer subagent with fresh context. Give it the complete rubric, all
+   included raw transcripts and the diff, the diff basis, and this skill's
    `scoring/score-contract.json`. Give it no expected outcome. Alongside its prose
    findings it returns exactly one assessment entry for C1–C9, each with an evidence
    locator or a reason the evidence is unavailable. Weighted criteria use 0–5 in
@@ -78,7 +107,9 @@ of the result; read its JSON output even when the command exits non-zero.
 
 ## The report
 
-One Markdown file. The form is free; the bar is signal. Cover what is good, what is
+One Markdown file. The form is free; the bar is signal. Open the evidence basis with
+the included session IDs, platforms and inclusion reasons, plus any history source
+that could not be reached. Cover what is good, what is
 weak, what is missing, why each of those matters, and how to improve it. Point at
 the criterion it relates to and at the concrete place in the transcript, diff or file
 where you saw it. Write in ordinary language a developer can act on. Each point

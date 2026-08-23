@@ -5,6 +5,24 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.18
+
+- **review-my-work** now reviews a work item rather than assuming the current chat is
+  its whole history. Before judging, it searches accessible Codex, Claude Code and
+  Cursor session metadata, reads only plausible candidates, and includes another raw
+  transcript on one unique work-item identifier or two independent weaker signals.
+  Repository overlap alone is explicitly insufficient; a candidate that could
+  materially change the verdict but remains ambiguous is shown to the developer in
+  one focused question.
+- **review-my-work** records every included session's ID, platform and inclusion
+  reason in the report and gives the reviewer and falsifier the raw transcripts, not
+  a summary or inherited conclusion. An unreachable history source affects
+  assessability only when it leaves evidence for a specific criterion unresolved,
+  preventing both silent omissions and blanket score penalties.
+- **evals** holds down candidate discovery, the one-or-two-signal boundary, raw-source
+  transport, ambiguity handling, source-manifest reporting and isolation from
+  `advise-me`. The new test was observed red against 2.17 before the skill changed.
+
 ## 2.17
 
 - **review-my-work** adds a small, auditable score layer after the prose judgement:
