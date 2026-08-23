@@ -21,6 +21,7 @@ from rubric_source import (
     README,
     REFERENCE_DIR,
     REFERENCE_FILES,
+    REVIEW_MY_WORK_FILES,
     RUNNABLE_SKILLS,
     SKILLS_DIR,
     flat,
@@ -64,6 +65,8 @@ class PackageLayoutTests(unittest.TestCase):
             with self.subTest(directory=name):
                 if name == REFERENCE_DIR:
                     self.assertEqual(present, sorted(REFERENCE_FILES + EXAMPLE_FILES))
+                elif name == "review-my-work":
+                    self.assertEqual(present, sorted(REVIEW_MY_WORK_FILES))
                 else:
                     self.assertEqual(present, ["SKILL.md"])
 
@@ -203,11 +206,21 @@ class ReviewMyWorkTests(unittest.TestCase):
         self.assertIn("the way the rubric's judging rules ask", self.text)
         self.assertIn("on the basis the rubric's judging rules derive", self.text)
 
-    def test_the_stripped_machinery_stays_stripped(self):
-        self.assertIn(
-            "There is no orchestrator layer, no scorer, no validator and no snapshot ceremony.",
-            self.text,
-        )
+    def test_the_score_is_small_route_specific_machinery(self):
+        self.assertIn("one deterministic calculator", self.text)
+        self.assertIn("There is still no orchestrator layer, validator or snapshot ceremony", self.text)
+
+    def test_the_reviewer_checks_the_calculated_result_without_freehand_adjustment(self):
+        self.assertIn("run the calculator", self.text)
+        self.assertIn("correct a criterion score", self.text)
+        self.assertIn("run the calculator again", self.text)
+        self.assertIn("Never edit the final score or a weight directly", self.text)
+
+    def test_the_chat_gets_a_concise_score_but_advise_me_does_not(self):
+        self.assertIn("concise chat summary", self.text)
+        advice = flat(skill_text("advise-me"))
+        self.assertNotIn("score-contract", advice)
+        self.assertNotIn("calculate_score", advice)
 
     def test_it_points_at_the_advice_skill_for_the_other_job(self):
         self.assertIn("advise-me", self.text)

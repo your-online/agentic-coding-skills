@@ -29,7 +29,10 @@ Give me feedback on my approach so far against the agentic coding rubric.
 
 **`review-my-work`** — after the work, or when you want a verdict on what was built.
 Reads the session transcript and the diff, runs one isolated reviewer plus one
-falsifier round, and writes a single Markdown report.
+falsifier round, writes a single Markdown report, and returns a concise weighted
+score in chat. C4—whether the delivered behaviour actually meets the requirements—
+is a merge block rather than a weighted point. The separately shown assessability
+keeps a high score from hiding missing evidence.
 
 ```
 Review this session against the agentic coding rubric.
@@ -77,7 +80,9 @@ home directory, so the instruction above is the tested one.
 skills/references/rubric.md                      the criteria, and the rules for judging by them
 skills/references/learning-materials.md          how to get better per criterion
 skills/advise-me/SKILL.md                        feedback on your approach, in chat
-skills/review-my-work/SKILL.md                   the full review, one Markdown report
+skills/review-my-work/SKILL.md                   the full review, report and concise score
+skills/review-my-work/scoring/score-contract.json one scale, weights and the C4 merge block
+skills/review-my-work/scripts/calculate_score.py deterministic score calculation
 skills/log-feedback/SKILL.md                     your feedback about the process, one bullet
 install.sh                                       the installer: both platforms, everything in skills/
 evals/                                           regression suite: uvx pytest evals/

@@ -66,11 +66,12 @@ where everything is committed, against the commit the session or task started fr
 lands, in the form `Diff basis: <ref> (<why>)`. The developer is the one who
 knows where the task really began, and naming the basis is what lets them correct it.
 
-**No labels, no table, no number standing in for a judgement.** Do not attach a label
-to each criterion, do not produce a table because it looks thorough, and do not put a
-percentage anywhere. A criterion nothing useful can be said about is left out rather
-than filled in. The reader has to be able to disagree with a sentence, which a mark
-beside a criterion invites them to skip.
+**Prose remains the judgement.** The reader has to be able to disagree with a
+sentence about what is good, weak or missing, so a mark never replaces or compresses
+the written findings. `advise-me` stays entirely score-free. Only `review-my-work`
+may add a numeric score and per-criterion scoring record after the prose judgement;
+its own skill owns that route-specific machinery. A criterion nothing useful can be
+said about stays visibly unknown rather than receiving an invented judgement.
 
 **A finding names its remedy.** Every point a judgement raises comes with what to
 actually do about it, concretely enough to start: which mechanism, over which claim

@@ -29,6 +29,15 @@ REVIEWING_SKILLS = ("advise-me", "review-my-work")
 #: What the reference directory carries at its top level.
 REFERENCE_FILES = ("rubric.md", "learning-materials.md")
 
+# review-my-work has three route-specific resources. The rubric remains shared;
+# these files only turn its judgement into the optional score this route adds.
+REVIEW_MY_WORK_FILES = (
+    "SKILL.md",
+    "chat-summary.md",
+    "score-contract.json",
+    "calculate_score.py",
+)
+
 #: Worked examples of the artefacts a person has to read, shipped so that
 #: "as short as this" is something a reader can see rather than argue about.
 #: They are examples, not a house format: the intent is to have something

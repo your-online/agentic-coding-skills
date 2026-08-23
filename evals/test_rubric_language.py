@@ -61,9 +61,12 @@ class RubricLanguageTests(unittest.TestCase):
             with self.subTest(line=line):
                 self.assertEqual(violations(line), [])
 
-    def test_the_rubric_is_free_of_machine_vocabulary(self):
-        found = violations(rubric_text())
-        self.assertEqual(found, [], f"{RUBRIC} uses machine vocabulary: {found}")
+    def test_the_criteria_are_free_of_machine_vocabulary(self):
+        """The review route may add a score after the prose judgement; the nine
+        criteria themselves remain human requirements rather than a scorecard."""
+        criteria_only = rubric_text().split("## C1 —", 1)[1]
+        found = violations(criteria_only)
+        self.assertEqual(found, [], f"{RUBRIC} criteria use machine vocabulary: {found}")
 
 
 if __name__ == "__main__":

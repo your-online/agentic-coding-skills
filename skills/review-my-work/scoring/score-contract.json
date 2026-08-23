@@ -1,0 +1,27 @@
+{
+  "contract_version": 1,
+  "scale": {
+    "minimum": 0,
+    "maximum": 5,
+    "step": 0.5,
+    "anchors": {
+      "0": "Contradicted, or no inspectable evidence.",
+      "1": "Barely applied; a major gap remains.",
+      "2": "Partly applied; material gaps remain.",
+      "3": "Mostly applied; one clear repair remains.",
+      "4": "Strongly applied; only a small gap remains.",
+      "5": "Fully applied and independently checkable."
+    }
+  },
+  "criteria": [
+    { "id": "C1", "weight": 10 },
+    { "id": "C2", "weight": 10 },
+    { "id": "C3", "weight": 20 },
+    { "id": "C4", "merge_gate": true },
+    { "id": "C5", "weight": 18 },
+    { "id": "C6", "weight": 14 },
+    { "id": "C7", "weight": 14 },
+    { "id": "C8", "weight": 7 },
+    { "id": "C9", "weight": 7 }
+  ]
+}

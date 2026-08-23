@@ -15,10 +15,13 @@ Run the guards with `uvx pytest evals/` from this directory.
    It replaced a twenty-two criterion rubric and the pull back towards that is real.
    Guarded by `evals/test_rubric_shape.py::test_the_rubric_stays_compact`.
 
-3. **The rubric uses no machine vocabulary.** No verdict labels, no criticality
-   keywords, no gates, no percentages, no scores. The detector is proven to bite
-   before it is trusted.
-   Guarded by `evals/test_rubric_language.py::test_the_rubric_is_free_of_machine_vocabulary`,
+3. **The nine criteria use no machine vocabulary.** No verdict labels, criticality
+   keywords, gates, percentages or scores appear inside a criterion. The shared
+   judging rules carry one explicit boundary: only `review-my-work` may add a
+   numeric score after the prose judgement; `advise-me` remains score-free. The
+   detector is proven to bite before it is trusted.
+   Guarded by `evals/test_rubric_language.py::test_the_criteria_are_free_of_machine_vocabulary`,
+   `evals/test_isolation_and_model.py::SharedOutputRules::test_judgement_stays_prose_and_only_review_my_work_adds_a_score`,
    with `::test_the_detector_catches_planted_violations` as its own red test.
 
 4. **Guidance suggests and never demands; the rubric prescribes no way of working.**
@@ -26,14 +29,16 @@ Run the guards with `uvx pytest evals/` from this directory.
 
 5. **The three skills you run stay three skills.** `advise-me` answers in chat,
    writes no file, reads transcript and diff itself, and works before any code
-   exists; `review-my-work` writes one Markdown report, runs a falsifier and allows
-   exactly one revision; `log-feedback` only ever appends one dated bullet in the
+   exists; `review-my-work` writes one Markdown report, runs a falsifier, allows
+   exactly one revision and adds its concise score only after the prose judgement;
+   `log-feedback` only ever appends one dated bullet in the
    developer's own words and borrows none of the reviewing machinery. What the
    skills read from — `skills/references/` — is not a fourth skill and carries no
    SKILL.md, so no platform offers it as a route.
    `advise-me` also sends an isolated judge to the background every time it answers,
    and may close by offering — never starting — a falsifier over its own advice.
    Guarded by `evals/test_skills.py::AdviseMeTests`, `::ReviewMyWorkTests`,
+   `evals/test_review_scoring.py`,
    `::LogFeedbackTests`,
    `::SelfTriggerTests::test_the_reference_is_not_a_skill_at_all` and
    `evals/test_isolation_and_model.py::AdviceIsAccompaniedTests`.

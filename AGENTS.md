@@ -68,7 +68,10 @@ this product from before it moved to the root, and is kept only as history.
   chat, while the work is going on. It answers from the working context and spawns
   the isolated judge in the background alongside. No file.
 - `skills/review-my-work/SKILL.md` — the full review: transcript and diff, one
-  isolated reviewer, one falsifier round, one revision, one Markdown report.
+  isolated reviewer, one falsifier round, one revision, one Markdown report and a
+  concise weighted score in chat. Its own `scoring/`, `scripts/` and `references/`
+  hold the single score contract, deterministic calculator and flexible chat guide;
+  `advise-me` uses none of them.
 - `skills/log-feedback/SKILL.md` — what the developer thinks of the process, as one
   dated bullet in `docs/feedback.md` of the repository they work in. It judges
   nothing.

@@ -141,11 +141,12 @@ class SharedOutputRules(SharedRules):
             "Diff basis: <ref> (<why>)",
         )
 
-    def test_a_judgement_is_prose_and_never_a_mark_beside_a_criterion(self):
+    def test_judgement_stays_prose_and_only_review_my_work_adds_a_score(self):
         self.in_the_rules(
-            "No labels, no table, no number standing in for a judgement",
-            "Do not attach a label to each criterion",
-            "do not put a percentage anywhere",
+            "Prose remains the judgement",
+            "`advise-me` stays entirely score-free",
+            "Only `review-my-work` may add a numeric score",
+            "never replaces or compresses the written findings",
         )
 
 

@@ -5,6 +5,28 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.17
+
+- **review-my-work** adds a small, auditable score layer after the prose judgement:
+  one JSON contract holds the shared 0–5 half-point scale and the C1–C9 weights, and
+  one deterministic script validates the reviewer's evidence-backed assessment and
+  calculates a 0–10 result. C3 weighs 20 and C5 18; C4 is deliberately unweighted
+  and blocks the merge when requested behaviour was not delivered without an agreed
+  scope correction. The reviewer inspects the first calculated result like a human
+  reviewer, may revise only a specific criterion score with a reason, and reruns the
+  script—never editing the final number or weights directly.
+- **review-my-work** now returns the score and separate assessability in one to four
+  natural chat lines after writing its full report. A small reference gives two tone
+  examples without imposing a template, invites a concise follow-up when more
+  findings remain, and permits rubric links only when their target was verified.
+- **references** makes the output boundary explicit: prose remains the judgement,
+  `advise-me` stays score-free, and only `review-my-work` may append its route-specific
+  numeric record.
+- **evals** covers the single-contract shape, exact weights, C4 block, half-point
+  validation, duplicate rejection, N/A reweighting, UNKNOWN assessability, reviewer
+  correction loop and score-free isolation of `advise-me`. The new calculator suite
+  was observed failing before the score resources existed.
+
 ## 2.16
 
 - **references** makes C3's pre-implementation attack concrete. The old guidance
