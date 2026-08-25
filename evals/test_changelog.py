@@ -95,6 +95,7 @@ class ChangelogTests(unittest.TestCase):
             name
             for name in (
                 "references", "advise-me", "review-my-work", "log-feedback",
+                "create-verification", "collect-evidence", "falsify",
                 "install.sh", "evals", "AGENTS.md",
             )
             if f"**{name}**" in newest

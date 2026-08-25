@@ -17,7 +17,9 @@ from rubric_source import (
     EXAMPLE_DIR,
     EXAMPLE_FILES,
     EXAMPLES,
+    CREATE_VERIFICATION_FILES,
     INSTALLED_DIRS,
+    INVOKE_ONLY_SKILLS,
     README,
     REFERENCE_DIR,
     REFERENCE_FILES,
@@ -31,7 +33,7 @@ from rubric_source import (
 
 class SelfTriggerTests(unittest.TestCase):
     def test_no_skill_ever_triggers_itself(self):
-        for name in RUNNABLE_SKILLS:
+        for name in INVOKE_ONLY_SKILLS:
             with self.subTest(skill=name):
                 text = flat(skill_text(name))
                 self.assertIn("only when the developer asks for it by name", text)
@@ -67,6 +69,10 @@ class PackageLayoutTests(unittest.TestCase):
                     self.assertEqual(present, sorted(REFERENCE_FILES + EXAMPLE_FILES))
                 elif name == "review-my-work":
                     self.assertEqual(present, sorted(REVIEW_MY_WORK_FILES))
+                elif name == "create-verification":
+                    self.assertEqual(
+                        present, sorted(f.rsplit("/", 1)[-1] for f in CREATE_VERIFICATION_FILES)
+                    )
                 else:
                     self.assertEqual(present, ["SKILL.md"])
 

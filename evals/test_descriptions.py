@@ -14,7 +14,7 @@ description.
 
 import unittest
 
-from rubric_source import RUNNABLE_SKILLS, frontmatter_description
+from rubric_source import INVOKE_ONLY_SKILLS, RUNNABLE_SKILLS, frontmatter_description
 
 #: Words that decide which skill a request belongs to. Each may appear in one
 #: description only — as its own marker, not as a mention of a sibling.
@@ -68,7 +68,8 @@ class DescriptionTests(unittest.TestCase):
     def test_every_description_says_when_to_use_it_with_real_phrasing(self):
         for name, text in self.descriptions.items():
             with self.subTest(skill=name):
-                self.assertIn("Use only when", text)
+                if name in INVOKE_ONLY_SKILLS:
+                    self.assertIn("Use only when", text)
                 self.assertIn('"', text, "no example request the developer would type")
 
 

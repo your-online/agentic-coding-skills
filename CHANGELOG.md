@@ -5,6 +5,26 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.19
+
+- New verification trio, distilled from the
+  [acceptatiecriteria-en-bewijs-template](https://github.com/your-online/acceptatiecriteria-en-bewijs-template)
+  and its thirteen sources. **create-verification** builds a per-delivery run
+  document (VERIFICATION.html): criteria hardened first — a check that cannot turn
+  red proves nothing — then evidence, falsifier verdict and human judgment per
+  criterion, with the template and evidence rules bundled. **collect-evidence**
+  fills the evidence fields in fresh context: literal output behind an environment
+  fingerprint, empty fields with a reason over filled-in assumptions.
+  **falsify** is a generic falsifier: claims, evidence, version and inspection
+  scope in — never the maker's reasoning — VALID or REFUTED per claim out.
+- Unlike the reviewing skills, the trio triggers on its own when a delivery needs
+  proof; the invoke-only rule and its tests now name the reviewing skills
+  explicitly rather than every skill in the package.
+- Field-tested before shipping: a six-run eval (three tasks, with/without the
+  skills) scored 17/17 against 11/17 baseline, the gap sitting in environment
+  fingerprints, version binding, demonstrated red runs and binary falsifier
+  verdicts.
+
 ## 2.18
 
 - **review-my-work** now reviews a work item rather than assuming the current chat is

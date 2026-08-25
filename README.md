@@ -1,7 +1,8 @@
 # Agentic Coding skills
 
 A rubric for agentic coding work, plus three skills that judge and record against
-it. The rubric is not a skill: it is a file the skills read.
+it, and a verification trio that makes deliveries demonstrable per acceptance
+criterion. The rubric is not a skill: it is a file the skills read.
 
 The rubric names what has to be demonstrably good — context, acceptance criteria,
 tests, evidence, implementation — and deliberately does not prescribe how you get
@@ -47,6 +48,36 @@ you are working in. It records your words; it never gives you feedback.
 
 ```
 Log this as feedback: the falsifier round is too heavy for a one-line change.
+```
+
+### The verification trio
+
+Where the three above judge the *process*, these make the *product* demonstrable: one
+run document per delivery that records, per acceptance criterion, the evidence, a
+falsifier verdict and the human judgment. Built from the
+[acceptatiecriteria-en-bewijs-template](https://github.com/your-online/acceptatiecriteria-en-bewijs-template);
+the distilled evidence rules ship with the skill, so nothing needs cloning. Unlike
+the three above, these do trigger on their own when a delivery needs proof.
+
+**`create-verification`** — the entry point. Builds the run document from the bundled
+template, hardens the criteria first (a check that cannot turn red proves nothing),
+and dispatches the other two.
+
+```
+We're handing off the invoice-export feature — set up a verification page
+so the reviewer can check what the green checkmarks are based on.
+```
+
+**`collect-evidence`** — fills the evidence fields in fresh context: runs the checks,
+pastes literal output behind an environment fingerprint (hostname, OS, user,
+timestamp, commit), and never judges its own entries.
+
+**`falsify`** — a generic falsifier, usable far beyond run documents: give it claims,
+the evidence per claim, the version identifier and what it may inspect — never the
+maker's reasoning — and it returns VALID or REFUTED per claim, three sentences max.
+
+```
+Here are the findings and their evidence — try to refute them.
 ```
 
 Beside them sits `skills/references/`, which is not a skill and has no slash command:
