@@ -77,7 +77,10 @@ empty boilerplate headers:
 
 The reader is a human reviewer deciding what still needs their own attention. Write plainly,
 for a non-technical reader; technical detail only when it is essential to the point or the
-criterion itself is deeply technical. Do not impose structure or fixed headings on this —
-one or two plain sentences inside the verdict is the norm.
+criterion itself is deeply technical. In practice: no commit hashes, file names, timestamps,
+or references to evidence files in the verdict text — those details already live in the
+evidence field; the verdict says at a conceptual level what you checked, what you found, and
+what that means for the reviewer. Do not impose structure or fixed headings on this — one or
+two plain sentences inside the verdict is the norm.
 
 Your verdict is evidence for a human decision, not the decision itself.
