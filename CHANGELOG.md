@@ -5,6 +5,23 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.20
+
+- **create-verification**: the template now renders each section as a table with live
+  Test / Falsifier / Reviewer status columns per criterion, derived automatically
+  (programmatic PASS/FAIL from evidence text, "handmatig" for human-supplied
+  evidence, the bold falsifier verdict, the human judgment select). Per-row
+  `data-` attributes add an override (`data-test="open"`) and short grey notes;
+  the note policy is documented in the skill — only decision information the
+  status word alone does not carry (blockers, timing, caveats, processed
+  agreements), never process history or technical detail.
+- **create-verification**: step 2 now includes the non-goals card and the
+  html-annotator hand-off for reviewer feedback.
+- **falsify**: verdicts now also mention, freeform and only when actually
+  present, what the falsifier could not check itself and what the test does not
+  cover — the residual risk the reviewer inherits — written plainly for a
+  non-technical reader.
+
 ## 2.19
 
 - New verification trio, distilled from the

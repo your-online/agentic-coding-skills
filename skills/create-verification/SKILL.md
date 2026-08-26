@@ -71,11 +71,42 @@ anti-overfit stop rule.
   that produces the run document from the template plus a criteria list, instead of editing
   the HTML by hand — regenerating after each criteria change is cheaper and prevents
   hand-edit drift.
-- Add a **non-goals group** at the end ("Deliberately not covered"): criteria-shaped entries
-  for what this run consciously does not verify, each with why and who accepted the residual
-  risk. Leaving a risk deliberately uncovered is fine — residual risk is not failure — as long
-  as it is recorded here with a named acceptor; only silent gaps are. This is where "silence
-  that reads as coverage" gets its explicit place.
+- Add a **non-goals card** at the end ("Deliberately not covered"): a single freeform `.card`
+  — not criterion rows, these are not criteria — with one bullet per gap: what was not done,
+  the residual risk, whether it is mitigated, and why it is accepted and by whom. Leaving a
+  risk deliberately uncovered is fine — residual risk is not failure — as long as it is
+  recorded here with a named acceptor; only silent gaps are. This is where "silence that reads
+  as coverage" gets its explicit place.
+- After generating the run document, invoke the `html-annotator` skill (if available in your
+  environment) to embed its feedback snippet and start its bridge — the reviewer can then
+  comment on selections directly in the page.
+
+#### The overview columns (Test / Falsifier / Reviewer)
+
+The template renders each section as a table: a header row per group, and every criterion row
+shows three status columns next to its title. These derive automatically — no manual upkeep:
+
+- **Test**: from the evidence text — `resultaat: PASS`/`FAIL` or an exit code means a
+  programmatic check; any other filled-in evidence (pasted output, uploads) shows as
+  **handmatig** so the reader can tell programmatic from human-supplied evidence at a glance.
+- **Falsifier**: the bold verdict word (`VALID`/`REFUTED`) from the verdict field.
+- **Reviewer**: the human judgment select (this is the row's status pill).
+
+Per-row `data-` attributes refine this: `data-test="open"` forces the Test column to open when
+the evidence field only holds an explanation rather than evidence, and
+`data-test-note` / `data-fals-note` / `data-rev-note` add a short grey comment under the
+status word.
+
+**Note policy — a note earns its place only when it carries decision information the status
+word alone does not:**
+
+- what is *blocking* ("wacht op deploy token", "kan niet: geen toegang tot X");
+- *timing* the reader would otherwise misread ("eerste nightly draait vanavond");
+- a *caveat* on an otherwise green word ("oordeel gold de eerdere rode stand");
+- something the reviewer and executor *agreed on that has since been processed*.
+
+Never use notes for process history or technical detail the evidence already carries (commit
+hashes, install dates, tool names). No note is the default; most rows should have none.
 
 ### 3. Fill in the evidence
 

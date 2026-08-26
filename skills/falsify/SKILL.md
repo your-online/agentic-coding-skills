@@ -67,4 +67,17 @@ scores, no hedging scale, no reward for length. Write the verdict where the invo
 for it (for a run document: the Falsifier agent verdict field of that criterion); otherwise
 return it as a numbered list matching the claims.
 
+Beyond the verdict itself, mention — freeform, and ONLY when actually present, never as
+empty boilerplate headers:
+
+- what you could not check yourself, and why;
+- what the test or evidence does not cover: the residual risk the reviewer inherits, whether
+  they should check something by hand, and whether extra acceptance criteria or tests seem
+  needed.
+
+The reader is a human reviewer deciding what still needs their own attention. Write plainly,
+for a non-technical reader; technical detail only when it is essential to the point or the
+criterion itself is deeply technical. Do not impose structure or fixed headings on this —
+one or two plain sentences inside the verdict is the norm.
+
 Your verdict is evidence for a human decision, not the decision itself.
