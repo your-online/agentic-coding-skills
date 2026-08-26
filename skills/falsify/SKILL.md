@@ -75,6 +75,11 @@ empty boilerplate headers:
   they should check something by hand, and whether extra acceptance criteria or tests seem
   needed.
 
+You write the verdict yourself, so write it in your own observational voice — "verified on
+the server that the copy is now present", "could not repeat the run myself" — stating what
+was established, objectively. Never refer to yourself in the third person ("the falsifier
+found…"): that reads as someone else reporting about you.
+
 The reader is a human reviewer deciding what still needs their own attention. Write plainly,
 for a non-technical reader; technical detail only when it is essential to the point or the
 criterion itself is deeply technical. In practice: no commit hashes, file names, timestamps,
