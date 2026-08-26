@@ -35,6 +35,11 @@ demonstrably fail once (temporarily break the behavior, feed known-bad input) an
 red run next to the green one. Coverage does not count as a criterion: it measures execution,
 not verification.
 
+Be pragmatic about scope. Include only the criteria genuinely needed to deliver this feature
+responsibly — not every sub-aspect deserves its own criterion. Checks that measure the same
+behavior belong merged into one all-in-one criterion. The number of criteria in the template is
+an example, not a norm: a real run document may have more or fewer.
+
 Give every criterion a short stable ID (A.1, M5) and carry that ID into the test names
 (`test_M5_...`): evidence per criterion then becomes one filtered test run, and the binding
 between check and criterion is mechanical instead of prose.
@@ -68,7 +73,9 @@ anti-overfit stop rule.
   hand-edit drift.
 - Add a **non-goals group** at the end ("Deliberately not covered"): criteria-shaped entries
   for what this run consciously does not verify, each with why and who accepted the residual
-  risk. This is where "silence that reads as coverage" gets its explicit place.
+  risk. Leaving a risk deliberately uncovered is fine — residual risk is not failure — as long
+  as it is recorded here with a named acceptor; only silent gaps are. This is where "silence
+  that reads as coverage" gets its explicit place.
 
 ### 3. Fill in the evidence
 
