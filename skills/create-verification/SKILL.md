@@ -71,6 +71,12 @@ disappearing. Only approved criteria go into the document; criteria the human ad
 in the exchange go through the same soundness test as your own (observable outcome, can turn
 red).
 
+This holds for **every** criterion, not only the first batch. A run document grows: something
+breaks in real use, a review turns up a gap, a new behavior gets built. The pull then is to
+write the test first and mention the criterion afterwards — which is exactly how a document
+fills up with criteria the human never chose (happened 29-08-2026). So the same approval round
+applies to a criterion added mid-flight, and it comes *before* you build its check, not after.
+
 ### 2. Build the run document
 
 - Copy the template and fill in the metadata at the top: executor, machine (hostname),
@@ -191,6 +197,17 @@ transcript that produced the evidence — a falsifier that has read the maker's 
 confirming it. It writes VALID or REFUTED plus at most three sentences into each Falsifier
 agent verdict field. Default is one falsifier round; for high stakes, multiple falsifiers from
 different angles, or one on a different model family than whoever collected the evidence.
+
+Criteria added after an earlier round need their own falsifier pass; carrying the old verdicts
+over would leave new claims unattacked while the document looks uniformly checked. Point the
+new round at the new rows only, and say explicitly which rows already carry verdicts and
+judgments so it leaves those alone.
+
+**When the code changes, its evidence expires.** Evidence binds to a commit, so a fix or a new
+behavior invalidates every criterion whose behavior it touches — even the ones that were green
+and validated. Re-collect the whole evidence set against the new commit rather than appending
+only the new rows; a document mixing fingerprints from several commits cannot show which
+version was actually verified.
 
 ### 5. Human judgment and archiving
 
