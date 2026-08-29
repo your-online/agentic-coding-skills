@@ -199,6 +199,16 @@ is about responsibility, not capability, so it keeps holding no matter how good 
 Then click **Save as file**: CI systems purge artifacts after 30–90 days, so the run document
 archives its own evidence, standalone, alongside the delivery.
 
+The signed document is not archived until it sits **in the delivery's repo, committed** — a
+browser download in Downloads or field contents living only in the browser's localStorage is
+not an archive (the page's stored state never reaches the file on disk by itself). After the
+human judges: get the saved file into the repo and commit it as the signed run document.
+When the human gives their judgment in conversation instead of in the page ("all good, ship
+it"), the executor may record it in the document as a scribe — but only with explicit
+attribution and source (name, timestamp, the verbatim quote) in the judgment notes and the
+signature line, never as if the human clicked it themselves. The judgment stays the human's;
+only the typing is delegated.
+
 One run document = one run, on one machine, by one executor. Rolling out to multiple machines
 or environments: one run document per machine/environment, and the fingerprints in the output
 then show different hostnames. The strongest close: have a fresh agent reproduce the run from a
