@@ -259,4 +259,28 @@ document.addEventListener('click',function(e){
  document.addEventListener('input',function(){setTimeout(render,0)},true);
  render();
 })();
-</script></body></html>
+</script>
+<!-- ACB-STATE-MIRROR: spiegelt de localStorage-staat van dit run-document naar de
+     annotator-bridge (127.0.0.1:8791), zodat oordelen ook op schijf staan
+     (~/Desktop/annotaties/<slug>/state.json) en niet alleen in de browser leven.
+     Uitlezen/terugzetten: create-verification/bin/lees-oordeel.py. Faalt stil
+     zonder bridge; het document blijft standalone werken. -->
+<script>
+(function(){
+ var BRIDGE='http://127.0.0.1:8791', SK='acb-state-v2:'+location.pathname, t=null;
+ function push(){
+  var raw=null; try{raw=localStorage.getItem(SK)}catch(e){}
+  if(!raw) return;
+  var st; try{st=JSON.parse(raw)}catch(e){return}
+  try{fetch(BRIDGE+'/state-save',{method:'POST',headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({page:location.href,component:'acb-state',key:'state',
+    value:{state:st,savedAt:new Date().toISOString()}})}).catch(function(){})}catch(e){}
+ }
+ function plan(){clearTimeout(t);t=setTimeout(push,800)}
+ document.addEventListener('input',plan,true);
+ document.addEventListener('change',plan,true);
+ window.addEventListener('pagehide',push);
+})();
+</script>
+<!-- /ACB-STATE-MIRROR -->
+</body></html>

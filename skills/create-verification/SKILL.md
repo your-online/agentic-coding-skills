@@ -201,7 +201,14 @@ archives its own evidence, standalone, alongside the delivery.
 
 The signed document is not archived until it sits **in the delivery's repo, committed** — a
 browser download in Downloads or field contents living only in the browser's localStorage is
-not an archive (the page's stored state never reaches the file on disk by itself). After the
+not an archive (the page's stored state never reaches the file on disk by itself). The
+template therefore mirrors its browser state to the annotator-bridge
+(`~/Desktop/annotaties/<slug>/state.json`) whenever the reviewer types or clicks; recover
+those judgments with `bin/lees-oordeel.py <VERIFICATION.html>` (dry run shows them,
+`--toepassen` writes the selects and judgment notes into the file — deliberately never the
+evidence fields, where stale browser state is exactly the trap). This only works when the
+bridge was running while the reviewer had the page open; without a mirrored state, ask the
+reviewer to click Save as file. After the
 human judges: get the saved file into the repo and commit it as the signed run document.
 When the human gives their judgment in conversation instead of in the page ("all good, ship
 it"), the executor may record it in the document as a scribe — but only with explicit
