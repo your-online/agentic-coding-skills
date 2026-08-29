@@ -52,6 +52,25 @@ Criteria judged by an LLM (tone, helpfulness, classification) need the probabili
 recipe from evidence-rules.md — a golden set with hard subsets, a must-fail baseline, and an
 anti-overfit stop rule.
 
+#### Get every criterion approved before it enters the document
+
+The criteria emerge from two sources: what the conversation established the delivery must do,
+and your own analysis of what could silently be wrong. But you propose, the human decides —
+a run document full of criteria the human never chose measures your idea of done, not theirs,
+and the human is the one who later signs for it.
+
+So before building the run document (step 2), present every candidate criterion through
+AskUserQuestion: per criterion a plain-language explanation of what it checks and why it
+matters (no test jargon — say "controleert dat een vierde sessie echt geblokkeerd wordt", not
+the assertion), with options to include it or drop it. AskUserQuestion takes at most four
+questions per call, so batch larger sets into rounds; multiSelect over a themed group also
+works ("welke van deze vier telling-criteria neem ik op?"). Offer your recommendation per
+criterion and mention gaps you deliberately did not cover — a dropped criterion belongs in the
+non-goals card with the human as acceptor, so the decision stays visible instead of silently
+disappearing. Only approved criteria go into the document; criteria the human adds or reshapes
+in the exchange go through the same soundness test as your own (observable outcome, can turn
+red).
+
 ### 2. Build the run document
 
 - Copy the template and fill in the metadata at the top: executor, machine (hostname),
@@ -86,9 +105,12 @@ anti-overfit stop rule.
 The template renders each section as a table: a header row per group, and every criterion row
 shows three status columns next to its title. These derive automatically — no manual upkeep:
 
-- **Test**: from the evidence text — `resultaat: PASS`/`FAIL` or an exit code means a
-  programmatic check; any other filled-in evidence (pasted output, uploads) shows as
-  **handmatig** so the reader can tell programmatic from human-supplied evidence at a glance.
+- **Test**: from the evidence text — the *exact* strings `resultaat: PASS`/`resultaat: FAIL`
+  or `exit code: 0` (with the space) mean a programmatic check; any other filled-in evidence
+  (pasted output, uploads, `exitcode:` without the space) shows as **handmatig** so the reader
+  can tell programmatic from human-supplied evidence at a glance. Do not hand-write these
+  markers: `bin/bewijs.sh` emits them, and `bin/injecteer.py` warns before writing when a
+  file would render as handmatig (this exact mismatch shipped once, on 29-08-2026).
 - **Falsifier**: the bold verdict word (`VALID`/`REFUTED`) from the verdict field.
 - **Reviewer**: the human judgment select (this is the row's status pill).
 
@@ -117,10 +139,30 @@ the unique version identifier of what is being tested (commit SHA or image diges
 it provable afterwards where and when the run happened and which version the evidence belongs
 to.
 
-Getting evidence physically into the HTML: have checks write one file per criterion
-(`evidence/<ID>.txt`) and use a small injector script that places each file's content into the
-matching criterion's evidence field — dry-run it on a copy of the document first. Keep the
-generated `evidence/` directory out of version control, and out of the clean-tree check below.
+Run every scripted check through the bundled runner instead of hand-rolling the output format:
+
+```bash
+<skill-dir>/bin/bewijs.sh A.1 -- pytest tests/ -k T1 -v            # groene run
+<skill-dir>/bin/bewijs.sh A.1 --append --verwacht-rood -- pytest tests/ -k T1 -v  # mutatierun
+```
+
+It writes `evidence/<ID>.txt` with the fingerprint, the literal command, the literal output,
+`exit code: N` and `resultaat: PASS/FAIL` — the exact contract the overview's Test column
+parses. With `--verwacht-rood` a failing exit is the PASS (for mutation/counter-proof runs), so
+red runs land in the same file without hand-edited verdict lines. Then place the files into the
+document with the bundled injector:
+
+```bash
+<skill-dir>/bin/injecteer.py VERIFICATION.html              # droogloop: toont per ID of de
+                                                            # Test-kolom het herkent
+<skill-dir>/bin/injecteer.py VERIFICATION.html --toepassen  # schrijft echt
+```
+
+The injector touches only the evidence field of each matching row — falsifier verdicts, human
+judgments and any annotator snippet survive re-injection — and its dry run flags every file
+that would render as "handmatig", so a format mistake is caught before it reaches the
+document. Keep the generated `evidence/` directory out of version control, and out of the
+clean-tree check below.
 
 Only for evidence that cannot come from a script do you dispatch a subagent with fresh
 context, instructed to invoke the **`collect-evidence`** skill and given the path to the run
