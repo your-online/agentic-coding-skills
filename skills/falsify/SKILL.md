@@ -31,10 +31,13 @@ Do this in one turn, without asking the user unless step 1 fails.
      claim asserts). Do not ask the user to reformulate.
    - **Evidence per claim**: file paths, script output, logs, a run document. Pointers,
      not summaries.
-   - **Version identifier**: the HEAD commit SHA. If the tree is dirty, add the output of
-     `git stash create` as the snapshot SHA (it records the working tree without touching
-     it) and list the uncommitted paths. Outside a git repo: the absolute paths plus the
-     current timestamp.
+   - **Version identifier**: the HEAD commit SHA. If the tree is dirty, freeze the
+     uncommitted state into a snapshot file in your scratch directory and pass its path
+     next to the SHA: `git status --porcelain` followed by `git diff HEAD` and the full
+     contents of every untracked file (`git ls-files --others --exclude-standard`),
+     or simply an archive of the working tree (`tar czf <scratch>/tree-<timestamp>.tgz
+     --exclude .git .`). Do not use `git stash create`: it silently skips untracked
+     files. Outside a git repo: the archive plus the current timestamp.
    - **What may be inspected**: repository path, machine, running system, commands the
      falsifier may rerun.
    Ask the user only when a claim cannot be stated at all or the evidence genuinely does
@@ -95,10 +98,17 @@ means something.
 ### Inputs
 
 Your brief supplies the claims, the evidence per claim, the version identifier, and what
-you may inspect. If one of these four is missing, say so in your verdict and stop; do not
-fill the gap with assumptions. You have no stake in the outcome and did not help produce
-anything you are judging. Run on the machine where the evidence was produced whenever the
-claims refer to local state.
+you may inspect. If one of these four is missing, ask the dispatcher for it before
+judging; do not fill the gap with assumptions. What may also come along is the provenance
+of the requirements (user decisions, stakeholder answers, why a criterion exists): that is
+input material, not the maker's reasoning, and without it real gaps stay invisible — a
+requirement can be met to the letter while missing the decision behind it. What must not
+be in your brief is the maker's reasoning or transcript; if it is, say so and judge from
+the evidence alone.
+
+Isolation: never falsify claims you helped produce or evidence you helped collect. If
+anything in your context shows you did, stop and report that instead of a verdict. Run on
+the machine where the evidence was produced whenever the claims refer to local state.
 
 ### Test hard
 

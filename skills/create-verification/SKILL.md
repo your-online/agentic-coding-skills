@@ -189,13 +189,14 @@ document, the criteria to fill, and the version identifier. Core rules, for your
 
 ### 4. Have a falsifier attack the evidence
 
-Dispatch a subagent with fresh context, instructed to invoke the **`falsify`** skill — the
-generic falsifier. Pass it exactly four things: the claims (each criterion plus its expected
-result, stated as something that can be false), the evidence per claim (or the path to the run
-document), the version identifier, and what it may inspect. Never pass the reasoning or
-transcript that produced the evidence — a falsifier that has read the maker's reasoning starts
-confirming it. It writes VALID or REFUTED plus at most three sentences into each Falsifier
-agent verdict field. Default is one falsifier round; for high stakes, multiple falsifiers from
+Dispatch a subagent with fresh context whose brief follows the prompt template in Part A
+of the **`falsify`** skill: it starts with the line `ROLE: FALSIFIER`, then the CLAIMS (each
+criterion plus its expected result, stated as something that can be false), EVIDENCE per
+claim (or the path to the run document), VERSION, MAY INSPECT, and WRITE VERDICT TO pointing
+at the Falsifier agent verdict fields. Without that first line the subagent reads itself as a
+dispatcher and spawns yet another agent. Never pass the reasoning or transcript that produced
+the evidence — a falsifier that has read the maker's reasoning starts confirming it. It writes
+VALID or REFUTED plus at most three sentences into each Falsifier agent verdict field. Default is one falsifier round; for high stakes, multiple falsifiers from
 different angles, or one on a different model family than whoever collected the evidence.
 
 Criteria added after an earlier round need their own falsifier pass; carrying the old verdicts

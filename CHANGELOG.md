@@ -5,6 +5,19 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.22
+
+- **falsify**: the dirty-tree version pin no longer uses `git stash create`, which
+  silently skips untracked files; the dispatcher freezes the working tree into a
+  snapshot file (diff plus untracked contents, or an archive) and passes its path
+  next to the HEAD SHA. Part B regains three duties from before 2.21: a falsifier
+  missing one of its four inputs asks for it instead of stopping, the isolation
+  rule is a rule again ("never falsify claims you helped produce"), and the
+  explanation of why requirement provenance may come along is back.
+- **create-verification**: the falsifier round now dispatches with the
+  `ROLE: FALSIFIER` brief from the falsify template, so the subagent judges
+  instead of dispatching a further one.
+
 ## 2.21
 
 - **falsify**: now has two explicit roles. Invoking `/falsify` in a session makes that
