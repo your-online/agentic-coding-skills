@@ -5,6 +5,19 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.21
+
+- **falsify**: now has two explicit roles. Invoking `/falsify` in a session makes that
+  session the dispatcher: it assembles the four inputs (numbered claims, evidence
+  pointers, version identifier, inspection scope), pins the version without
+  touching the working tree (`git stash create` for a dirty tree), spawns one
+  fresh subagent whose brief starts with `ROLE: FALSIFIER`, and relays the verdict
+  verbatim. Only a subagent spawned with that marker acts as the falsifier. Before
+  this, the skill body addressed the reader as the falsifier, so the invoking
+  session read itself as the judge, hit the "never falsify your own work" rule and
+  improvised — explaining it was the wrong reviewer, committing first, or judging
+  anyway.
+
 ## 2.20
 
 - **create-verification**: the template now renders each section as a table with live
