@@ -20,10 +20,13 @@ SKILLS_DIR = ROOT / "skills"
 REFERENCE_DIR = "references"
 #: The skills the developer actually starts. The first three in the order they
 #: are used: advise while working, review the work, log what the developer
-#: thought of it. The last three make deliveries demonstrable: build the
+#: thought of it. The next three make deliveries demonstrable: build the
 #: run document, collect its evidence, and falsify claims against it.
+#: `next-steps` judges nothing and proves nothing — it reports the state of the
+#: work that is still open, which is the question asked between the two.
 RUNNABLE_SKILLS = ("advise-me", "review-my-work", "log-feedback",
-                   "create-verification", "collect-evidence", "falsify")
+                   "create-verification", "collect-evidence", "falsify",
+                   "next-steps")
 #: Everything the installer copies, the reference first.
 INSTALLED_DIRS = (REFERENCE_DIR,) + RUNNABLE_SKILLS
 #: The two that judge work against the rubric. log-feedback has no use for it.

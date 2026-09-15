@@ -5,6 +5,19 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.23
+
+- New skill **next-steps**: the state of the open work as one continuously
+  numbered list, grouped by who is waiting on it — running without you, next by
+  me, and what needs the developer. One numbering across the groups, so "do 7 and
+  9 but not 8" needs no explanation of which block is meant. It also fixes where a
+  choice goes: a next step that hangs on a decision only the developer can make is
+  asked with AskUserQuestion, one question at a time, each option naming its cost
+  as well as its benefit — rather than listed in prose, where the options read as
+  description and the developer has to reconstruct that a decision was wanted.
+  It judges nothing and proves nothing, so it borrows no rubric, no subagent and
+  no diff.
+
 ## 2.22
 
 - **falsify**: the dirty-tree version pin no longer uses `git stash create`, which

@@ -77,6 +77,11 @@ this product from before it moved to the root, and is kept only as history.
 - `skills/log-feedback/SKILL.md` — what the developer thinks of the process, as one
   dated bullet in `docs/feedback.md` of the repository they work in. It judges
   nothing.
+- `skills/next-steps/SKILL.md` — the state of the open work as one list, numbered
+  straight through so a point can be named without naming its group, and grouped
+  by who is waiting on it. It judges nothing and proves nothing, so it reads no
+  rubric and spawns nothing; the one rule with teeth is that a next step waiting
+  on a decision is asked with AskUserQuestion rather than listed in prose.
 - `install.sh` — the installer the README calls: it detects which platforms are
   present (`~/.claude`, `~/.codex`) and installs everything in `skills/` into each —
   the three skills and the reference directory beside them.

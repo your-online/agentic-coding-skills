@@ -1,8 +1,9 @@
 # Agentic Coding skills
 
 A rubric for agentic coding work, plus three skills that judge and record against
-it, and a verification trio that makes deliveries demonstrable per acceptance
-criterion. The rubric is not a skill: it is a file the skills read.
+it, a verification trio that makes deliveries demonstrable per acceptance
+criterion, and one skill that says where the open work stands. The rubric is not
+a skill: it is a file the skills read.
 
 The rubric names what has to be demonstrably good — context, acceptance criteria,
 tests, evidence, implementation — and deliberately does not prescribe how you get
@@ -80,6 +81,20 @@ maker's reasoning — and it returns VALID or REFUTED per claim, three sentences
 Here are the findings and their evidence — try to refute them.
 ```
 
+### Where the work stands
+
+**`next-steps`** — the state of the open work as one continuously numbered list,
+grouped by who is waiting on it: what is already running without you, what gets
+picked up next, and what needs a decision from you. The numbering runs across the
+groups, so "do 7 and 9 but not 8" says everything. Where a next step hangs on a
+choice only you can make, it asks with AskUserQuestion — one question, each option
+naming what it costs as well as what it buys — instead of listing the options in
+prose. It judges nothing and proves nothing, so it reads no rubric.
+
+```
+What are the next steps?
+```
+
 Beside them sits `skills/references/`, which is not a skill and has no slash command:
 `rubric.md` holds the criteria and the rules for any judgement made against them, and
 `learning-materials.md` the reading behind each one. The skills read those files
@@ -117,6 +132,7 @@ skills/review-my-work/SKILL.md                   the full review, report and con
 skills/review-my-work/scoring/score-contract.json one scale, weights and the C4 merge block
 skills/review-my-work/scripts/calculate_score.py deterministic score calculation
 skills/log-feedback/SKILL.md                     your feedback about the process, one bullet
+skills/next-steps/SKILL.md                       where the open work stands, one numbered list
 install.sh                                       the installer: both platforms, everything in skills/
 evals/                                           regression suite: uvx pytest evals/
 CHANGELOG.md                                     what changed, per release
