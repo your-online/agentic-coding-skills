@@ -213,13 +213,28 @@ document.addEventListener('click',function(e){
   head.innerHTML='<span></span><span></span><span>Criterium</span><span>Test</span><span>Falsifier</span><span>Reviewer</span>';
   g.parentNode.insertBefore(head,next);
  });
+ /* De uitslagregel per REGEL lezen vraagt echte regelovergangen: textContent plakt een
+    met de hand getypte <div>-regel aan de vorige vast, waardoor een handmatig genoteerde
+    uitslag niet meer aan het begin van een regel staat. */
+ function evTekst(ev){
+  if(!ev)return'';
+  var h=(ev.innerHTML||'').replace(/<br\s*\/?>/gi,'\n')
+   .replace(/<(div|p|pre|li|h[1-6])\b/gi,'\n$&').replace(/<\/(div|p|pre|li|h[1-6])>/gi,'\n$&');
+  var d=document.createElement('div');d.innerHTML=h;return d.textContent||'';
+ }
  function testStand(r){
-  var ev=r.querySelector('.evtext');var t=ev?(ev.textContent||''):'';
+  var ev=r.querySelector('.evtext');var t=evTekst(ev);
   var heeftUpload=!!r.querySelector('.att .item');
-  var heeftPre=!!(ev&&ev.querySelector&&ev.querySelector('pre'))||/exit code:/.test(t);
-  if(/resultaat:\s*PASS/.test(t))return{cls:'ok',txt:'PASS'};
-  if(/resultaat:\s*FAIL/.test(t))return{cls:'fail',txt:'FAIL'};
-  if(heeftPre&&/exit code: 0/.test(t))return{cls:'ok',txt:'PASS'};
+  var heeftPre=!!(ev&&ev.querySelector&&ev.querySelector('pre'))||/exit ?code:/.test(t);
+  /* De uitslagregel wordt door het toetsscript zelf geschreven, in het Nederlands of het
+     Engels, met of zonder spatie in "exit code". Anker op de regel: GROEN en ROOD komen ook
+     in toelichtingen voor, en een treffer ergens in 28 000 tekens uitvoer is geen uitslag.
+     Geen einde-regelanker, want de toetsen schrijven "resultaat: ROOD (9 bevinding(en) ...)".
+     Rood wordt voor groen beslist, dezelfde valkuil als bij de falsifierpil waar NOT SOUND
+     voor SOUND moet staan: een veld met beide mag nooit als geslaagd lezen. */
+  if(/^[ \t]*resultaat:[ \t]*(ROOD|FAIL)\b/m.test(t))return{cls:'fail',txt:'FAIL'};
+  if(/^[ \t]*resultaat:[ \t]*(GROEN|PASS)\b/m.test(t))return{cls:'ok',txt:'PASS'};
+  if(heeftPre&&/exit ?code:[ \t]*0\b/.test(t)&&!/exit ?code:[ \t]*[1-9]/.test(t))return{cls:'ok',txt:'PASS'};
   if(t.trim()||heeftUpload)return{cls:'part',txt:'handmatig'};
   return{cls:'open',txt:'\u2014'};
  }
