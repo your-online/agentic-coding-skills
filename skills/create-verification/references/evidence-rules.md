@@ -43,6 +43,23 @@ is an elaboration of this one question.
    run; the run document must be standalone with everything inside it (Save as file).
 9. **Separation of roles.** Whoever filled in the evidence does not judge it. The falsifier has
    fresh context and no stake in the outcome. The human signs and carries the residual risk.
+10. **Run binding — and it is not the same as version binding.** Evidence must demonstrably come
+    from *one* collection run that *finished*. Two artifacts agreeing on a fingerprint only proves
+    they saw the same state, not that one run produced both: two independent processes reading the
+    same database write the same hash by construction. So give every artifact a run identifier that
+    the collector generates once per run, require the artifacts to carry the *same* one, and have
+    the collector write a closing result line only into the artifacts whose phase actually ran in
+    that run. Watch the last part: a loop that stamps every artifact it can find, guarded by a file
+    existence check, hands a completion marker to files this run never touched — it reads as proof
+    of a finished run and is not. Both failures are silent and both survive a false claim, which is
+    exactly what requirement 1's question is for.
+11. **Collection must be resumable without breaking the binding.** A long chain that can only run
+    whole restarts entirely on an unrelated hiccup — a container name clash, a flaky runtime — and
+    each restart is another chance to hit the next one. Split it into phases and let a later phase
+    be skipped, but only when the evidence itself says skipping is allowed: recompute the
+    fingerprint over the live state and refuse on mismatch. Add a staleness bound and *derive* it
+    from the data rather than picking a number — clock-relative seed data keeps its fingerprint
+    while its meaning drifts, so find the tightest margin in the fixture and stay well inside it.
 
 ## Strength of evidence forms, strongest to weakest
 

@@ -226,6 +226,29 @@ and validated. Re-collect the whole evidence set against the new commit rather t
 only the new rows; a document mixing fingerprints from several commits cannot show which
 version was actually verified.
 
+#### And one more falsifier on the finished whole
+
+The round above attacks the criteria. Nobody in it attacks the claims *you* make about the delivery:
+that the chain ran clean, that a guard closes the hole it was written for, that a refactor introduced
+no regression. Those claims carry the same weight as any criterion and get none of the scrutiny,
+because the agent that made them is the only one who has looked.
+
+So close the work with one falsifier on the deliverable itself. Give it the same four inputs — your
+claims stated so they can be false, the evidence, the version identifier, what it may inspect — and
+name the riskiest claim explicitly so it goes there first. Include the claims you are most confident
+about; those are the ones nobody else will check.
+
+It pays for itself, twice over in one night. On the plan, it refuted the core claim by finding that a
+proposed guard compared a value the harness had handed the artifact itself — a comparison that could
+never turn red, about to be introduced *as* a safeguard — and it moved a risk the author had put on
+the wrong mechanism entirely. On the finished work, it found that the author had repaired one half of
+a two-sided flaw and left the other half standing, directly under a comment claiming the repair, and
+that the one resume mode which skipped every safeguard was the one those safeguards were written for.
+None of it was visible to the author, and all of it would have shipped.
+
+If your own claims survive, say so plainly and move on; a surviving claim is worth more than a
+confirmed one.
+
 ### 5. Human judgment and archiving
 
 A human sets the final status (met / needs work / not met) and carries the residual risk; that

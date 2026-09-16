@@ -5,6 +5,30 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.25
+
+- **create-verification**: two hard evidence requirements and a closing falsifier round,
+  all three earned in one night. **Run binding** is now separate from version binding,
+  because they are not the same thing: two artifacts agreeing on a fingerprint prove they
+  saw the same state, not that one run wrote both — two processes reading the same
+  database write the same hash by construction. So the collector stamps a run identifier
+  once per run, the artifacts must carry the same one, and the closing result line goes
+  only into artifacts whose phase actually ran. That last clause is where the sharpest
+  lesson sits: the first repair fixed one half of a loop that stamped every artifact it
+  could find, left the other half standing, and put a comment above it claiming the repair
+  was complete. A falsifier found it, not the author. **Resumable collection** is the
+  second: a chain that only runs whole restarts entirely on an unrelated hiccup — seven
+  runs were needed that night and four died on the harness or the container runtime, twice
+  after the seeding and every measurement had already succeeded. Phases may be skipped,
+  but only when the evidence says so: recompute the fingerprint over the live state, and
+  *derive* the staleness bound from the data instead of picking a number, because
+  clock-relative fixtures keep their fingerprint while their meaning drifts. And **a
+  falsifier on the finished whole**, not only per criterion: that round attacks the
+  criteria and leaves the builder's own claims about the delivery — it ran clean, the guard
+  closes the hole, the refactor broke nothing — unexamined by anyone but their author. Two
+  such rounds refuted four of those claims, including a proposed safeguard that compared a
+  value the harness had handed the artifact itself and could therefore never turn red.
+
 ## 2.24
 
 - **create-verification**: the run document is filled in per criterion or per small
