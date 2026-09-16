@@ -96,6 +96,22 @@ applies to a criterion added mid-flight, and it comes *before* you build its che
   that produces the run document from the template plus a criteria list, instead of editing
   the HTML by hand — regenerating after each criteria change is cheaper and prevents
   hand-edit drift.
+- Work the run document **per criterion, or per small group**: build the row, generate, look,
+  commit — rather than collecting everything and writing it in at the end. The generator runs in
+  seconds, so a round costs almost nothing, and what it buys is that you see every time what
+  actually changed. Four falsifier verdicts once landed nowhere because the rows they addressed
+  carried no ID, and a key that matches nothing is dropped silently, without an error: at one
+  falsifier round at a time that is four rows without a judgment where you expected six, visible
+  in two minutes, while in a batch of fifteen changes after seven hours nobody can still say
+  which rows were supposed to get one. Commit each step on its own — the sharpest reason is not
+  what you would otherwise miss but that the provenance blurs: a change committed by itself
+  cannot land in a commit about something else, the way a guard once shipped inside a commit that
+  was about something entirely different and never named it.
+- That rhythm holds only while updating one row is **independent of re-collecting the evidence**.
+  Where the two are bolted together — a check that demands every evidence file come from the same
+  run, a generator that can only rewrite the whole document — the tooling forces the batch back
+  on you, and repairing that comes first: no working rhythm survives a tool that refuses a small
+  step.
 - Add a **non-goals card** at the end ("Deliberately not covered"): a single freeform `.card`
   — not criterion rows, these are not criteria — with one bullet per gap: what was not done,
   the residual risk, whether it is mitigated, and why it is accepted and by whom. Leaving a
