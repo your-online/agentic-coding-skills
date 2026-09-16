@@ -5,6 +5,25 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.24
+
+- **create-verification**: the run document is filled in per criterion or per small
+  group — build the row, generate, look, commit — instead of collecting everything
+  and writing it in at the end. The generator runs in seconds, so a round costs
+  almost nothing, and every round shows what actually changed. Four falsifier
+  verdicts once landed nowhere because the rows they addressed carried no ID, and a
+  key that matches nothing is dropped silently, without an error: at one round at a
+  time that is four rows without a judgment where six were expected, visible in two
+  minutes, while in a batch of fifteen changes after seven hours nobody can still say
+  which rows were supposed to get one. The sharper reason is provenance rather than
+  what gets missed — a change committed by itself cannot land in a commit about
+  something else, the way a guard once shipped inside a commit that was about
+  something entirely different and never named it. The rule carries its own
+  precondition, because without it the advice cannot be followed: updating a row has
+  to be independent of re-collecting the evidence, and where a tool welds the two
+  together that tool is what gets repaired first. It says nothing about *whether* a
+  change to the run document is recorded, only how big one should be.
+
 ## 2.23
 
 - New skill **next-steps**: the state of the open work as one continuously
