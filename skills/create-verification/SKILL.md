@@ -16,9 +16,9 @@ copy that file into the project (name it `VERIFICATION.html` or `VERIFICATION-<r
 and replace the example criteria with the real ones. The structure around them (metadata, three
 steps per criterion, save button) is the template; the criteria are throwaway examples.
 
-Before filling in or judging any evidence, read
-[references/evidence-rules.md](references/evidence-rules.md) — the evidence-strength ladder,
-the hard requirements, and the pitfalls. Filling and judging are done by two companion skills,
+Before filling in or judging any evidence, read `references/evidence-rules.md` — the
+`references` directory that sits beside this skill's own directory, not inside it — for the
+evidence-strength ladder, the hard requirements, and the pitfalls. Filling and judging are done by two companion skills,
 each run in a subagent with fresh context: `collect-evidence` (fills the evidence fields) and
 `falsify` (attacks the evidence). An agent that just filled in evidence is inclined to confirm
 its own work, which is why these are separate dispatches and not steps you do inline.
@@ -189,15 +189,12 @@ document, the criteria to fill, and the version identifier. Core rules, for your
 
 ### 4. Have a falsifier attack the evidence
 
-Dispatch a subagent with fresh context whose brief follows the prompt template in Part A
-of the **`falsify`** skill: it starts with the line `ROLE: FALSIFIER`, then the CLAIMS (each
-criterion plus its expected result, stated as something that can be false), EVIDENCE per
-claim (or the path to the run document), VERSION, MAY INSPECT, and WRITE VERDICT TO pointing
-at the Falsifier agent verdict fields. Without that first line the subagent reads itself as a
-dispatcher and spawns yet another agent. Never pass the reasoning or transcript that produced
-the evidence — a falsifier that has read the maker's reasoning starts confirming it. It writes
-VALID or REFUTED plus at most three sentences into each Falsifier agent verdict field. Default is one falsifier round; for high stakes, multiple falsifiers from
-different angles, or one on a different model family than whoever collected the evidence.
+Dispatch a subagent with fresh context whose brief is the prompt template in the
+**`falsify`** skill, filled in for this document: the CLAIMS are the criteria, each with its
+expected result stated as something that can be false; the EVIDENCE is the path to the run
+document; and WRITE VERDICT TO points at the Falsifier agent verdict fields. The template
+itself — the remaining fields, what may never go into the brief, and when to run more than one
+falsifier — lives in that skill and is not restated here.
 
 Criteria added after an earlier round need their own falsifier pass; carrying the old verdicts
 over would leave new claims unattacked while the document looks uniformly checked. Point the

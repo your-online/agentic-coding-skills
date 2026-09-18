@@ -36,17 +36,29 @@ REVIEWING_SKILLS = ("advise-me", "review-my-work")
 #: opposite case — its whole point is triggering whenever a delivery needs to be
 #: made demonstrable, so it is deliberately not in this set.
 INVOKE_ONLY_SKILLS = ("advise-me", "review-my-work", "log-feedback")
-#: create-verification ships its template and its distilled evidence rules; the
-#: companion skills read the rules through the sibling path the installer
-#: preserves.
+#: create-verification ships its template and its tooling. The evidence rules it
+#: used to carry now sit in the shared reference directory: falsify, collect-evidence
+#: and this skill all judge against them, and a copy per skill is how the same
+#: paragraph starts drifting in three places.
 CREATE_VERIFICATION_FILES = (
     "SKILL.md",
     "assets/VERIFICATION-template.html",
-    "references/evidence-rules.md",
+    "bin/bewijs.sh",
+    "bin/injecteer.py",
+    "bin/lees-oordeel.py",
+)
+
+#: falsify ships the falsifier's own instructions beside its SKILL.md. The
+#: dispatcher points a freshly spawned subagent at this file by path rather than
+#: having it invoke the skill: a skill that opened by working out which of two
+#: roles it was in would spawn another dispatcher whenever that marker was lost.
+FALSIFY_FILES = (
+    "SKILL.md",
+    "references/falsifier.md",
 )
 
 #: What the reference directory carries at its top level.
-REFERENCE_FILES = ("rubric.md", "learning-materials.md")
+REFERENCE_FILES = ("rubric.md", "learning-materials.md", "evidence-rules.md")
 
 # review-my-work has three route-specific resources. The rubric remains shared;
 # these files only turn its judgement into the optional score this route adds.

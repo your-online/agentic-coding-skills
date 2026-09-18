@@ -13,9 +13,9 @@ Where a check is a script, the script writes its own output into the record; no 
 involved and that is preferred. You are dispatched for the rest: checks that need driving,
 files that need capturing, findings where nothing programmatic exists.
 
-Before you start, read the evidence rules in
-`../create-verification/references/evidence-rules.md` (beside this skill's directory) — the
-strength ladder, the hard requirements, and the pitfalls.
+Before you start, read the evidence rules in `references/evidence-rules.md` — the
+`references` directory that sits beside this skill's own directory — for the strength ladder,
+the hard requirements, and the pitfalls.
 
 ## Per criterion
 

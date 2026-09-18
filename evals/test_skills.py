@@ -18,6 +18,7 @@ from rubric_source import (
     EXAMPLE_FILES,
     EXAMPLES,
     CREATE_VERIFICATION_FILES,
+    FALSIFY_FILES,
     INSTALLED_DIRS,
     INVOKE_ONLY_SKILLS,
     README,
@@ -72,6 +73,10 @@ class PackageLayoutTests(unittest.TestCase):
                 elif name == "create-verification":
                     self.assertEqual(
                         present, sorted(f.rsplit("/", 1)[-1] for f in CREATE_VERIFICATION_FILES)
+                    )
+                elif name == "falsify":
+                    self.assertEqual(
+                        present, sorted(f.rsplit("/", 1)[-1] for f in FALSIFY_FILES)
                     )
                 else:
                     self.assertEqual(present, ["SKILL.md"])

@@ -5,6 +5,36 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.24
+
+- **falsify**: the falsifier's instructions move out of SKILL.md into
+  `references/falsifier.md`, and the dispatcher's brief points a freshly spawned
+  subagent at that file by path. The skill no longer opens by working out which of
+  two roles it is in: that decision defaulted to "dispatcher" whenever the
+  `ROLE: FALSIFIER` marker was lost or paraphrased, so a subagent that missed it
+  spawned another dispatcher instead of judging — a failure `create-verification`
+  had to carry a warning about. With the roles in separate files the question
+  cannot be answered wrongly, and neither side reads the other's half. It also
+  brings the skill in line with the rule that a skill never invokes another skill.
+  The version-pin template no longer asks for a `<stash sha>`, which contradicted
+  the step above it telling the dispatcher not to use `git stash create`.
+- **create-verification**: the falsifier round dispatches with the new brief and no
+  longer warns about double dispatch, which the split makes impossible. Its section on
+  that round no longer restates the generic fields of the template, only the mapping
+  that is specific to a run document.
+- **evidence rules move to the shared reference directory.** `evidence-rules.md` was
+  create-verification's, but three routes judge against it: `collect-evidence` reached
+  across a sibling path (`../create-verification/references/…`) to read it, and the
+  falsifier carried its own paraphrase of the same test question, the same reward-hacking
+  rule and the same "silence that reads as coverage". It now sits in
+  `skills/references/` beside the rubric, and all three point at it the way they already
+  point at `rubric.md`. The falsifier keeps only what is its own: who produced the
+  evidence, judging on the pinned version, and not manufacturing a refutation.
+- **evals**: the package layout manifest listed three files for `create-verification`
+  while it ships six — `bin/bewijs.sh`, `bin/injecteer.py` and `bin/lees-oordeel.py`
+  arrived in 2de4b17 and ca3d835 without being added. The test guarding the layout had
+  been failing on that since, so the suite was red on main.
+
 ## 2.23
 
 - New skill **next-steps**: the state of the open work as one continuously

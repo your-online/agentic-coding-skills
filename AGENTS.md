@@ -57,6 +57,11 @@ this product from before it moved to the root, and is kept only as history.
   platform, the rubric read whole.
 - `skills/references/learning-materials.md` — the sources per criterion group, for
   developers who want to get better at one.
+- `skills/references/evidence-rules.md` — how evidence is weighed: the test question, the
+  strength ladder, when an agent verdict counts, and the pitfalls. It sat inside
+  `create-verification` until 2.23, which meant `collect-evidence` reached across a
+  sibling path to read it and `falsify` carried its own paraphrase of the same rules.
+  Three routes judge against these rules, so they live where all three can read them.
 - `skills/references/example-formats/` — short worked examples of the artefacts a
   person has to read: three shapes of a criteria file, plus decisions, open questions
   and a pull request description. C8 points here for length and shape. They are examples, not a house
