@@ -2,8 +2,9 @@
 
 A rubric for agentic coding work, plus three skills that judge and record against
 it, a verification trio that makes deliveries demonstrable per acceptance
-criterion, and one skill that says where the open work stands. The rubric is not
-a skill: it is a file the skills read.
+criterion, one skill that says where the open work stands, and one that puts a
+question to you as a choice instead of a paragraph. The rubric is not a skill: it
+is a file the skills read.
 
 The rubric names what has to be demonstrably good — context, acceptance criteria,
 tests, evidence, implementation — and deliberately does not prescribe how you get
@@ -91,6 +92,18 @@ choice only you can make, it asks with AskUserQuestion — one question, each op
 naming what it costs as well as what it buys — instead of listing the options in
 prose. It judges nothing and proves nothing, so it reads no rubric.
 
+### How a question reaches you
+
+**`clickable-questions`** — when a skill still has a question for you, it goes out
+through AskUserQuestion instead of as a paragraph you have to answer by typing: one
+question per entry, at most four per call, the recommended answer first with the
+reason in one sentence, and the rest of the reasoning in the option descriptions
+because the question body is cut off after about two lines. Never a prose copy
+beside the call, and if you dismiss the dialog it stops rather than asking again in
+text. Like the reviewing skills it only runs when you ask for it, or when another
+skill hands its round over: a skill that raises a dialog on its own initiative turns
+every passing uncertainty into one.
+
 ```
 What are the next steps?
 ```
@@ -133,6 +146,7 @@ skills/review-my-work/scoring/score-contract.json one scale, weights and the C4 
 skills/review-my-work/scripts/calculate_score.py deterministic score calculation
 skills/log-feedback/SKILL.md                     your feedback about the process, one bullet
 skills/next-steps/SKILL.md                       where the open work stands, one numbered list
+skills/clickable-questions/SKILL.md              questions as a choice, not a paragraph
 install.sh                                       the installer: both platforms, everything in skills/
 evals/                                           regression suite: uvx pytest evals/
 CHANGELOG.md                                     what changed, per release

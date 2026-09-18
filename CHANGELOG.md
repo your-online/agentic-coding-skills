@@ -5,6 +5,19 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.25
+
+- **clickable-questions** (new): a question the developer still has goes out through
+  AskUserQuestion, with the recommended answer first and the reasoning in the option
+  descriptions. It produces no artefact and judges nothing; it changes how any of the
+  other skills put a question. The rules it carries were already written down inside a
+  grilling variant, where only that one flow could reach them — one question per entry,
+  four per call, reasoning in the options because the question body is cut off after
+  about two lines, never a prose copy beside the call, and stop when the dialog is
+  dismissed. It is invoke-only for the same reason the reviewing skills are: a skill
+  that raises a dialog on its own initiative turns every passing uncertainty into one,
+  and a dialog people learn to click away is worse than no dialog.
+
 ## 2.24
 
 - **falsify**: the falsifier's instructions move out of SKILL.md into

@@ -1,7 +1,9 @@
 # AGENTS.md
 
-Everything in this repository is the agentic-coding product: three skills that
-install together and the reference material they share, and nothing else.
+Everything in this repository is the agentic-coding product: the skills that
+install together and the reference material they share, and nothing else. There
+were three of them once, and several sentences here still counted them by hand;
+they now say "the skills", so a new one does not date the file.
 
 It lives in two repositories with the same contents. The source is private and is
 never pushed anywhere — its history carries fixtures that may not leave, and a
@@ -87,9 +89,13 @@ this product from before it moved to the root, and is kept only as history.
   by who is waiting on it. It judges nothing and proves nothing, so it reads no
   rubric and spawns nothing; the one rule with teeth is that a next step waiting
   on a decision is asked with AskUserQuestion rather than listed in prose.
+- `skills/clickable-questions/SKILL.md` — how a question reaches the developer:
+  through AskUserQuestion, recommendation first, reasoning in the option
+  descriptions, never as a prose copy beside the call. It produces nothing and
+  judges nothing; it is the one skill another skill hands a round to.
 - `install.sh` — the installer the README calls: it detects which platforms are
   present (`~/.claude`, `~/.codex`) and installs everything in `skills/` into each —
-  the three skills and the reference directory beside them.
+  every skill and the reference directory beside them.
   No flags, no options; it is the whole of step 2. It takes whatever `skills/` holds
   rather than a list of names, so a new skill cannot arrive here and silently stay
   home. It copies to `<target>.incoming` and moves that into place only once the copy
