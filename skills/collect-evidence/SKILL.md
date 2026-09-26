@@ -14,7 +14,9 @@ involved and that is preferred. You are dispatched for the rest: checks that nee
 files that need capturing, findings where nothing programmatic exists.
 
 Before you start, read the evidence rules in `references/evidence-rules.md` — the
-`references` directory that sits beside this skill's own directory — for the strength ladder,
+`references` directory that sits beside this skill's own directory, so
+`../references/evidence-rules.md` from this SKILL.md, not a `references/` inside it; if you
+cannot open it, say so rather than work without it — for the strength ladder,
 the hard requirements, and the pitfalls.
 
 ## Per criterion

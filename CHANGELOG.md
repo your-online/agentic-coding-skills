@@ -5,6 +5,18 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.26
+
+- **falsify**: the brief now names the evidence rules by absolute path, on a second line
+  `Evidence rules: …`, next to the path of the falsifier's own instructions. The falsifier
+  was told the rules sat in "the `references` directory beside the `falsify` skill's own
+  directory"; one read that as `falsify/references/`, found nothing there, reported the
+  rules as missing and judged without them. `falsifier.md` now gives the fallback path
+  relative to itself and says to report an unreadable rules file in the first line of the
+  verdict instead of judging as if it did not exist. **collect-evidence** and
+  **create-verification** carried the same sentence and now spell out
+  `../references/evidence-rules.md` as well.
+
 ## 2.25
 
 - **clickable-questions** (new): a question the developer still has goes out through

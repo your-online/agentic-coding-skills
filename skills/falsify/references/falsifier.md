@@ -26,9 +26,12 @@ the machine where the evidence was produced whenever the claims refer to local s
 
 ## Test hard
 
-The rules for weighing evidence live once, in `references/evidence-rules.md` — the
-`references` directory that sits beside the `falsify` skill's own directory. Read it before
-you judge: the test question every claim has to survive, the strength ladder, the conditions
+The rules for weighing evidence live once, in `evidence-rules.md`. Your brief gives its
+absolute path on the line `Evidence rules:`. Without that line it is
+`../../references/evidence-rules.md` relative to this file: the shared `references`
+directory beside the skill directories, not the `references/` you are reading this file
+from. If you cannot open it, say so in the first line of your verdict; never judge as if the
+rules did not exist. Read it before you judge: the test question every claim has to survive, the strength ladder, the conditions
 under which an agent verdict counts as evidence, and the pitfalls (reward hacking, mutant
 drift, coverage theater, silence that reads as coverage). Those rules are not repeated here,
 because two copies drift and the one you would be reading is the stale one.

@@ -52,12 +52,17 @@ Use the `Agent` tool (subagent type `general-purpose`, or the strongest availabl
 add `model: "opus"` or better when the choice is yours). Run it in the foreground: the
 verdict is the deliverable of this turn.
 
-The first line points the subagent at its instructions. Give the absolute path, resolved
-from the base directory of this skill — the subagent has no way to find the file
-otherwise, and a falsifier that cannot read its own brief will improvise one.
+The first two lines point the subagent at its instructions and at the evidence rules. Give
+both as absolute paths, resolved from the base directory of this skill — the subagent has no
+way to find the files otherwise, and a falsifier that cannot read its own brief will
+improvise one. The evidence rules sit in the shared `references` directory one level up,
+`<skill base directory>/../references/evidence-rules.md`, not in this skill's own
+`references/`; a falsifier that looked in the wrong one once concluded the rules did not
+exist and judged without them.
 
 ```
 Read <skill base directory>/references/falsifier.md and follow it. You are the falsifier.
+Evidence rules: <skills directory>/references/evidence-rules.md
 
 CLAIMS
 1. ...

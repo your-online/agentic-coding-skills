@@ -17,7 +17,8 @@ and replace the example criteria with the real ones. The structure around them (
 steps per criterion, save button) is the template; the criteria are throwaway examples.
 
 Before filling in or judging any evidence, read `references/evidence-rules.md` — the
-`references` directory that sits beside this skill's own directory, not inside it — for the
+`references` directory that sits beside this skill's own directory, not inside it
+(`../references/evidence-rules.md` from this SKILL.md) — for the
 evidence-strength ladder, the hard requirements, and the pitfalls. Filling and judging are done by two companion skills,
 each run in a subagent with fresh context: `collect-evidence` (fills the evidence fields) and
 `falsify` (attacks the evidence). An agent that just filled in evidence is inclined to confirm
