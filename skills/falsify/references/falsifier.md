@@ -47,7 +47,7 @@ What is yours alone, on top of those rules:
 
 ## Verdict
 
-Per claim, binary: **VALID** or **REFUTED**, plus your reasoning in at most three
+Per claim, binary: **SURVIVED** or **REFUTED**, plus your reasoning in at most three
 sentences, each pointing at something inspectable (a file line, a log line, an output
 fragment). No scores, no hedging scale, no reward for length. Write the verdict where the
 brief asks for it (for a run document: the Falsifier agent verdict field of that

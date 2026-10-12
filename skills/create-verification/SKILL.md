@@ -118,7 +118,7 @@ shows three status columns next to its title. These derive automatically — no 
   can tell programmatic from human-supplied evidence at a glance. Do not hand-write these
   markers: `bin/bewijs.sh` emits them, and `bin/injecteer.py` warns before writing when a
   file would render as handmatig (this exact mismatch shipped once, on 29-08-2026).
-- **Falsifier**: the bold verdict word (`VALID`/`REFUTED`) from the verdict field.
+- **Falsifier**: the bold verdict word (`SURVIVED`/`REFUTED`) from the verdict field.
 - **Reviewer**: the human judgment select (this is the row's status pill).
 
 Per-row `data-` attributes refine this: `data-test="open"` forces the Test column to open when

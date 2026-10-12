@@ -85,7 +85,7 @@ Pick the strongest form that fits each criterion; one strong beats three weak.
 - **Every claim points at something inspectable**: a file line, a log line, or a screenshot.
   "No evidence found" is a valid result. Without source material, a judge rewards confident
   hallucinations.
-- **Binary verdict** (VALID/REFUTED, met/not met) over a numeric scale: less variance, no false
+- **Binary verdict** (SURVIVED/REFUTED, met/not met) over a numeric scale: less variance, no false
   precision. Never reward length or confidence.
 - **The outcome is evidence, not the final verdict.** For decisions about access or security, a
   human signs.

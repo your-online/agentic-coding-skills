@@ -1,6 +1,6 @@
 ---
 name: falsify
-description: Try to refute a set of claims, hypotheses, or findings against their supplied evidence — a generic falsifier that ALWAYS runs in a freshly spawned subagent, never in the session that invoked it. ALWAYS use this skill when asked to falsify, attack, stress-test, or independently verify claims, conclusions, evidence, or another agent's findings ("does this evidence hold up", "check these findings", "second opinion on this conclusion", "probeer dit te weerleggen"), and when another skill (such as create-verification) dispatches a falsifier round. Not for reviewing code style or process — this is strictly about whether claims survive an attempt to disprove them.
+description: Try to refute a set of claims, hypotheses, or findings against their supplied evidence — a generic falsifier that ALWAYS runs in a freshly spawned subagent, never in the session that invoked it. ALWAYS use this skill when asked to falsify, attack, or stress-test claims, conclusions, evidence, or another agent's findings ("does this evidence hold up", "check these findings", "second opinion on this conclusion", "probeer dit te weerleggen"), and when another skill (such as create-verification) dispatches a falsifier round. Not for reviewing code style or process — this is strictly about whether claims survive an attempt to disprove them.
 ---
 
 # Falsify
@@ -98,7 +98,7 @@ verdict is manipulable and non-deterministic.
 
 ## 4. Relay the verdict verbatim
 
-Give the user the numbered VALID/REFUTED list and any residual-risk notes as written. Do
+Give the user the numbered SURVIVED/REFUTED list and any residual-risk notes as written. Do
 not soften, reinterpret, or append your own agreement or defence. If the falsifier reports
 REFUTED, that is the result; fixing is a separate request. When the verdict was written
 into a run document, say so and where.

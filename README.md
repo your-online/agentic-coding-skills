@@ -76,7 +76,7 @@ timestamp, commit), and never judges its own entries.
 
 **`falsify`** — a generic falsifier, usable far beyond run documents: give it claims,
 the evidence per claim, the version identifier and what it may inspect — never the
-maker's reasoning — and it returns VALID or REFUTED per claim, three sentences max.
+maker's reasoning — and it returns SURVIVED or REFUTED per claim, three sentences max.
 
 ```
 Here are the findings and their evidence — try to refute them.

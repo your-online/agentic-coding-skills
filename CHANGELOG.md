@@ -5,6 +5,17 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.27
+
+- **falsify**: the verdict is now **SURVIVED** or **REFUTED**, no longer VALID. A failed
+  attempt at refutation does not make a claim valid; it only means the claim survived this
+  attempt, and the word now says exactly that. The description drops "independently
+  verify": verifying sets out to confirm, which is the opposite of what a falsifier does,
+  and it made the skill trigger on plain "check whether this is right" requests.
+  **create-verification**, the shared evidence rules and the README use the new word; the
+  run-document template shows SURVIVED and still reads an old VALID verdict, so run
+  documents already in progress keep their status column.
+
 ## 2.26
 
 - **falsify**: the brief now names the evidence rules by absolute path, on a second line

@@ -242,7 +242,7 @@ document.addEventListener('click',function(e){
   var evn=r.querySelector('.evnote');if(!evn)return{cls:'open',txt:'\u2014'};
   var b=evn.querySelector?evn.querySelector('b'):null;var t=b?(b.textContent||''):(evn.textContent||'');
   if(/REFUTED/.test(t))return{cls:'fail',txt:'REFUTED'};
-  if(/VALID/.test(t))return{cls:'ok',txt:'VALID'};
+  if(/SURVIVED|VALID/.test(t))return{cls:'ok',txt:'SURVIVED'};
   return{cls:'open',txt:'\u2014'};
  }
  function metNoot(cell,attr,r){
