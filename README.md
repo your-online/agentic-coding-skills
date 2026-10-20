@@ -2,8 +2,9 @@
 
 A rubric for agentic coding work, plus three skills that judge and record against
 it, a verification trio that makes deliveries demonstrable per acceptance
-criterion, one skill that says where the open work stands, and one that puts a
-question to you as a choice instead of a paragraph. The rubric is not a skill: it
+criterion, one skill that says where the open work stands, one that puts a
+question to you as a choice instead of a paragraph, and one that checks a push for
+files that do not belong in the repository. The rubric is not a skill: it
 is a file the skills read.
 
 The rubric names what has to be demonstrably good — context, acceptance criteria,
@@ -108,6 +109,23 @@ every passing uncertainty into one.
 What are the next steps?
 ```
 
+### Before a push
+
+**`repo-hygiene`** — tries to refute "this push contains no files that do not belong in
+this repository". A file belongs only if it is needed to build, test, run or understand
+the software; build output, caches, local data, eval runs, analyses, mockups,
+screenshots and temp files are flagged by default. It looks at the files the push adds
+or changes, or on a first push to a new remote at the whole tree and its history. A
+freshly spawned falsifier judges, never the session that made the changes. For each
+flagged path you choose keep or remove: keep writes the reason under
+`## Hoort in de repo` in that folder's `AGENTS.md`, remove takes the file out of the
+repository with `git rm --cached` and leaves it on your disk. It is meant to run in a
+push gate next to the check for sensitive data, and it never pushes or approves a push.
+
+```
+Check de netheid van deze push.
+```
+
 Beside them sits `skills/references/`, which is not a skill and has no slash command:
 `rubric.md` holds the criteria and the rules for any judgement made against them, and
 `learning-materials.md` the reading behind each one. The skills read those files
@@ -147,6 +165,8 @@ skills/review-my-work/scripts/calculate_score.py deterministic score calculation
 skills/log-feedback/SKILL.md                     your feedback about the process, one bullet
 skills/next-steps/SKILL.md                       where the open work stands, one numbered list
 skills/clickable-questions/SKILL.md              questions as a choice, not a paragraph
+skills/repo-hygiene/SKILL.md                     clutter check on a push, judged by a falsifier
+skills/repo-hygiene/references/rules.md          what belongs in a repository, and the exceptions
 install.sh                                       the installer: both platforms, everything in skills/
 evals/                                           regression suite: uvx pytest evals/
 CHANGELOG.md                                     what changed, per release

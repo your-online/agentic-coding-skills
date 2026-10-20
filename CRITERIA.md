@@ -1,6 +1,6 @@
 # What these skills themselves have to satisfy
 
-Thirteen points, in ordinary language, each with the test that guards it. These are
+Fourteen points, in ordinary language, each with the test that guards it. These are
 about the skills, not about the work they review — the rubric criteria live in
 `skills/references/rubric.md`.
 
@@ -126,3 +126,11 @@ Run the guards with `uvx pytest evals/` from this directory.
     candidate causes one question rather than a guess. Unreachable history lowers
     assessability only through the criteria whose evidence it could actually change.
     Guarded by `evals/test_review_multisession.py::MultiSessionSourceTests`.
+
+14. **Repo hygiene is judged by a fresh falsifier and decided by the developer.** The
+    pushing session only collects the file list — the diff of the push, or on a first
+    push the whole tree and history — and never judges it. Exceptions are written in an
+    `AGENTS.md` under `## Hoort in de repo`, never in a tool-specific file. Removing keeps
+    the local file, a history rewrite needs its own explicit yes, and the skill never
+    pushes or approves a push.
+    Guarded by `evals/test_skills.py::RepoHygieneTests`.

@@ -93,6 +93,13 @@ this product from before it moved to the root, and is kept only as history.
   through AskUserQuestion, recommendation first, reasoning in the option
   descriptions, never as a prose copy beside the call. It produces nothing and
   judges nothing; it is the one skill another skill hands a round to.
+- `skills/repo-hygiene/SKILL.md` — a falsifier round with one fixed claim: this push
+  carries no files that do not belong in the repository. The skill is the dispatcher:
+  it collects the files in scope and spawns a falsifier pointed at `falsify`'s
+  `references/falsifier.md` by path, with `repo-hygiene/references/rules.md` as the
+  rule for what belongs. It does not invoke `falsify`. After the verdict the pushing
+  session asks keep or remove per path; exceptions go under `## Hoort in de repo` in an
+  `AGENTS.md`, never in a tool-specific file.
 - `install.sh` — the installer the README calls: it detects which platforms are
   present (`~/.claude`, `~/.codex`) and installs everything in `skills/` into each —
   every skill and the reference directory beside them.

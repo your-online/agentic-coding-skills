@@ -5,6 +5,24 @@ together. Before 2.4 they were counted separately — the skills 1.0 through 2.3
 rubric 1.0 and 1.1 — and every file carried its own number and its own changelog.
 Those two lines are merged here, and the files carry neither.
 
+## 2.28
+
+- **repo-hygiene** (new): tries to refute "this push contains no files that do not belong
+  in this repository", for a push gate beside the sensitive-data check and on request
+  ("check de netheid"). A file belongs only if it is needed to build, test, run or
+  understand the software. The scope is what the push adds or changes; on a first push
+  to a new remote it is the whole tree and every path in the history. The skill only
+  collects that list: the judging is done by a freshly spawned falsifier that reads
+  **falsify**'s own `references/falsifier.md` and the shared evidence rules, plus a
+  rules file of its own, so the falsifier's instructions still exist once. Exceptions
+  are lines under `## Hoort in de repo` in an `AGENTS.md` on the file's path — not
+  `CLAUDE.md`, which only one tool reads. After the verdict the pushing session asks
+  keep or remove per path; keep proposes the `AGENTS.md` line, remove runs
+  `git rm --cached` and proposes a `.gitignore` line, and a history rewrite on a first
+  push needs its own explicit yes. It never pushes and never approves a push.
+- **evals**: the layout, changelog and description tests know the new skill, and
+  `RepoHygieneTests` guards the points above (CRITERIA point 14).
+
 ## 2.27
 
 - **falsify**: the verdict is now **SURVIVED** or **REFUTED**, no longer VALID. A failed

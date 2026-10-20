@@ -24,6 +24,7 @@ from rubric_source import (
     README,
     REFERENCE_DIR,
     REFERENCE_FILES,
+    REPO_HYGIENE_FILES,
     REVIEW_MY_WORK_FILES,
     RUNNABLE_SKILLS,
     SKILLS_DIR,
@@ -77,6 +78,10 @@ class PackageLayoutTests(unittest.TestCase):
                 elif name == "falsify":
                     self.assertEqual(
                         present, sorted(f.rsplit("/", 1)[-1] for f in FALSIFY_FILES)
+                    )
+                elif name == "repo-hygiene":
+                    self.assertEqual(
+                        present, sorted(f.rsplit("/", 1)[-1] for f in REPO_HYGIENE_FILES)
                     )
                 else:
                     self.assertEqual(present, ["SKILL.md"])
@@ -277,6 +282,43 @@ class LogFeedbackTests(unittest.TestCase):
         for stranger in ("rubric.md", "agentic-coding-rubric", "Spawn", "subagent", "Diff basis"):
             with self.subTest(fragment=stranger):
                 self.assertNotIn(stranger, self.text)
+
+
+class RepoHygieneTests(unittest.TestCase):
+    """The push-gate check for clutter. Its value rests on four things: someone
+    other than the pushing session judges, exceptions are written where every
+    agent reads them, removing keeps the developer's file, and nothing about it
+    can turn into a push or an approval of one."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.text = flat(skill_text("repo-hygiene"))
+        cls.rules = flat((SKILLS_DIR / "repo-hygiene" / "references" / "rules.md")
+                         .read_text(encoding="utf-8"))
+
+    def test_a_fresh_falsifier_judges_and_the_dispatcher_does_not(self):
+        self.assertIn("falsify/references/falsifier.md", self.text)
+        self.assertIn("you never judge whether a file belongs", self.text)
+        self.assertIn("Do not pre-filter the list", self.text)
+
+    def test_a_first_push_covers_the_tree_and_the_history(self):
+        self.assertIn("--not --remotes=<remote>", self.text)
+        self.assertIn("**First push to a new remote**", self.text)
+        self.assertIn("every path that ever existed in the history", self.text)
+
+    def test_exceptions_live_in_agents_md_only(self):
+        self.assertIn("## Hoort in de repo", self.rules)
+        self.assertIn("Only `AGENTS.md` counts", self.rules)
+        self.assertIn("never in `CLAUDE.md`", self.text)
+
+    def test_remove_keeps_the_local_file_and_history_needs_an_explicit_yes(self):
+        self.assertIn("git rm --cached", self.text)
+        self.assertIn("Never rewrite history without an explicit yes", self.text)
+        self.assertIn("Write it only after a yes", self.text)
+
+    def test_it_never_pushes_and_never_approves(self):
+        self.assertIn("It never runs `git push`, and it never approves one", self.text)
+        self.assertIn("a new commit means the push gate starts over", self.text)
 
 
 class OrderTests(unittest.TestCase):
