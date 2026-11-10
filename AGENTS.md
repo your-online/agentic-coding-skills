@@ -53,7 +53,7 @@ this product from before it moved to the root, and is kept only as history.
   SKILL.md: a platform lists whatever has one, so as a skill it sat in the
   developer's skill list beside three routes they can start, and reading the rubric
   meant invoking a skill to be handed a path. The skills read these files by path.
-- `skills/references/rubric.md` — the criteria; each one is a requirement, guidance
+- `skills/references/rubric.md` + `criteria/` (one file per criterion) — the criteria; each one is a requirement, guidance
   and evaluation questions. It opens with the rules that hold for any judgement made
   against them: a judgement from outside, the strongest reasoning model of the
   platform, the rubric read whole.

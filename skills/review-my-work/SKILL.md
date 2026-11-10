@@ -8,7 +8,7 @@ description: 'Review the agentic coding work of the session that just ran—and 
 The criteria, and the rules that hold for every judgement made against them — an
 isolated judge, the strongest model of the platform, the rubric read whole — live in
 `references/rubric.md`, the `references` directory beside this skill's own directory
-in the same skills directory. It is material to read, not a skill: there is nothing
+in the same skills directory. Each criterion sits in its own file in `references/criteria/`; `rubric.md` holds the rules and an index of them, so reading the rubric whole means `rubric.md` plus every criterion file. It is material to read, not a skill: there is nothing
 to invoke. Read it before you start, and hand it to the reviewer whole. Beside it
 sits `learning-materials.md`, wider reading per criterion for the developer, not
 input to the review.

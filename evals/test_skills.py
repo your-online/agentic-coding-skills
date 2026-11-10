@@ -24,6 +24,8 @@ from rubric_source import (
     README,
     REFERENCE_DIR,
     REFERENCE_FILES,
+    CRITERION_FILES,
+    rubric_text,
     REPO_HYGIENE_FILES,
     REVIEW_MY_WORK_FILES,
     RUNNABLE_SKILLS,
@@ -68,7 +70,7 @@ class PackageLayoutTests(unittest.TestCase):
             present = sorted(p.name for p in (SKILLS_DIR / name).rglob("*") if p.is_file())
             with self.subTest(directory=name):
                 if name == REFERENCE_DIR:
-                    self.assertEqual(present, sorted(REFERENCE_FILES + EXAMPLE_FILES))
+                    self.assertEqual(present, sorted(REFERENCE_FILES + EXAMPLE_FILES + CRITERION_FILES))
                 elif name == "review-my-work":
                     self.assertEqual(present, sorted(REVIEW_MY_WORK_FILES))
                 elif name == "create-verification":
@@ -97,8 +99,7 @@ class ExampleFormatTests(unittest.TestCase):
         )
 
     def test_the_rubric_points_at_them(self):
-        self.assertIn(f"`{EXAMPLE_DIR}/`", (SKILLS_DIR / REFERENCE_DIR / "rubric.md")
-                      .read_text(encoding="utf-8"))
+        self.assertIn(f"`{EXAMPLE_DIR}/`", rubric_text())
 
     def test_each_example_stays_short_enough_to_be_an_example(self):
         """The ceiling was 35, which the criteria examples cannot meet without

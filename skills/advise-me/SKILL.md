@@ -6,7 +6,7 @@ description: Read how the current session is working against the agentic coding 
 # Advise me
 
 The criteria live in `references/rubric.md` — the `references` directory that sits
-beside this skill's own directory, in the same skills directory. It is material to
+beside this skill's own directory, in the same skills directory. Each criterion sits in its own file in `references/criteria/`; `rubric.md` holds the rules and an index of them, so reading the rubric whole means `rubric.md` plus every criterion file. It is material to
 read, not a skill: there is nothing to invoke. Read that file whole before you start,
 the file itself and not a summary of it, and follow the rules it sets out for judging
 work against it. Beside it sits `learning-materials.md`, reading for a developer who

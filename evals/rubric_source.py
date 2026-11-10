@@ -99,6 +99,9 @@ EXAMPLE_FILES = (
 EXAMPLES = SKILLS_DIR / REFERENCE_DIR / EXAMPLE_DIR
 
 RUBRIC = SKILLS_DIR / REFERENCE_DIR / "rubric.md"
+#: One file per criterion, so a reviewer can load just the criteria that apply.
+CRITERIA_DIR = SKILLS_DIR / REFERENCE_DIR / "criteria"
+CRITERION_FILES = ('C1-context-checked-and-carried-forward.md', 'C2-open-choices-researched-and-settled.md', 'C3-acceptance-criteria-that-carry-the-intent.md', 'C4-the-delivered-behaviour-meets-the-requirements.md', 'C5-tests-that-cover-what-matters.md', 'C6-verification-that-can-actually-fail.md', 'C7-evidence-someone-else-can-check.md', 'C8-what-the-work-leaves-behind-stays-followable.md', 'C9-no-more-than-the-task-asked-for.md')
 LEARNING = SKILLS_DIR / REFERENCE_DIR / "learning-materials.md"
 
 
@@ -200,7 +203,11 @@ PARTS = ("**Requirement.**", "**Guidance.**", "**Evaluation questions.**")
 
 
 def rubric_text() -> str:
-    return RUBRIC.read_text(encoding="utf-8")
+    """rubric.md plus every criterion file, in criterion order."""
+    parts = [RUBRIC.read_text(encoding="utf-8")]
+    files = sorted(CRITERIA_DIR.glob("C*.md"), key=lambda p: int(p.name[1:].split("-", 1)[0]))
+    parts += [p.read_text(encoding="utf-8") for p in files]
+    return "\n\n".join(parts)
 
 
 def criteria() -> "list[tuple[str, str, str]]":
