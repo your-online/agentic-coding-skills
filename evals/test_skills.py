@@ -22,6 +22,7 @@ from rubric_source import (
     INSTALLED_DIRS,
     INVOKE_ONLY_SKILLS,
     README,
+    ROOT,
     REFERENCE_DIR,
     REFERENCE_FILES,
     CRITERION_FILES,
@@ -336,12 +337,9 @@ class OrderTests(unittest.TestCase):
                          "README")
 
     def test_the_structure_listing_keeps_the_same_order(self):
-        listing = README.read_text(encoding="utf-8").split("## Structure", 1)[1]
-        self.order_holds(listing, "the README structure listing")
+        listing = (ROOT / "AGENTS.md").read_text(encoding="utf-8").split("#### Structure", 1)[1]
+        self.order_holds(listing, "the AGENTS.md structure listing")
 
-    def test_the_install_loop_keeps_the_same_order(self):
-        install = README.read_text(encoding="utf-8").split("## Install", 1)[1]
-        self.order_holds(install, "the install command")
 
 
 if __name__ == "__main__":

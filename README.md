@@ -52,24 +52,3 @@ cd agentic-coding-skills
 
 The script installs into every platform it finds, `~/.claude` and `~/.codex`, and the
 same command upgrades. It fails if it finds neither.
-
-## Structure
-
-```
-skills/references/rubric.md                      the criteria, and the rules for judging by them
-skills/references/learning-materials.md          how to get better per criterion
-skills/advise-me/SKILL.md                        feedback on your approach, in chat
-skills/review-my-work/SKILL.md                   the full review, report and concise score
-skills/review-my-work/scoring/score-contract.json one scale, weights and the C4 merge block
-skills/review-my-work/scripts/calculate_score.py deterministic score calculation
-skills/log-feedback/SKILL.md                     your feedback about the process, one bullet
-skills/next-steps/SKILL.md                       where the open work stands, one numbered list
-skills/clickable-questions/SKILL.md              questions as a choice, not a paragraph
-skills/repo-hygiene/SKILL.md                     clutter check on a push, judged by a falsifier
-skills/repo-hygiene/references/rules.md          what belongs in a repository, and the exceptions
-install.sh                                       the installer: both platforms, everything in skills/
-evals/                                           regression suite: uvx pytest evals/
-CHANGELOG.md                                     what changed, per release
-CRITERIA.md                                      what these skills themselves have to satisfy
-AGENTS.md                                        pointer file for agents working here
-```
