@@ -37,18 +37,5 @@ file per criterion in `skills/references/criteria/`.
 
 ## Install
 
-### Step 1 — get the repository
-
-```sh
-git clone https://github.com/your-online/agentic-coding-skills.git agentic-coding-skills
-cd agentic-coding-skills
-```
-
-### Step 2 — install the skills
-
-```sh
-./install.sh
-```
-
-The script installs into every platform it finds, `~/.claude` and `~/.codex`, and the
-same command upgrades. It fails if it finds neither.
+Give your agent the link to this folder and ask it to install the skills. It signs in,
+clones the repository and runs the installer; the exact steps are in [AGENTS.md](AGENTS.md#install).

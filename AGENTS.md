@@ -156,6 +156,28 @@ The practices this rubric measures apply to this product too.
 6. Never install into the real `~/.claude` or `~/.codex` from a test. The install
    test runs against a throwaway home directory and must stay that way.
 
+## Install
+
+Got this folder as a share link? Open it, sign in with the page's WebMCP tools (`share_request_code`,
+`share_verify_code`) and use the clone URL from `share_clone` instead of the GitHub URL below.
+
+
+### Step 1 — get the repository
+
+```sh
+git clone https://github.com/your-online/agentic-coding-skills.git agentic-coding-skills
+cd agentic-coding-skills
+```
+
+### Step 2 — install the skills
+
+```sh
+./install.sh
+```
+
+The script installs into every platform it finds, `~/.claude` and `~/.codex`, and the
+same command upgrades. It fails if it finds neither.
+
 ## Skill details (moved from the README)
 
 The README keeps one line per skill for people; the full description of each skill lives here.

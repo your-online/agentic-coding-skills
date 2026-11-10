@@ -60,7 +60,7 @@ PLATFORM_ROOT = {"Claude Code": ".claude", "Codex": ".codex"}
 
 
 def install_steps() -> "dict[str, str]":
-    text = README.read_text(encoding="utf-8").split("## Install", 1)[1]
+    text = (ROOT / "AGENTS.md").read_text(encoding="utf-8").split("\n## Install", 1)[1].split("\n## ", 1)[0]
     return {m.group(1): m.group(2) for m in STEP_BLOCK.finditer(text)}
 
 
@@ -154,7 +154,7 @@ class InstallInstructionTests(unittest.TestCase):
 
     def test_the_readme_holds_no_platform_specific_install_block(self):
         """The platform detection lives in the script, not in the instruction."""
-        text = README.read_text(encoding="utf-8").split("## Install", 1)[1]
+        text = (ROOT / "AGENTS.md").read_text(encoding="utf-8").split("\n## Install", 1)[1].split("\n## ", 1)[0]
         self.assertNotRegex(text, r"^(Claude Code|Codex):\n\n```sh", re.MULTILINE)
 
     def test_no_block_writes_outside_the_home_it_is_given(self):
