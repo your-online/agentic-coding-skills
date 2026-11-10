@@ -155,3 +155,134 @@ The practices this rubric measures apply to this product too.
    `set -o pipefail` in front of the pipeline. Never weaken a test to make it pass.
 6. Never install into the real `~/.claude` or `~/.codex` from a test. The install
    test runs against a throwaway home directory and must stay that way.
+
+## Skill details (moved from the README)
+
+The README keeps one line per skill for people; the full description of each skill lives here.
+
+
+Say it in your own words and the skill triggers by itself, or type its slash command —
+`/advise-me`, `/review-my-work`, `/log-feedback` — if you want to be sure it runs.
+Each of the three is started by you: none of them decides on its own that feedback or
+a review is due.
+
+**`advise-me`** — while you work, including before there is any code. It reads the
+transcript and whatever code exists, answers straight away from the session you are
+working in, and sends an isolated judge off in the background at the same time; that
+second opinion lands a little later and gets the last word. No file.
+
+```
+Give me feedback on my approach so far against the agentic coding rubric.
+```
+
+**`review-my-work`** — after the work, or when you want a verdict on what was built.
+Starts from the current session, then searches accessible Codex, Claude Code and
+Cursor history for other sessions demonstrably tied to the same work item. It gives
+those raw transcripts and the diff to one isolated reviewer plus one falsifier round,
+writes a single Markdown report, and returns a concise weighted score in chat.
+C4—whether the delivered behaviour actually meets the requirements—is a merge block
+rather than a weighted point. The separately shown assessability keeps a high score
+from hiding missing evidence.
+
+```
+Review this session against the agentic coding rubric.
+Write the report to docs/reviews/payment-retry.md
+```
+
+**`log-feedback`** — when you have something to say about this way of working or
+about these skills. Appends one dated bullet to `docs/feedback.md` in the repository
+you are working in. It records your words; it never gives you feedback.
+
+```
+Log this as feedback: the falsifier round is too heavy for a one-line change.
+```
+
+### The verification trio
+
+Where the three above judge the *process*, these make the *product* demonstrable: one
+run document per delivery that records, per acceptance criterion, the evidence, a
+falsifier verdict and the human judgment. Built from the
+[acceptatiecriteria-en-bewijs-template](https://github.com/your-online/acceptatiecriteria-en-bewijs-template);
+the distilled evidence rules ship with the skill, so nothing needs cloning. Unlike
+the three above, these do trigger on their own when a delivery needs proof.
+
+**`create-verification`** — the entry point. Builds the run document from the bundled
+template, hardens the criteria first (a check that cannot turn red proves nothing),
+and dispatches the other two.
+
+```
+We're handing off the invoice-export feature — set up a verification page
+so the reviewer can check what the green checkmarks are based on.
+```
+
+**`collect-evidence`** — fills the evidence fields in fresh context: runs the checks,
+pastes literal output behind an environment fingerprint (hostname, OS, user,
+timestamp, commit), and never judges its own entries.
+
+**`falsify`** — a generic falsifier, usable far beyond run documents: give it claims,
+the evidence per claim, the version identifier and what it may inspect — never the
+maker's reasoning — and it returns SURVIVED or REFUTED per claim, three sentences max.
+
+```
+Here are the findings and their evidence — try to refute them.
+```
+
+### Where the work stands
+
+**`next-steps`** — the state of the open work as one continuously numbered list,
+grouped by who is waiting on it: what is already running without you, what gets
+picked up next, and what needs a decision from you. The numbering runs across the
+groups, so "do 7 and 9 but not 8" says everything. Where a next step hangs on a
+choice only you can make, it asks with AskUserQuestion — one question, each option
+naming what it costs as well as what it buys — instead of listing the options in
+prose. It judges nothing and proves nothing, so it reads no rubric.
+
+### How a question reaches you
+
+**`clickable-questions`** — when a skill still has a question for you, it goes out
+through AskUserQuestion instead of as a paragraph you have to answer by typing: one
+question per entry, at most four per call, the recommended answer first with the
+reason in one sentence, and the rest of the reasoning in the option descriptions
+because the question body is cut off after about two lines. Never a prose copy
+beside the call, and if you dismiss the dialog it stops rather than asking again in
+text. Like the reviewing skills it only runs when you ask for it, or when another
+skill hands its round over: a skill that raises a dialog on its own initiative turns
+every passing uncertainty into one.
+
+```
+What are the next steps?
+```
+
+### Before a push
+
+**`repo-hygiene`** — tries to refute "this push contains no files that do not belong in
+this repository". A file belongs only if it is needed to build, test, run or understand
+the software; build output, caches, local data, eval runs, analyses, mockups,
+screenshots and temp files are flagged by default. It looks at the files the push adds
+or changes, or on a first push to a new remote at the whole tree and its history. A
+freshly spawned falsifier judges, never the session that made the changes. For each
+flagged path you choose keep or remove: keep writes the reason under
+`## Hoort in de repo` in that folder's `AGENTS.md`, remove takes the file out of the
+repository with `git rm --cached` and leaves it on your disk. It is meant to run in a
+push gate next to the check for sensitive data, and it never pushes or approves a push.
+
+```
+Check de netheid van deze push.
+```
+
+Beside them sits `skills/references/`, which is not a skill and has no slash command:
+`rubric.md` holds the criteria and the rules for any judgement made against them, and
+`learning-materials.md` the reading behind each one. The skills read those files
+directly, so the rubric exists once and nothing has to be invoked to reach it. Open
+them yourself to look up what a criterion asks.
+
+### Install and structure notes
+
+These steps are what `evals/test_install_instructions.py` runs against a throwaway
+home directory, so the instruction above is the tested one.
+
+The rubric exists once. `advise-me` and `review-my-work` used to carry a copy each,
+kept identical by a test; then it became a skill of its own, which meant invoking a
+skill to be told where a file was and a reference sitting in your skill list beside
+three routes you can actually start. It is a plain directory now, installed with the
+skills and read by path, so there is nothing to keep in sync and nothing to invoke.

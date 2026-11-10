@@ -1,136 +1,39 @@
 # Agentic Coding skills
 
-A rubric for agentic coding work, plus three skills that judge and record against
-it, a verification trio that makes deliveries demonstrable per acceptance
-criterion, one skill that says where the open work stands, one that puts a
-question to you as a choice instead of a paragraph, and one that checks a push for
-files that do not belong in the repository. The rubric is not a skill: it
-is a file the skills read.
+Skills that help you do agentic coding well, and show that you did. They judge your
+work against one shared rubric, make a delivery checkable per acceptance criterion,
+and keep your repository clean.
 
-The rubric names what has to be demonstrably good — context, acceptance criteria,
-tests, evidence, implementation — and deliberately does not prescribe how you get
-there. SpecKit, Given/When/Then, a plain markdown note: any form counts as long as
-it holds up under the evaluation questions.
+The rubric says *what* has to be good (context, acceptance criteria, tests, evidence,
+implementation), never *how* you get there. Any method counts if it holds up.
 
-What changed and when is in [CHANGELOG.md](CHANGELOG.md); the skills and the rubric
-ship together under one number.
+What changed: [CHANGELOG.md](CHANGELOG.md). Full details per skill, for agents and the
+curious: [AGENTS.md](AGENTS.md).
 
 ## The skills
 
-Say it in your own words and the skill triggers by itself, or type its slash command —
-`/advise-me`, `/review-my-work`, `/log-feedback` — if you want to be sure it runs.
-Each of the three is started by you: none of them decides on its own that feedback or
-a review is due.
+Say what you want in your own words, or type the slash command to be sure.
 
-**`advise-me`** — while you work, including before there is any code. It reads the
-transcript and whatever code exists, answers straight away from the session you are
-working in, and sends an isolated judge off in the background at the same time; that
-second opinion lands a little later and gets the last word. No file.
+**Feedback on how you work**
 
-```
-Give me feedback on my approach so far against the agentic coding rubric.
-```
+- `advise-me` — feedback on your approach while you work. *"Give me feedback on my approach so far."*
+- `review-my-work` — a full review with a score when you're done. *"Review this session against the rubric."*
+- `log-feedback` — write down your feedback on this way of working, one line.
 
-**`review-my-work`** — after the work, or when you want a verdict on what was built.
-Starts from the current session, then searches accessible Codex, Claude Code and
-Cursor history for other sessions demonstrably tied to the same work item. It gives
-those raw transcripts and the diff to one isolated reviewer plus one falsifier round,
-writes a single Markdown report, and returns a concise weighted score in chat.
-C4—whether the delivered behaviour actually meets the requirements—is a merge block
-rather than a weighted point. The separately shown assessability keeps a high score
-from hiding missing evidence.
+**Proof that the product works**
 
-```
-Review this session against the agentic coding rubric.
-Write the report to docs/reviews/payment-retry.md
-```
+- `create-verification` — sets up a page that shows what each green check is based on.
+- `collect-evidence` — runs the checks and records the literal output.
+- `falsify` — tries to refute each claim; returns SURVIVED or REFUTED.
 
-**`log-feedback`** — when you have something to say about this way of working or
-about these skills. Appends one dated bullet to `docs/feedback.md` in the repository
-you are working in. It records your words; it never gives you feedback.
+**Day to day**
 
-```
-Log this as feedback: the falsifier round is too heavy for a one-line change.
-```
+- `next-steps` — where the open work stands, as one numbered list.
+- `clickable-questions` — questions to you as a choice, not a paragraph.
+- `repo-hygiene` — checks a push for files that don't belong in the repo.
 
-### The verification trio
-
-Where the three above judge the *process*, these make the *product* demonstrable: one
-run document per delivery that records, per acceptance criterion, the evidence, a
-falsifier verdict and the human judgment. Built from the
-[acceptatiecriteria-en-bewijs-template](https://github.com/your-online/acceptatiecriteria-en-bewijs-template);
-the distilled evidence rules ship with the skill, so nothing needs cloning. Unlike
-the three above, these do trigger on their own when a delivery needs proof.
-
-**`create-verification`** — the entry point. Builds the run document from the bundled
-template, hardens the criteria first (a check that cannot turn red proves nothing),
-and dispatches the other two.
-
-```
-We're handing off the invoice-export feature — set up a verification page
-so the reviewer can check what the green checkmarks are based on.
-```
-
-**`collect-evidence`** — fills the evidence fields in fresh context: runs the checks,
-pastes literal output behind an environment fingerprint (hostname, OS, user,
-timestamp, commit), and never judges its own entries.
-
-**`falsify`** — a generic falsifier, usable far beyond run documents: give it claims,
-the evidence per claim, the version identifier and what it may inspect — never the
-maker's reasoning — and it returns SURVIVED or REFUTED per claim, three sentences max.
-
-```
-Here are the findings and their evidence — try to refute them.
-```
-
-### Where the work stands
-
-**`next-steps`** — the state of the open work as one continuously numbered list,
-grouped by who is waiting on it: what is already running without you, what gets
-picked up next, and what needs a decision from you. The numbering runs across the
-groups, so "do 7 and 9 but not 8" says everything. Where a next step hangs on a
-choice only you can make, it asks with AskUserQuestion — one question, each option
-naming what it costs as well as what it buys — instead of listing the options in
-prose. It judges nothing and proves nothing, so it reads no rubric.
-
-### How a question reaches you
-
-**`clickable-questions`** — when a skill still has a question for you, it goes out
-through AskUserQuestion instead of as a paragraph you have to answer by typing: one
-question per entry, at most four per call, the recommended answer first with the
-reason in one sentence, and the rest of the reasoning in the option descriptions
-because the question body is cut off after about two lines. Never a prose copy
-beside the call, and if you dismiss the dialog it stops rather than asking again in
-text. Like the reviewing skills it only runs when you ask for it, or when another
-skill hands its round over: a skill that raises a dialog on its own initiative turns
-every passing uncertainty into one.
-
-```
-What are the next steps?
-```
-
-### Before a push
-
-**`repo-hygiene`** — tries to refute "this push contains no files that do not belong in
-this repository". A file belongs only if it is needed to build, test, run or understand
-the software; build output, caches, local data, eval runs, analyses, mockups,
-screenshots and temp files are flagged by default. It looks at the files the push adds
-or changes, or on a first push to a new remote at the whole tree and its history. A
-freshly spawned falsifier judges, never the session that made the changes. For each
-flagged path you choose keep or remove: keep writes the reason under
-`## Hoort in de repo` in that folder's `AGENTS.md`, remove takes the file out of the
-repository with `git rm --cached` and leaves it on your disk. It is meant to run in a
-push gate next to the check for sensitive data, and it never pushes or approves a push.
-
-```
-Check de netheid van deze push.
-```
-
-Beside them sits `skills/references/`, which is not a skill and has no slash command:
-`rubric.md` holds the criteria and the rules for any judgement made against them, and
-`learning-materials.md` the reading behind each one. The skills read those files
-directly, so the rubric exists once and nothing has to be invoked to reach it. Open
-them yourself to look up what a criterion asks.
+The rubric itself is not a skill: it lives in `skills/references/rubric.md`, with one
+file per criterion in `skills/references/criteria/`.
 
 ## Install
 
@@ -149,9 +52,6 @@ cd agentic-coding-skills
 
 The script installs into every platform it finds, `~/.claude` and `~/.codex`, and the
 same command upgrades. It fails if it finds neither.
-
-These steps are what `evals/test_install_instructions.py` runs against a throwaway
-home directory, so the instruction above is the tested one.
 
 ## Structure
 
@@ -173,9 +73,3 @@ CHANGELOG.md                                     what changed, per release
 CRITERIA.md                                      what these skills themselves have to satisfy
 AGENTS.md                                        pointer file for agents working here
 ```
-
-The rubric exists once. `advise-me` and `review-my-work` used to carry a copy each,
-kept identical by a test; then it became a skill of its own, which meant invoking a
-skill to be told where a file was and a reference sitting in your skill list beside
-three routes you can actually start. It is a plain directory now, installed with the
-skills and read by path, so there is nothing to keep in sync and nothing to invoke.
